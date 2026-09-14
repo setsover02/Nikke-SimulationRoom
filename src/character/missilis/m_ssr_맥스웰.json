@@ -16,7 +16,9 @@
     "fireRate": 0,
     "fullChargeDamage": 250,
     "coreDamage": 200,
-    "pelletCount": 1
+    "pelletCount": 1,
+    "start_accuracy_circle_scale": 10,
+    "end_accuracy_circle_scale": 10
   },
   "skills": [
     {
@@ -38,7 +40,7 @@
           "field": "value"
         },
         {
-          "effect": 1,
+          "effect": 0,
           "field": "duration"
         }
       ],
@@ -175,7 +177,7 @@
             219.14,
             293.42,
             367.71,
-            442.0,
+            442,
             516.28,
             590.57,
             664.85,

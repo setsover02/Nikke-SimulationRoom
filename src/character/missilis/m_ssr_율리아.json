@@ -16,13 +16,26 @@
     "fireRate": 12,
     "fullChargeDamage": 100,
     "coreDamage": 200,
-    "pelletCount": 1
+    "pelletCount": 1,
+    "start_accuracy_circle_scale": 75,
+    "end_accuracy_circle_scale": 75
   },
   "skills": [
     {
       "id": "skill_1",
       "name": "데크레센도",
       "type": "passive",
+      "description": "■ 자신에게\n[크리티컬 확률 {0}% ▲] [{1}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "every:20.0s",
@@ -50,6 +63,31 @@
       "id": "skill_2",
       "name": "크레센도",
       "type": "passive",
+      "description": "■ 마지막 탄환 명중 시 자신에게\n[크레센도 : 크리티컬 대미지 {0}% ▲] [{1} 중첩] [{2}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "value": [
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5
+          ]
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "last_bullet",
@@ -79,6 +117,21 @@
       "name": "클라이맥스",
       "type": "burst",
       "cooldown": 40,
+      "description": "■ 최종 방어력이 가장 높은 적 {0}기에게\n[최종 공격력 {1}% 대미지]\n■ 자신이 크레센도 최대 중첩 상태라면 동일 적 대상에게\n[최종 공격력 {2}% 추가 대미지]",
+      "description_params": [
+        {
+          "effect": 1,
+          "field": "condition"
+        },
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "value"
+        }
+      ],
       "effects": [
         {
           "trigger": "burst_cast",

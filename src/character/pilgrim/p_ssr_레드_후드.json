@@ -16,13 +16,44 @@
     "fireRate": 0,
     "fullChargeDamage": 250,
     "coreDamage": 200,
-    "pelletCount": 1
+    "pelletCount": 1,
+    "start_accuracy_circle_scale": 10,
+    "end_accuracy_circle_scale": 10
   },
   "skills": [
     {
       "id": "skill_1",
       "name": "글레링 아이즈",
       "type": "passive",
+      "description": "■ 일반 공격 시 자신에게\n[차지 속도 {0}% ▲] [{1} 중첩] [{2}초 유지]\n■ 전투 시작 시 자신에게\n[차지 속도 100% 초과 시 초과된 값을 차지 대미지로 변환] [초과된 값의 {3}% 차지 대미지 ▲] [지속]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "value": [
+            10,
+            10,
+            10,
+            10,
+            10,
+            10,
+            10,
+            10,
+            10,
+            10
+          ]
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        }
+      ],
       "effects": [
         {
           "trigger": "on_attack",
@@ -71,6 +102,33 @@
       "id": "skill_2",
       "name": "와일드 투스",
       "type": "passive",
+      "description": "■ 전투 시작 시 자신에게\n[관통 특화] [지속]\n■ 자신이 비스트 케이지 적용 시 아군 전체에게 \n[시전자 기준 방어력 {0}% ▲] [{1}초 유지]\n■ 자신이 엔드 하울링 적용 시 자신에게\n[공격 대미지 비례 {2}% 회복] [{3}초 유지]\n■ 자신이 레드 울프 발동 시 자신에게\n[공격력 {4}% ▲] [{5}초 유지]",
+      "description_params": [
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "duration"
+        },
+        {
+          "effect": 2,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "duration"
+        },
+        {
+          "effect": 3,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "battle_start",
@@ -159,6 +217,63 @@
       "name": "레드 울프",
       "type": "burst",
       "cooldown": 40,
+      "description": "\n■ 아군 전체에게\n[시전자 기준 공격력 {0}% ▲] [{1}초 유지]\n■ 자신에게\n[버스트 스킬 재사용 시간 40초 ▼] [전투 중 1회 발동]\n\n■ 자신에게\n[주목 : 적 전체 도발] [{3}초 유지]\n[받는 체력 회복량 {4}% ▲] [{5}초 유지]\n[버스트 스킬 재사용 시간 40초 ▼] [전투 중 1회 발동]\n\n■ 자신에게\n[사용 무기 변경]:\n대미지 : 최종 공격력 {6}% 대미지\n풀 차지 대미지 : 250%\n유지 시간 : 10초\n추가 효과\n[관통 범위 {7}% 확장] [{8}초 유지]\n[차지 속도  {9}% ▲] [{10}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 3,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "value": [
+            37.02,
+            38.63,
+            40.23,
+            41.84,
+            43.44,
+            45.05,
+            46.65,
+            48.26,
+            49.86,
+            51.46
+          ]
+        },
+        {
+          "effect": 6,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 7,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "squad_burst_cast:1",
@@ -265,16 +380,16 @@
           "target": "self",
           "effect": "atk_pct",
           "value": [
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0
+            48.47,
+            51.7,
+            54.93,
+            58.16,
+            61.39,
+            64.63,
+            67.86,
+            71.09,
+            74.32,
+            77.55
           ],
           "unit": "percent",
           "duration": 10,

@@ -16,13 +16,64 @@
     "fireRate": 60,
     "fullChargeDamage": 100,
     "coreDamage": 200,
-    "pelletCount": 1
+    "pelletCount": 1,
+    "start_accuracy_circle_scale": 250,
+    "end_accuracy_circle_scale": 10
   },
   "skills": [
     {
       "id": "skill_1",
       "name": "안티 AT 필드",
       "type": "passive",
+      "description": "■ 일반 공격 {0}회 공격 명중 시 대상에게\n[최종 공격력 {1}% 추가 대미지]\n■ 자신이 섬멸 태세 상태일 때 한하여 자신에게\n[섬멸 태세 추가 효과] :\n대상 : {3}발 당 조준선에 가장 가까운 공격 범위내 적 {4}기\n대미지 : 최종 공격력 {5}% 대미지\n추가 효과 : [안티 AT 필드 : 받는 대미지 {6}% ▲] [{7}중첩] [{8}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "trigger"
+        },
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "value": [
+            9,
+            9,
+            9,
+            9,
+            9,
+            9,
+            9,
+            9,
+            9,
+            9
+          ]
+        },
+        {
+          "effect": 1,
+          "field": "trigger"
+        },
+        {
+          "effect": 1,
+          "field": "target"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 2,
+          "field": "value"
+        },
+        {
+          "effect": 2,
+          "field": "duration"
+        },
+        {
+          "effect": 2,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "hit_count:50",
@@ -93,6 +144,65 @@
       "id": "skill_2",
       "name": "긴급 수복",
       "type": "passive",
+      "description": "■ 풀 버스트 타임 시작 시 자신이 섬멸 태세 상태라면 자신에게\n[공격 대미지 {0}% ▲] [{1}초 유지]\n■ 섬멸 시 자신에게\n[긴급 수복] :\n기능: 머신건 예열 속도 감소 & 탄환 제거를 하는 대신  재장전 속도 고정 & 최대 체력 비례 지속 회복\n효과 1 : [머신건 예열 속도 {2}% ▼] [{3}초 유지]\n효과 2 : [탄환 {4}% 제거]\n효과 3 : [시전자의 최종 최대 체력 비례 {5}% 지속 회복] [1초 간격] [{6}초 유지]\n효과 4 : [재장전 속도 {7}% 증가 상태로 고정] [{8}발 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "value": [
+            100,
+            100,
+            100,
+            100,
+            100,
+            100,
+            100,
+            100,
+            100,
+            100
+          ]
+        },
+        {
+          "effect": 1,
+          "field": "duration"
+        },
+        {
+          "value": [
+            100,
+            100,
+            100,
+            100,
+            100,
+            100,
+            100,
+            100,
+            100,
+            100
+          ]
+        },
+        {
+          "effect": 3,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "duration"
+        },
+        {
+          "effect": 4,
+          "field": "value"
+        },
+        {
+          "effect": 4,
+          "field": "bullet"
+        }
+      ],
       "effects": [
         {
           "trigger": "full_burst_start",
@@ -203,6 +313,51 @@
       "name": "섬멸 태세",
       "type": "burst",
       "cooldown": 40,
+      "description": "■ 자신에게\n[섬멸 태세] :\n기능 : 일반 공격 대미지가 감소하는 대신 공격 능력 증가\n효과 1 : [일반 공격 대미지 {6}% 배율 ▼] [{7}초 유지]\n효과 2 : [탄환 충전 {0}%]\n효과 3 : [시전자 기준 공격력 {1}% ▲] [{2}초 유지]\n효과 4 : [공격 대미지 {3}% ▲] [{4}초 유지]\n■ 안티 AT 필드 상태인 대상에게\n[섬멸] :\n기능: 섬멸 태세 종료 시 안티 AT 필드가 걸린 대상에게 강력한 공격\n[최종 공격력 {5}% 추가 대미지] [개별 대상 안티 AT 필드 중첩 복사] [효과 적용 후 안티 AT 필드 제거]",
+      "description_params": [
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 2,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 3,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 4,
+          "field": "value"
+        },
+        {
+          "value": [
+            40,
+            40,
+            40,
+            40,
+            40,
+            40,
+            40,
+            40,
+            40,
+            40
+          ]
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "burst_cast",

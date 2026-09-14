@@ -16,13 +16,30 @@
     "fireRate": 0,
     "fullChargeDamage": 250,
     "coreDamage": 200,
-    "pelletCount": 1
+    "pelletCount": 1,
+    "start_accuracy_circle_scale": 10,
+    "end_accuracy_circle_scale": 10
   },
   "skills": [
     {
       "id": "skill_1",
       "name": "독점 서약",
       "type": "passive",
+      "description": "■ 자신이 서약 해지 상태가 아닐 때 한하여 아군 전체에게\n[회복 독점 서약 : 시전자 기준 최대 체력 {0}% ▲] [지속]\n■ 회복 효과 적용 시 자신이 사용한 회복 효과가 아니라면 자신에게 \n[서약 위반 증거 : 주는 체력 회복량 {1}% ▼] [최대 {2}개] [지속]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 2,
+          "field": "value"
+        }
+      ],
       "effects": [
         {
           "trigger": "passive",
@@ -90,6 +107,39 @@
       "id": "skill_2",
       "name": "서약 효력",
       "type": "passive",
+      "description": "■ 풀 차지 공격 {0}회 공격 시 회복 독점 서약 상태인 아군 전체에게 \n[시전자의 최종 최대 체력 비례 {1}% 회복]\n■ 풀 버스트 타임 시작 시 아군 전체에게 \n[시전자의 최종 최대 체력 비례 {2}% 보호막] [{3}초 유지]\n■ 자신의 서약 위반 증거가 최대 수량이라면 자신에게\n[서약 해지 : 서약 위반 증거 면역] [지속]\n[시전자의 최종 최대 체력 비례 {4}% 회복] [1초 간격] [지속]",
+      "description_params": [
+        {
+          "value": [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ]
+        },
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "duration"
+        },
+        {
+          "effect": 3,
+          "field": "value"
+        }
+      ],
       "effects": [
         {
           "trigger": "full_charge_attack",
@@ -177,6 +227,17 @@
       "name": "특약 효력",
       "type": "burst",
       "cooldown": 40,
+      "description": "■ 아군 전체에게 \n[시전자의 최종 최대 체력 비례 {0}% 회복]\n■ 자신에게 \n[관통 특화] [{1}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "burst_cast",

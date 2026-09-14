@@ -16,13 +16,68 @@
     "fireRate": 12,
     "fullChargeDamage": 100,
     "coreDamage": 200,
-    "pelletCount": 1
+    "pelletCount": 1,
+    "start_accuracy_circle_scale": 75,
+    "end_accuracy_circle_scale": 75
   },
   "skills": [
     {
       "id": "skill_1",
       "name": "방열",
       "type": "passive",
+      "description": "■ 미래 예지 상태 종료 시 자신에게\n[탄환 {0}% 제거]\n[방열 : 재장전 비율 {1}% ▼] [방열 제거 조건]\n■ 자신이 방열 상태일 때 한하여 자신에게\n[시전자의 최종 최대 체력 비례 {2}% 회복] [1초 간격] [지속]\n■ 자신이 방열 상태일 때 한하여 아군 전체에게\n[버스트 게이지 충전 속도 {3}% ▲] [지속]\n[관통 대미지 {4}% ▲] [지속]",
+      "description_params": [
+        {
+          "value": [
+            100,
+            100,
+            100,
+            100,
+            100,
+            100,
+            100,
+            100,
+            100,
+            100
+          ]
+        },
+        {
+          "value": [
+            50,
+            50,
+            50,
+            50,
+            50,
+            50,
+            50,
+            50,
+            50,
+            50
+          ]
+        },
+        {
+          "value": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2
+          ]
+        },
+        {
+          "effect": 3,
+          "field": "value"
+        },
+        {
+          "effect": 4,
+          "field": "value"
+        }
+      ],
       "effects": [
         {
           "trigger": [
@@ -146,6 +201,43 @@
       "id": "skill_2",
       "name": "과열",
       "type": "passive",
+      "description": "■ 일반 공격 {0}회 명중 시 자신에게\n[과열 I : 공격력 {1}% ▲] [최대 장탄 재장전 완료 시 삭제]\n■ 미래 예지 상태 적용 후 일반 공격 명중 시 자신에게\n[공격 명중 횟수 별 효과] [하위 효과 중복 적용]\n{2}회 : 미래 예지와 과열 I 상태일 때 한하여\n[과열 II : 공격력 {3}% ▲] [지속]\n{4}회 : 미래 예지와 과열 II 상태일 때 한하여\n[과열 III : 공격 대미지 {5}% ▲] [지속]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "trigger"
+        },
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 2,
+          "field": "trigger"
+        },
+        {
+          "effect": 2,
+          "field": "value"
+        },
+        {
+          "value": [
+            60,
+            60,
+            60,
+            60,
+            60,
+            60,
+            60,
+            60,
+            60,
+            60
+          ]
+        },
+        {
+          "effect": 3,
+          "field": "value"
+        }
+      ],
       "effects": [
         {
           "trigger": "hit_count:15",
@@ -288,6 +380,33 @@
       "name": "라이터즈 스포일러",
       "type": "burst",
       "cooldown": 20,
+      "description": "■ 자신에게\n[미래 예지]\n[현재 체력 {0}% ▼] [1초 간격] [10초 유지]\n[장탄 수 무한] [10초 유지]\n[관통 특화] [10초 유지]\n[관통 대미지 {1}% ▲] [10초 유지]\n[크리티컬 확률 {5}% ▲] [10초 유지]\n■ 아군 전체에게\n[공격 대미지 {2}% ▲] [10초 유지]\n[관통 대미지 {3}% ▲] [10초 유지]\n[최대 장탄 수 {4}발 ▲] [10초 유지]",
+      "description_params": [
+        {
+          "effect": 7,
+          "field": "value"
+        },
+        {
+          "effect": 2,
+          "field": "value"
+        },
+        {
+          "effect": 4,
+          "field": "value"
+        },
+        {
+          "effect": 5,
+          "field": "value"
+        },
+        {
+          "effect": 6,
+          "field": "value"
+        },
+        {
+          "effect": 3,
+          "field": "value"
+        }
+      ],
       "effects": [
         {
           "trigger": "burst_cast",

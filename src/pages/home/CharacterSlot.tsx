@@ -242,7 +242,7 @@ const CharacterSlot: React.FC<Props> = ({ slot, index, onUpdate, outpostState })
     // description_params 또는 인덱스/서브필드 기반으로 스킬 설명의 {N} 플레이스홀더를 레벨에 맞는 값으로 치환
     const renderSkillDescription = (skill: any, level: number): string => {
         const desc: string = skill.description || '';
-        const params: Array<{ effect: number; field: string }> = skill.description_params || [];
+        const params: any[] = skill.description_params || [];
         const effects: any[] = skill.effects || [];
         if (!desc) return '';
 
@@ -250,22 +250,29 @@ const CharacterSlot: React.FC<Props> = ({ slot, index, onUpdate, outpostState })
             const idx = parseInt(idxStr, 10);
             let effect: any = null;
             let field = subField || 'value';
+            let val: any = undefined;
 
             if (params.length > 0 && params[idx]) {
-                effect = effects[params[idx].effect];
-                field = params[idx].field;
+                const p = params[idx];
+                if (p.value !== undefined || p.values !== undefined) {
+                    val = p.value ?? p.values;
+                } else {
+                    effect = effects[p.effect];
+                    field = p.field || field;
+                }
             } else if (effects[idx]) {
                 effect = effects[idx];
             }
 
-            if (!effect) return _match;
-
-            let val = effect[field];
-            if (val === undefined || val === null) {
-                if (field === 'values' && effect.value !== undefined) {
-                    val = effect.value;
-                } else {
-                    return _match;
+            if (val === undefined) {
+                if (!effect) return _match;
+                val = effect[field];
+                if (val === undefined || val === null) {
+                    if (field === 'values' && effect.value !== undefined) {
+                        val = effect.value;
+                    } else {
+                        return _match;
+                    }
                 }
             }
 
@@ -280,8 +287,8 @@ const CharacterSlot: React.FC<Props> = ({ slot, index, onUpdate, outpostState })
                 return String(val[String(level)] ?? val['10'] ?? _match);
             }
 
-            // 3) condition 문자열에서 숫자 추출 (예: "enemy_count_above:5" -> "5")
-            if (field === 'condition' && typeof val === 'string') {
+            // 3) condition / trigger / target 문자열에서 숫자 추출 (예: "enemy_count_above:5" -> "5", "allies_top_atk:2" -> "2")
+            if (typeof val === 'string' && (field === 'condition' || field === 'trigger' || field === 'target')) {
                 const match = val.match(/:(\d+(\.\d+)?)$/);
                 if (match) return match[1];
             }

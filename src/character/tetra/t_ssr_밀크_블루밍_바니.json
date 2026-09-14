@@ -16,13 +16,80 @@
     "fireRate": 0,
     "fullChargeDamage": 250,
     "coreDamage": 200,
-    "pelletCount": 1
+    "pelletCount": 1,
+    "start_accuracy_circle_scale": 10,
+    "end_accuracy_circle_scale": 10
   },
   "skills": [
     {
       "id": "skill_1",
       "name": "부끄러움 참기",
       "type": "passive",
+      "description": "■ 풀 차지 공격 시 자신에게\n[관통 특화] [{0}초 유지]\n■ 풀 차지 상태를 {6}초 이상 유지 시 자신이 부끄러움 상태가 아니라면\n[부끄러움] :\n기능 : 재장전 속도가 감소된 상태로 강제 재장전을 하는 대신 공격 능력 증가 및 분배 대미지 부여\n효과 1 : 적 전체에게 [최종 공격력 {1}% 분배 대미지]\n효과 2 : 자신에게 [탄환 {7}% 제거]\n효과 3 : 자신에게 [재장전 속도 {2}% 감소 상태로 고정] [재장전 {3}회 적용]\n효과 4 : 자신에게 [강제 재장전]\n효과 5 : 자신에게 [공격력 {4}% ▲] [{5}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "value": [
+            50,
+            50,
+            50,
+            50,
+            50,
+            50,
+            50,
+            50,
+            50,
+            50
+          ]
+        },
+        {
+          "value": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ]
+        },
+        {
+          "effect": 5,
+          "field": "value"
+        },
+        {
+          "effect": 5,
+          "field": "duration"
+        },
+        {
+          "effect": 1,
+          "field": "trigger"
+        },
+        {
+          "value": [
+            100,
+            100,
+            100,
+            100,
+            100,
+            100,
+            100,
+            100,
+            100,
+            100
+          ]
+        }
+      ],
       "effects": [
         {
           "trigger": "full_charge_hit",
@@ -200,6 +267,17 @@
       "id": "skill_2",
       "name": "성질 내기",
       "type": "passive",
+      "description": "■ 부끄러움 상태일 때 한하여 자신에게\n[관통 대미지 {0}% ▲] [지속]\n■ 자신이 구경났냐 짜식들아!! 상태일 때 한하여 2초 마다 적 전체에게\n[최종 공격력 {1}% 분배 대미지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        }
+      ],
       "effects": [
         {
           "trigger": "passive",
@@ -249,6 +327,25 @@
       "name": "부끄러움 폭발",
       "type": "burst",
       "cooldown": 40,
+      "description": "■ 자신에게\n[구경났냐 짜식들아!!] :\n[부끄러움 면역] [10초 유지]\n[관통 대미지 {0}% ▲] [{1}초 유지]\n[공격력 {2}% ▲] [{3}초 유지]",
+      "description_params": [
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 2,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "burst_cast",

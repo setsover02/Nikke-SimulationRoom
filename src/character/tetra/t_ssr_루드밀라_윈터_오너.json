@@ -16,13 +16,42 @@
     "fireRate": 60,
     "fullChargeDamage": 100,
     "coreDamage": 200,
-    "pelletCount": 1
+    "pelletCount": 1,
+    "start_accuracy_circle_scale": 250,
+    "end_accuracy_circle_scale": 10
   },
   "skills": [
     {
       "id": "skill_1",
       "name": "여왕의 시선",
       "type": "passive",
+      "description": "■ 일반 공격 {0}회 명중 시 대상에게\n[받는 대미지 {1}% ▲] [{2}초 유지]\n[최종 공격력 {3}% 추가 대미지]\n■ 일반 공격 {4}회 명중 시 자신에게\n[탄환 충전 {5}발]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "trigger"
+        },
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "trigger"
+        },
+        {
+          "effect": 2,
+          "field": "value"
+        }
+      ],
       "effects": [
         {
           "trigger": "hit_count:60",
@@ -90,6 +119,25 @@
       "id": "skill_2",
       "name": "눈보라",
       "type": "passive",
+      "description": "■ 코어 {0}회 명중 시 대상에게\n[최종 공격력 {1}% 추가 대미지]\n■ 풀 버스트 타임 시작 시 자신에게\n[크리티컬 확률 {2}% ▲] [{3}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "trigger"
+        },
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "core_hit_count:60",
@@ -138,6 +186,25 @@
       "name": "이끄는 등불",
       "type": "burst",
       "cooldown": 40,
+      "description": "■ 자신에게\n[공격력 {0}% ▲] [{1}초 유지]\n[재장전 속도 {2}% ▲] [{3}초 유지]",
+      "description_params": [
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "burst_cast",

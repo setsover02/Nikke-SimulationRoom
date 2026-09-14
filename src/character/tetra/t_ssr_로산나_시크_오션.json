@@ -16,13 +16,48 @@
     "fireRate": 12,
     "fullChargeDamage": 100,
     "coreDamage": 200,
-    "pelletCount": 1
+    "pelletCount": 1,
+    "start_accuracy_circle_scale": 75,
+    "end_accuracy_circle_scale": 75
   },
   "skills": [
     {
       "id": "skill_1",
       "name": "페리타",
       "type": "passive",
+      "description": "■ 전투 시작 시 아군 전체에게\n[파츠 대미지 {0}% ▲] [{1}초 유지]\n■ 자신을 포함한 아군 누군가 파츠 파괴 시 아군 전체에게\n[시전자 기준 공격력 {2}% ▲] [{3} 중첩] [{4}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "value": [
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5
+          ]
+        },
+        {
+          "effect": 1,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "battle_start",
@@ -71,6 +106,25 @@
       "id": "skill_2",
       "name": "스피나 디 로사",
       "type": "passive",
+      "description": "■ 아군 전체에게\n[파츠 대미지 {0}% ▲] [{1}초 유지]\n■ 조준선에 가장 가까운 적 1기에게 \n[최종 공격력 {2}% 지속 대미지] [1초 간격] [{3}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "every:30s",
@@ -119,6 +173,25 @@
       "name": "온다 그란데",
       "type": "burst",
       "cooldown": 20,
+      "description": "■ 아군 전체에게\n[지속 대미지 {0}% ▲] [{1}초 유지]\n■ 적 전체에게\n[받는 대미지 {2}% ▲] [{3}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "burst_cast",

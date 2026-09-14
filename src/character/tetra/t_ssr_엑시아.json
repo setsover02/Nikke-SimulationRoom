@@ -16,13 +16,34 @@
     "fireRate": 0,
     "fullChargeDamage": 250,
     "coreDamage": 200,
-    "pelletCount": 1
+    "pelletCount": 1,
+    "start_accuracy_circle_scale": 10,
+    "end_accuracy_circle_scale": 10
   },
   "skills": [
     {
       "id": "skill_1",
       "name": "인베이젼",
       "type": "passive",
+      "description": "■ 마지막 탄환 명중 시 자신이 해킹 코드 수집 상태라면 대상에게\n[공격력 {0}% ▼] [{1}초 유지]\n[방어력 {2}% ▼] [{3}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "last_bullet_hit",
@@ -68,6 +89,31 @@
       "id": "skill_2",
       "name": "시크릿 코드",
       "type": "passive",
+      "description": "■ 마지막 탄환 명중 시 자신에게\n[해킹 코드 수집 : 공격력 {0}% ▲] [{1} 중첩] [{2}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "value": [
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5
+          ]
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "last_bullet_hit",
@@ -97,6 +143,39 @@
       "name": "원사이드 프로토콜",
       "type": "burst",
       "cooldown": 20,
+      "description": "■ 최종 방어력이 가장 높은 적 {0}기에게\n[최종 공격력 {1}% 대미지]\n[방어력 {2}% ▼] [{3}초 유지]\n■ 자신이 해킹 코드 수집 최대 중첩 상태라면 동일 적 대상에게\n[최종 공격력 {4}% 추가 대미지]",
+      "description_params": [
+        {
+          "value": [
+            10,
+            10,
+            10,
+            10,
+            10,
+            10,
+            10,
+            10,
+            10,
+            10
+          ]
+        },
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "duration"
+        },
+        {
+          "effect": 0,
+          "field": "value"
+        }
+      ],
       "effects": [
         {
           "trigger": "burst_cast",

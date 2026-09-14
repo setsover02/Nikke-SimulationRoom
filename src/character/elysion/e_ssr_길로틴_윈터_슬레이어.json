@@ -16,13 +16,48 @@
     "fireRate": 12,
     "fullChargeDamage": 100,
     "coreDamage": 200,
-    "pelletCount": 1
+    "pelletCount": 1,
+    "start_accuracy_circle_scale": 75,
+    "end_accuracy_circle_scale": 75
   },
   "skills": [
     {
       "id": "skill_1",
       "name": "용사의 숙명",
       "type": "passive",
+      "description": "■ 경험치 {0} 중첩 마다 자신에게\n[용사 레벨 업 : 최대 11레벨까지 성장]\n[용사 레벨 업 보상 : 탄환 충전 {1}%]\n[용사 레벨 업 보상 : 시전자의 최종 최대 체력 비례 {2}% 회복]\n■ 용사 레벨 업 시 수냉 코드 아군 전체에게\n[우월 코드 공격 대미지 {3}% X 용사 레벨 수 ▲] [지속]\n[시전자 기준 공격력 {4}% X 용사 레벨 수 ▲] [지속]",
+      "description_params": [
+        {
+          "value": [
+            10,
+            10,
+            10,
+            10,
+            10,
+            10,
+            10,
+            10,
+            10,
+            10
+          ]
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 2,
+          "field": "value"
+        },
+        {
+          "effect": 3,
+          "field": "value"
+        },
+        {
+          "effect": 4,
+          "field": "value"
+        }
+      ],
       "effects": [
         {
           "trigger": "passive",
@@ -127,6 +162,67 @@
       "id": "skill_2",
       "name": "용사의 자질",
       "type": "passive",
+      "description": "■ 일반 공격 {0}회 명중 시 코어가 아니라면 자신에게\n[경험치 : 공격력 {1}% ▲] [{2} 중첩][지속]\n■ 코어 {3}회 명중 시 자신에게\n[경험치 : 공격력 {4}% ▲] [{5} 중첩][지속]\n■ 자신이 용사 레벨이 2 이상일 때 한하여 자신에게\n[우월 코드 공격 대미지 {6}% ▲] [지속]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "trigger"
+        },
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "value": [
+            100,
+            100,
+            100,
+            100,
+            100,
+            100,
+            100,
+            100,
+            100,
+            100
+          ]
+        },
+        {
+          "value": [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ]
+        },
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "value": [
+            100,
+            100,
+            100,
+            100,
+            100,
+            100,
+            100,
+            100,
+            100,
+            100
+          ]
+        },
+        {
+          "effect": 2,
+          "field": "value"
+        }
+      ],
       "effects": [
         {
           "trigger": "hit_count:6",
@@ -196,6 +292,47 @@
       "name": "익스터미네이션",
       "type": "burst",
       "cooldown": 40,
+      "description": "■ 수냉 코드 아군 전체에게\n[공격 대미지 {0}% ▲] [{1}초 유지]\n[우월 코드 공격 대미지 {2}% ▲] [{3}초 유지]\n■ 최종 최대 체력이 가장 높은 적 {4}기에게\n[최종 공격력 {5}% X 용사 레벨 수 지속 대미지] [1초 간격] [{6}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "value": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ]
+        },
+        {
+          "effect": 2,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "burst_cast",

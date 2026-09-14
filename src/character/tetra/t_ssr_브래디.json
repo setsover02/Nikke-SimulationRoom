@@ -16,13 +16,62 @@
     "fireRate": 0,
     "fullChargeDamage": 250,
     "coreDamage": 200,
-    "pelletCount": 1
+    "pelletCount": 1,
+    "start_accuracy_circle_scale": 10,
+    "end_accuracy_circle_scale": 10
   },
   "skills": [
     {
       "id": "skill_1",
       "name": "론리 구르메",
       "type": "passive",
+      "description": "■ 풀 버스트 타임 시작 시 자신에게\n[공격력 {0}% ▲] [{1}초 유지]\n■ 지속 대미지 증가 효과 적용 시 자신에게\n[머물고 싶은 맛 : 차지 속도 {2}% ▼] [{3}초 유지] [해제 불가]\n[나누고 싶은 맛 삭제]\n■ 분배 대미지 증가 효과 적용 시 지속 대미지 증가 상태가 아니라면 자신에게\n[나누고 싶은 맛 : 차지 속도 {4}% ▼] [{5}초 유지] [해제 불가]\n[머물고 싶은 맛 삭제]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "value": [
+            20,
+            20,
+            20,
+            20,
+            20,
+            20,
+            20,
+            20,
+            20,
+            20
+          ]
+        },
+        {
+          "effect": 1,
+          "field": "duration"
+        },
+        {
+          "value": [
+            20,
+            20,
+            20,
+            20,
+            20,
+            20,
+            20,
+            20,
+            20,
+            20
+          ]
+        },
+        {
+          "effect": 1,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "full_burst_start",
@@ -136,6 +185,41 @@
       "id": "skill_2",
       "name": "페이버릿 캔디",
       "type": "passive",
+      "description": "■ 풀 차지 공격 {7}회 명중 시 자신이 머물고 싶은 맛 상태라면 대상에게\n[받는 대미지 {0}% ▲] [{1}초 유지]\n[맛의 여운 : 최종 공격력 {2}% 지속 대미지] [1초 간격] [{3}초 유지]\n■ 풀 차지 공격 명중 시 자신이 나누고 싶은 맛 상태라면 자신에게\n[공격 대미지 {4}% ▲] [{5}초 유지]\n■ 풀 차지 공격 명중 시 자신이 나누고 싶은 맛 상태라면 적 전체에게\n[최종 공격력 {6}% 분배 대미지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 2,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 3,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "trigger"
+        }
+      ],
       "effects": [
         {
           "trigger": "full_charge_count:3",
@@ -229,6 +313,33 @@
       "name": "뉴 플레이버",
       "type": "burst",
       "cooldown": 40,
+      "description": "■ 자신에게\n[공격 대미지 {0}% ▲] [{1}초 유지]\n■ 자신이 머물고 싶은 맛 상태라면 자신에게\n[맛의 여운 효과 {2}% ▲] [{3}초 유지]\n■ 자신이 나누고 싶은 맛 상태라면 자신에게\n[공격력 {4}% ▲] [{5}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 2,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "burst_cast",

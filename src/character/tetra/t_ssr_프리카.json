@@ -16,13 +16,46 @@
     "fireRate": 0,
     "fullChargeDamage": 250,
     "coreDamage": 200,
-    "pelletCount": 1
+    "pelletCount": 1,
+    "start_accuracy_circle_scale": 10,
+    "end_accuracy_circle_scale": 10
   },
   "skills": [
     {
       "id": "skill_1",
       "name": "무대, 시작할게.",
       "type": "passive",
+      "description": "■ 풀 차지 공격 시 아군 전체에게\n[발사체 폭발 대미지 {0}% ▲] [{1}초 유지]\n[관통 대미지 {2}% ▲] [{3}초 유지]\n[시전자 기준 공격력 {4}% ▲] [{5}초 유지]\n■ 자신이 퍼포먼스 상태일 때 한하여 자신에게\n[주는 체력 회복량 {6}% ▲] [지속]\n[관통 특화] [지속]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 2,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 3,
+          "field": "value"
+        }
+      ],
       "effects": [
         {
           "trigger": "full_charge_hit",
@@ -132,6 +165,33 @@
       "id": "skill_2",
       "name": "한 곡 더!",
       "type": "passive",
+      "description": "■ 풀 버스트 타임 시작 시 자신에게\n[최대 체력 {0}% ▲] [{1}초 유지]\n■ 떼창 적용 시 자신이 퍼포먼스 상태라면\n[앵콜] :\n기능 : 자신의 퍼포먼스 시간을 연장하고 아군을 강화.\n효과 1 : 떼창 시전자에게 [무대 파트 : 보컬] [지속] [해제 불가]\n효과 2 : 아군 전체에게 [퍼포먼스 유지시간 {2}초 ▲]\n효과 3 : 아군 전체에게 [공격 대미지 {3}% ▲] [{4}초 유지]\n효과 4 : 자신에게 [버스트 스킬 재사용 시간 {5}초 ▲]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 2,
+          "field": "value"
+        },
+        {
+          "effect": 3,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 2,
+          "field": "value"
+        }
+      ],
       "effects": [
         {
           "trigger": "full_burst_start",
@@ -245,6 +305,33 @@
       "name": "최고의 무대를 보여줄게!",
       "type": "burst",
       "cooldown": 40,
+      "description": "■ 아군 전체에게\n[퍼포먼스] : \n기능 : 아군 회복 및 강화.\n효과 1 : [시전자의 최종 최대 체력 비례 {0}% 지속 회복] [1초 간격] [{1}초 유지] [해제 불가]\n효과 2 : [차지 대미지 {4}% ▲] [{5}초 유지] [해제 불가]",
+      "description_params": [
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 2,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "burst_cast",

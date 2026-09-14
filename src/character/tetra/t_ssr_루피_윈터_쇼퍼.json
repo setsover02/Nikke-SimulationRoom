@@ -16,13 +16,26 @@
     "fireRate": 12,
     "fullChargeDamage": 100,
     "coreDamage": 200,
-    "pelletCount": 1
+    "pelletCount": 1,
+    "start_accuracy_circle_scale": 75,
+    "end_accuracy_circle_scale": 75
   },
   "skills": [
     {
       "id": "skill_1",
       "name": "윈터 프리미엄",
       "type": "passive",
+      "description": "■ 마지막 탄환 명중 시 아군 전체에게\n[방어력 {0}% ▲] [{1}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "last_bullet_hit",
@@ -49,6 +62,39 @@
       "id": "skill_2",
       "name": "VIP 기프트",
       "type": "passive",
+      "description": "■ 아군이 버스트 스킬 사용 시 아군 전체에게\n[쇼핑 : 방어력 {0}% ▲] [{1} 중첩] [{2}초 유지]\n■ 풀 버스트 타임 종료 시 자신이 쇼핑 최대 중첩 상태라면 아군 전체에게\n[버스트 게이지 충전 속도 {3}% ▲] [{4}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "value": [
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4
+          ]
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "burst_cast",
@@ -97,6 +143,29 @@
       "name": "쇼퍼홀릭 데이트",
       "type": "burst",
       "cooldown": 20,
+      "description": "■ 자신에게\n[주목 : 적 전체 도발] [{0}초 유지]\n[공격 대미지 비례 {1}% 회복] [{2}초 유지]\n■ 아군 전체에게\n[재장전 속도 {3}% ▲] [{4}초 유지]\n[버스트 재진입 1단계]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "duration"
+        },
+        {
+          "effect": 2,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "burst_cast",

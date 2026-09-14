@@ -16,13 +16,48 @@
     "fireRate": 60,
     "fullChargeDamage": 100,
     "coreDamage": 200,
-    "pelletCount": 1
+    "pelletCount": 1,
+    "start_accuracy_circle_scale": 250,
+    "end_accuracy_circle_scale": 10
   },
   "skills": [
     {
       "id": "skill_1",
       "name": "페르소나 : 코노하나사쿠야",
       "type": "passive",
+      "description": "■ 전투 시작 시 자신에게\n[페르소나 - 코노하나사쿠야] [지속] [해제 불가] : \n기능 : 페르소나를 통해 아군을 회복합니다.\n효과 1 : {0}초 마다 아군 전체에게 [메디아 : 시전자의 최종 최대 체력 비례 {1}% 회복]\n■ 전투 시작 시와 풀 버스트 타임 종료 시 자신에게\n[공격력 {3}% ▲] [{4}초 유지]\n■ 1 more 적용 시 적 전체에게\n[최종 공격력 {2}% 분배 대미지]",
+      "description_params": [
+        {
+          "value": [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ]
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 3,
+          "field": "value"
+        },
+        {
+          "effect": 2,
+          "field": "value"
+        },
+        {
+          "effect": 2,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "battle_start",
@@ -112,6 +147,59 @@
       "id": "skill_2",
       "name": "진홍의 꽃",
       "type": "passive",
+      "description": "■ 전투 시작 시 자신에게\n[공격 대미지 {9}% ▲] [지속]\n■ 버스트 스킬 사용 시\n[진홍의 꽃] [지속] [해제 불가] :\n기능 : 자신을 강화합니다.\n효과 1 : {0}초 마다 아군 전체에게 [메디라마 : 시전자의 최종 최대 체력 비례 {1}% 회복]\n효과 2 : 자신에게 [화염 부스터 : 분배 대미지 {2}%▲] [지속] [해제 불가]\n효과 3 : 자신에게 [진홍의 수호 : 수냉 코드 적으로부터 받는 대미지 {3}% ▼] [지속] [해제 불가]\n제거 시점 : 풀 버스트 타임 종료 시\n■ 버스트 3단계 진입 시 자신에게\n[우월 코드 공격 대미지 {4}% ▲] [{5}초 유지]\n■ 1more 적용 시 자신을 제외한 기본 버스트 단계가 Step{6}인 페르소나 상태 아군 전체에게\n[추격 : 시전자 기준 공격력 {7}% ▲] [{8}초 유지]",
+      "description_params": [
+        {
+          "effect": 6,
+          "field": "trigger"
+        },
+        {
+          "effect": 3,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "value": [
+            10.6,
+            11.42,
+            12.24,
+            13.05,
+            13.87,
+            14.68,
+            15.5,
+            16.32,
+            17.13,
+            17.95
+          ]
+        },
+        {
+          "effect": 6,
+          "field": "value"
+        },
+        {
+          "effect": 6,
+          "field": "duration"
+        },
+        {
+          "effect": 6,
+          "field": "trigger"
+        },
+        {
+          "effect": 7,
+          "field": "value"
+        },
+        {
+          "effect": 7,
+          "field": "duration"
+        },
+        {
+          "effect": 0,
+          "field": "value"
+        }
+      ],
       "effects": [
         {
           "trigger": "battle_start",
@@ -286,6 +374,21 @@
       "name": "마하라기다인",
       "type": "burst",
       "cooldown": 40,
+      "description": "■ 적 전체에게\n[최종 공격력 {0}% 분배 대미지]\n■ 풍압 코드 적이 있다면 자신에게\n[1more : 공격력 {1}% ▲] [{2}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "burst_cast",

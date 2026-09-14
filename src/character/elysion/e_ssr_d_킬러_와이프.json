@@ -16,13 +16,30 @@
     "fireRate": 0,
     "fullChargeDamage": 250,
     "coreDamage": 200,
-    "pelletCount": 1
+    "pelletCount": 1,
+    "start_accuracy_circle_scale": 10,
+    "end_accuracy_circle_scale": 10
   },
   "skills": [
     {
       "id": "skill_1",
       "name": "캄 스나이핑",
       "type": "passive",
+      "description": "■ 풀 차지 {0}회 공격 시 자신에게\n[관통 특화] [1발 유지]\n■ 풀 버스트 타임 시작 시 스나이퍼 라이플 소지 아군 전체에게\n[관통 대미지 {1}% ▲] [{2}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "trigger"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "full_charge_count:3",
@@ -71,6 +88,29 @@
       "id": "skill_2",
       "name": "어썰트 포메이션",
       "type": "passive",
+      "description": "■ 풀 차지 {0}회 공격 시 아군 전체에게\n[버스트 스킬 재사용 시간 {1}초 ▼]\n■ 풀 차지 {2}회 공격 시 아군 전체에게\n[공격 대미지 {3}% ▲] [{4}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "trigger"
+        },
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "trigger"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "full_charge_count:8",
@@ -119,6 +159,29 @@
       "name": "킬 더 타겟",
       "type": "burst",
       "cooldown": 20,
+      "description": "■ 조준선에 가장 가까운 적 1기에게\n[최종 공격력 {0}% 추가 대미지]\n[타겟 섬멸] [{2}초 유지]\n■ 타겟 섬멸 상태인 대상에게 아군의 일반 공격이 특정 부위에 명중 시\n[명중 부위] [명중 시 적용되는 이로운 효과]\n파츠를 명중시킨 아군 : [코어 대미지 {1}% ▲] [{2}초 유지]\n본체를 명중시킨 아군 : [시전자 기준 공격력 {3}% ▲] [{4}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 2,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "duration"
+        },
+        {
+          "effect": 3,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "burst_cast",
@@ -145,16 +208,16 @@
           "target": "enemies_nearest:1",
           "effect": "received_dmg_pct",
           "value": [
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0
+            13.56,
+            14.6,
+            15.65,
+            16.69,
+            17.73,
+            18.78,
+            19.82,
+            20.86,
+            21.91,
+            22.95
           ],
           "unit": "percent",
           "duration": 10,

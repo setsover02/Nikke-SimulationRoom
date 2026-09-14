@@ -16,13 +16,54 @@
     "fireRate": 24,
     "fullChargeDamage": 100,
     "coreDamage": 200,
-    "pelletCount": 1
+    "pelletCount": 1,
+    "start_accuracy_circle_scale": 110,
+    "end_accuracy_circle_scale": 110
   },
   "skills": [
     {
       "id": "skill_1",
       "name": "리타 부스트",
       "type": "passive",
+      "description": "■ 풀 버스트 타임 시작 시 아군 전체에게\n[시작 횟수 별 효과] [하위 효과 중복 적용] :\n1회 : [버스트 스킬 재사용 시간 {0}초 ▼]\n2회 : [버스트 스킬 재사용 시간 {1}초 ▼]\n3회 : [버스트 스킬 재사용 시간 {2}초 ▼]\n■ 버스트 스킬 사용 시 아군 전체에게\n[사용 횟수 별 효과] [하위 효과 중복 적용] :\n1회 : [최대 장탄 수 {3}% ▲] [{4}초 유지]\n2회 : [크리티컬 대미지 {5}% ▲] [{6}초 유지]\n3회 : [공격력 {7}% ▲] [{8}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 2,
+          "field": "value"
+        },
+        {
+          "effect": 3,
+          "field": "value"
+        },
+        {
+          "effect": 3,
+          "field": "duration"
+        },
+        {
+          "effect": 4,
+          "field": "value"
+        },
+        {
+          "effect": 3,
+          "field": "duration"
+        },
+        {
+          "effect": 5,
+          "field": "value"
+        },
+        {
+          "effect": 3,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "full_burst_start_count:1",
@@ -150,6 +191,17 @@
       "id": "skill_2",
       "name": "볼트 부스트",
       "type": "passive",
+      "description": "■ 남은 엄폐물 체력 수치가 가장 낮은 아군 {0}기에게\n[엄폐물 체력 회복 {1}%]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "target"
+        },
+        {
+          "effect": 0,
+          "field": "value"
+        }
+      ],
       "effects": [
         {
           "trigger": "every:15.0s",
@@ -178,6 +230,17 @@
       "name": "더블 부스트",
       "type": "burst",
       "cooldown": 20,
+      "description": "■ 아군 전체에게\n[공격력 {0}% ▲] [{1}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "burst_cast",

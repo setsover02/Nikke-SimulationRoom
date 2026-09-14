@@ -16,13 +16,44 @@
     "fireRate": 0,
     "fullChargeDamage": 250,
     "coreDamage": 200,
-    "pelletCount": 1
+    "pelletCount": 1,
+    "start_accuracy_circle_scale": 10,
+    "end_accuracy_circle_scale": 10
   },
   "skills": [
     {
       "id": "skill_1",
       "name": "전술 : 장갑 보강",
       "type": "passive",
+      "description": "■ 일반 공격 명중 시 {3}% 확률로 남은 체력 수치가 가장 낮은 아군 {0}기에게\n[방어력 {1}% ▲] [{2}초 유지]",
+      "description_params": [
+        {
+          "value": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ]
+        },
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 0,
+          "field": "condition"
+        }
+      ],
       "effects": [
         {
           "trigger": "normal_attack_hit",
@@ -50,6 +81,31 @@
       "id": "skill_2",
       "name": "전술 : 정밀 사격",
       "type": "passive",
+      "description": "■ 최종 공격력이 가장 높은 아군 {0}기에게\n[크리티컬 확률 {1}% ▲] [{2}초 유지]",
+      "description_params": [
+        {
+          "value": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ]
+        },
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "passive",
@@ -77,6 +133,17 @@
       "name": "전술 : 출력 상승",
       "type": "burst",
       "cooldown": 20,
+      "description": "■ 아군 전체에게\n[공격력 {0}% ▲] [{1}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "burst_cast",

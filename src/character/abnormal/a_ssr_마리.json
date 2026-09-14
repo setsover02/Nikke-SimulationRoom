@@ -16,13 +16,34 @@
     "fireRate": 0,
     "fullChargeDamage": 250,
     "coreDamage": 200,
-    "pelletCount": 1
+    "pelletCount": 1,
+    "start_accuracy_circle_scale": 10,
+    "end_accuracy_circle_scale": 10
   },
   "skills": [
     {
       "id": "skill_1",
       "name": "일점 저격",
       "type": "passive",
+      "description": "■ 풀 차지 공격 시 아군 전체에게\n[보호막에 가하는 대미지 {0}% ▲] [{1}초 유지]\n■ 대상 코어 명중 시 아군 전체에게\n[관통 대미지 {2}% ▲] [{3}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "full_charge_attack",
@@ -68,6 +89,29 @@
       "id": "skill_2",
       "name": "정신 집중",
       "type": "passive",
+      "description": "■ 자신에게\n[관통 특화] [{0}초 유지]\n[공격력 {3}% ▲] [{4}초 유지]\n■ 아군 전체에게\n[시전자 기준 공격력 {1}% ▲] [{2}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 2,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "passive",
@@ -133,6 +177,21 @@
       "name": "좌표 유도식 미사일",
       "type": "burst",
       "cooldown": 20,
+      "description": "■ 적 전체에게\n[최종 공격력 {0}% 버스트 스킬 대미지]\n■ 아군 전체에게\n[공격 대미지 {1}% ▲] [{2}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "burst_cast",

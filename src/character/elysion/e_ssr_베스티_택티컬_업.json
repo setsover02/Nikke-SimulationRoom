@@ -16,13 +16,34 @@
     "fireRate": 0,
     "fullChargeDamage": 200,
     "coreDamage": 200,
-    "pelletCount": 1
+    "pelletCount": 1,
+    "start_accuracy_circle_scale": 10,
+    "end_accuracy_circle_scale": 10
   },
   "skills": [
     {
       "id": "skill_1",
       "name": "미사일 가이드",
       "type": "passive",
+      "description": "■ 풀 차지 공격 시 미사일 가이드 상태가 아니라면 자신에게\n[미사일 가이드 : 차지 속도 {0}% ▲] [{1}발 유지]\n[차지 대미지 {2}% ▲] [{3}발 유지]\n■ 최대 장탄 재장전 완료 시 자신에게\n[미사일 가이드 삭제]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "bullet"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "bullet"
+        }
+      ],
       "effects": [
         {
           "trigger": "full_charge_attack",
@@ -89,6 +110,29 @@
       "id": "skill_2",
       "name": "몬스터 스테이지",
       "type": "passive",
+      "description": "■ 풀 차지 공격 명중 시 대상에게\n[최종 공격력 {0}% 방어력 무시 대미지]\n■ 풀 차지 공격 명중 시 자신이 전장 조성 상태라면 자신에게\n[공격력 {1}% ▲] [{2}초 유지]\n■ 풀 차지 공격 명중 시 대상이 내부 폭발탄 상태라면 자신에게\n[발사체 폭발 대미지 {3}% ▲] [{4}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "duration"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "full_charge_attack",
@@ -155,6 +199,29 @@
       "name": "미사일 컨테이너 온라인",
       "type": "burst",
       "cooldown": 40,
+      "description": "■ 자신에게\n[폭발 범위 {0}% ▲] [{1}초 유지]\n[방어력 무시 대미지 {2}% ▲] [{3}초 유지]\n■ 적 전체에게(파츠 포함)\n[최종 공격력 {4}% 방어력 무시 버스트 스킬 대미지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 2,
+          "field": "value"
+        }
+      ],
       "effects": [
         {
           "trigger": "burst_cast",

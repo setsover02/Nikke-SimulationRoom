@@ -16,13 +16,48 @@
     "fireRate": 0,
     "fullChargeDamage": 250,
     "coreDamage": 200,
-    "pelletCount": 1
+    "pelletCount": 1,
+    "start_accuracy_circle_scale": 10,
+    "end_accuracy_circle_scale": 10
   },
   "skills": [
     {
       "id": "skill_1",
       "name": "곁눈질",
       "type": "passive",
+      "description": "■ 풀 차지 공격 명중 시 대상에게\n[시전자 기준 공격력 {0}% ▼] [{1}초 유지]\n■ 풀 차지 공격 시 방어형 아군 {2}기에게\n[시전자 기준 공격력 {3}% ▲] [{4}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "value": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2
+          ]
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "full_charge_attack",
@@ -68,6 +103,27 @@
       "id": "skill_2",
       "name": "훑어보기",
       "type": "passive",
+      "description": "■ 전투 시작 시 방어형 아군 {0}기에게\n[최대 체력 {1}% ▲] [지속]",
+      "description_params": [
+        {
+          "value": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2
+          ]
+        },
+        {
+          "effect": 0,
+          "field": "value"
+        }
+      ],
       "effects": [
         {
           "trigger": "battle_start",
@@ -95,6 +151,25 @@
       "name": "꿰뚫어보기",
       "type": "burst",
       "cooldown": 40,
+      "description": "■ 아군 전체에게\n[시전자의 최종 최대 체력 비례 {0}% 회복] [1초 간격] [{1}초 유지]\n■ 방어형 아군 전체에게\n[크리티컬 확률 {2}% ▲] [{3}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "burst_cast",

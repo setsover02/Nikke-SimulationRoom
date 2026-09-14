@@ -16,13 +16,52 @@
     "fireRate": 24,
     "fullChargeDamage": 100,
     "coreDamage": 250,
-    "pelletCount": 1
+    "pelletCount": 1,
+    "start_accuracy_circle_scale": 110,
+    "end_accuracy_circle_scale": 110
   },
   "skills": [
     {
       "id": "skill_1",
       "name": "DON'T MISS!",
       "type": "passive",
+      "description": "■ 풀 버스트 타임 지속 중 일반 공격 {0}회 공격 시 아군 전체에게\n[승리의 외침 : 방어력 무시 대미지 {1}% ▲] [{2} 중첩] [{3}초 유지]\n[적 발사체 공격 시 해당 발사체에 가하는 대미지 {4}% ▲] [{5}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "trigger"
+        },
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "value": [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ]
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "hit_count:60",
@@ -70,6 +109,21 @@
       "id": "skill_2",
       "name": "WAKE UP!",
       "type": "passive",
+      "description": "■ 버스트 1단계 진입 시 아군 전체에게\n[해로운 효과 면역 {0}개] [{2}초 유지]\n■ 자신이 승리의 외침 상태일 때 한하여 아군 전체에게\n[시전자 기준 공격력 {1}% ▲] [지속]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "burst_enter:1",
@@ -116,6 +170,21 @@
       "name": "GO! GO! VICTORY!",
       "type": "burst",
       "cooldown": 40,
+      "description": "■ 아군 전체에게\n[방어력 무시 대미지 {0}% ▲] [{1}초 유지]\n■ 자신에게\n[일반 공격을 방어력 무시 대미지로 적용] [{2}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "burst_cast",
@@ -143,16 +212,16 @@
           "unit": "percent",
           "duration": 10,
           "value": [
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0
+            6.86,
+            7.49,
+            8.13,
+            8.76,
+            9.39,
+            10.03,
+            10.66,
+            11.29,
+            11.93,
+            12.56
           ]
         }
       ]

@@ -16,13 +16,40 @@
     "fireRate": 1.51515,
     "fullChargeDamage": 100,
     "coreDamage": 200,
-    "pelletCount": 10
+    "pelletCount": 10,
+    "start_accuracy_circle_scale": 250,
+    "end_accuracy_circle_scale": 250
   },
   "skills": [
     {
       "id": "skill_1",
       "name": "부식물질 탑재탄환",
       "type": "passive",
+      "description": "■ 남은 체력 수치가 가장 낮은 아군 {0}기에게\n[받는 대미지 {1}% ▼] [{2}초 유지]",
+      "description_params": [
+        {
+          "value": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ]
+        },
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "passive",
@@ -49,6 +76,35 @@
       "id": "skill_2",
       "name": "예후 반응 실험",
       "type": "passive",
+      "description": "■ 최종 방어력이 가장 높은 적 {0}기에게\n[최종 공격력 {1}% 대미지]\n■ 풀 버스트 타임 지속 시간 중 발동 시 동일 적 대상에게\n[방어력 {2}% ▼] [{3}초 유지]",
+      "description_params": [
+        {
+          "value": [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ]
+        },
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "passive",
@@ -94,6 +150,31 @@
       "name": "초거대 단세포",
       "type": "burst",
       "cooldown": 40,
+      "description": "■ 남은 체력 수치가 가장 낮은 아군 {0}기에게\n[시전자의 최종 최대 체력 비례 {1}% 보호막] [{2}초 유지]",
+      "description_params": [
+        {
+          "value": [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ]
+        },
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "burst_cast",

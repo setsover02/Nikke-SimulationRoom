@@ -16,13 +16,30 @@
     "fireRate": 24,
     "fullChargeDamage": 100,
     "coreDamage": 250,
-    "pelletCount": 1
+    "pelletCount": 1,
+    "start_accuracy_circle_scale": 110,
+    "end_accuracy_circle_scale": 110
   },
   "skills": [
     {
       "id": "skill_1",
       "name": "유능하게!",
       "type": "passive",
+      "description": "■ 일반 공격 {0}회 공격 시 자신에게\n[공격 속도 {1}% ▲] [{2}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "trigger"
+        },
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "hit_count:40",
@@ -49,6 +66,17 @@
       "id": "skill_2",
       "name": "어른스럽게!",
       "type": "passive",
+      "description": "■ 자신의 체력이 최대일 때 한하여 자신에게\n[크리티컬 확률 {0}% ▲] [지속]\n[크리티컬 대미지 {1}% ▲] [지속]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        }
+      ],
       "effects": [
         {
           "trigger": "passive",
@@ -95,6 +123,17 @@
       "name": "나도 한다면 해!",
       "type": "burst",
       "cooldown": 40,
+      "description": "■ 공격 범위 내 적들에게\n[최종 공격력 {0}% 대미지]\n■ 자신의 체력이 최대라면 동일 적 대상에게\n[최종 공격력 {1}% 추가 대미지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        }
+      ],
       "effects": [
         {
           "trigger": "burst_cast",

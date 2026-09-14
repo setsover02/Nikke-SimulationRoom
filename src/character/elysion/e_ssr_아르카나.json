@@ -16,13 +16,66 @@
     "fireRate": 0,
     "fullChargeDamage": 250,
     "coreDamage": 200,
-    "pelletCount": 1
+    "pelletCount": 1,
+    "start_accuracy_circle_scale": 10,
+    "end_accuracy_circle_scale": 10
   },
   "skills": [
     {
       "id": "skill_1",
       "name": "깨어나는 운명",
       "type": "passive",
+      "description": "■ 풀 버스트 타임 종료 시 자신이 운명의 수레바퀴 카드 상태라면 직전에 버스트 스킬을 사용한 기본 버스트 단계가 Step {0}인 전격 코드 아군 전체에게\n[마법사 카드 : 스킬2 재사용 시간 {1}%▼] [{2}초 유지]\n[공격 대미지 {3}% ▲] [{4}초 유지]\n■ 풀 버스트 타임 종료 시 아군 전체에게\n[시전자 기준 공격력 {5}% ▲] [{6}초 유지]",
+      "description_params": [
+        {
+          "value": [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ]
+        },
+        {
+          "value": [
+            75,
+            75,
+            75,
+            75,
+            75,
+            75,
+            75,
+            75,
+            75,
+            75
+          ]
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 2,
+          "field": "value"
+        },
+        {
+          "effect": 2,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "full_burst_end",
@@ -92,6 +145,51 @@
       "id": "skill_2",
       "name": "순환하는 운명",
       "type": "passive",
+      "description": "■ 풀 버스트 타임 종료 시 자신이 운명의 수레바퀴 카드 상태라면 직전에 버스트 스킬을 사용한 기본 버스트 단계가 Step {0}인 전격 코드 아군 전체에게\n[힘 카드 : 시전자 기준 공격력 {1}% ▲] [{2}초 유지]\n■ 풀 버스트 타임 종료 시 자신이 운명의 수레바퀴 카드 상태라면 아군 전체에게\n[죽음 카드 : 버스트 스킬 재사용 시간  {3}초 ▼] \n[시전자 기준 공격력 {4}% ▲] [{5}초 유지]\n■ 풀 버스트 타임 종료 시 아군 전체에게\n[공격 대미지 {6}% ▲] [{7}초 유지]",
+      "description_params": [
+        {
+          "value": [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ]
+        },
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 2,
+          "field": "value"
+        },
+        {
+          "effect": 2,
+          "field": "duration"
+        },
+        {
+          "effect": 3,
+          "field": "value"
+        },
+        {
+          "effect": 3,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "full_burst_end",
@@ -183,6 +281,29 @@
       "name": "운명의 굴레",
       "type": "burst",
       "cooldown": 40,
+      "description": "■ 전격 코드 아군 전체에게\n[운명의 수레바퀴 카드 : 공격 대미지 {0}% ▲] [{1}초 유지]\n■ 적 전체에게\n[최종 공격력 {2}% 버스트 스킬 대미지]\n[심판 카드 : 받는 대미지 {3}% ▲] [{4}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "burst_cast",

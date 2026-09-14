@@ -16,13 +16,38 @@
     "fireRate": 60,
     "fullChargeDamage": 100,
     "coreDamage": 200,
-    "pelletCount": 1
+    "pelletCount": 1,
+    "start_accuracy_circle_scale": 250,
+    "end_accuracy_circle_scale": 10
   },
   "skills": [
     {
       "id": "skill_1",
       "name": "선두 제압",
       "type": "passive",
+      "description": "■ 일반 공격 {0}회 공격 시 자신에게\n[우월 코드 공격 대미지 {1}% ▲] [{2}초 유지]\n■ 일반 공격 {3}회 명중 시 조준선에 가장 가까운 공격 범위 내 적들에게\n[최종 공격력 {4}% 대미지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "trigger"
+        },
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 0,
+          "field": "trigger"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        }
+      ],
       "effects": [
         {
           "trigger": "hit_count:100",
@@ -70,6 +95,25 @@
       "id": "skill_2",
       "name": "공격 지원",
       "type": "passive",
+      "description": "■ 전투 시작 시 자신에게\n[보호막에 가하는 대미지 {0}% ▲] [지속]\n■ 버스트 {1}단계 진입 시 작열 코드 아군 전체에게\n[시전자 기준 공격력 {2}% ▲] [{3}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "trigger"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "battle_start",
@@ -118,6 +162,29 @@
       "name": "섬멸용 고폭탄",
       "type": "burst",
       "cooldown": 40,
+      "description": "■ 작열 코드 아군 전체에게\n[시전자의 최종 최대 체력 비례 {0}% 보호막] [{1}초 유지]\n[공격 대미지 {2}% ▲] [{3}초 유지]\n■ 적 전체에게\n[최종 공격력 {4}% 대미지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 2,
+          "field": "value"
+        }
+      ],
       "effects": [
         {
           "trigger": "burst_cast",

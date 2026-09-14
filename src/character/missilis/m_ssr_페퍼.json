@@ -16,13 +16,58 @@
     "fireRate": 1.51515,
     "fullChargeDamage": 100,
     "coreDamage": 200,
-    "pelletCount": 10
+    "pelletCount": 10,
+    "start_accuracy_circle_scale": 250,
+    "end_accuracy_circle_scale": 250
   },
   "skills": [
     {
       "id": "skill_1",
       "name": "리프레쉬 하트",
       "type": "passive",
+      "description": "■ 마지막 탄환 명중 시 남은 체력 비율이 가장 낮은 아군 {0}기에게\n[시전자의 최종 최대 체력 비례 {1}% 회복]\n■ 마지막 탄환 명중 시 아군 전체에게\n[리프레쉬 하트 : 받는 체력 회복량 {2}% ▲] [{3} 중첩] [{4}초 유지]",
+      "description_params": [
+        {
+          "value": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ]
+        },
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "value": [
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5
+          ]
+        },
+        {
+          "effect": 1,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "last_bullet_hit",
@@ -69,6 +114,35 @@
       "id": "skill_2",
       "name": "비타민파워",
       "type": "passive",
+      "description": "■ 최종 공격력이 가장 높은 적 {0}기에게\n[최종 공격력 {1}% 대미지]\n[공격력 {2}% ▼] [{3}초 유지]",
+      "description_params": [
+        {
+          "value": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ]
+        },
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "passive",
@@ -114,6 +188,45 @@
       "name": "페퍼 테라피",
       "type": "burst",
       "cooldown": 20,
+      "description": "■ 최종 공격력이 가장 높은 적 {0}기에게\n[최종 공격력 {1}% 버스트 스킬 대미지]\n■ 아군 전체에게\n[중첩 가능 이로운 효과 중첩량 {2}개 ▲]\n■ 자신이 리프레쉬 하트 최대 중첩 상태라면 아군 전체에게\n[시전자의 최종 최대 체력 비례 {3}% 회복]",
+      "description_params": [
+        {
+          "value": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ]
+        },
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "value": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ]
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        }
+      ],
       "effects": [
         {
           "trigger": "burst_cast",

@@ -16,13 +16,38 @@
     "fireRate": 12,
     "fullChargeDamage": 100,
     "coreDamage": 200,
-    "pelletCount": 1
+    "pelletCount": 1,
+    "start_accuracy_circle_scale": 75,
+    "end_accuracy_circle_scale": 75
   },
   "skills": [
     {
       "id": "skill_1",
       "name": "위드 어드마이어",
       "type": "passive",
+      "description": "■ 일반 공격 {0}회 명중 시 대상에게\n[최종 공격력 {1}% 추가 대미지]\n■ 풀 버스트 타임 시작 시 아군 전체에게\n[시작 횟수 별 효과] [하위 효과 중복 적용] :\n1회 : [버스트 스킬 재사용 시간 {2}초 ▼]\n2회 : [버스트 스킬 재사용 시간 {3}초 ▼]\n3회 : [버스트 스킬 재사용 시간 {4}초 ▼]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "trigger"
+        },
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 2,
+          "field": "value"
+        },
+        {
+          "effect": 3,
+          "field": "value"
+        }
+      ],
       "effects": [
         {
           "trigger": "hit_count:30",
@@ -110,6 +135,29 @@
       "id": "skill_2",
       "name": "이지스 캐논 견제 사격",
       "type": "passive",
+      "description": "■ 무작위 적 {0}기에게\n[최종 공격력 {1}% 대미지]\n■ 대상이 전격 코드라면 동일 적 대상에게\n[받는 대미지 {2}% ▲] [{3} 중첩] [{4}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "target"
+        },
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "duration"
+        },
+        {
+          "effect": 1,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "every:4.0s",
@@ -160,6 +208,17 @@
       "name": "이지스 캐논 오버로드",
       "type": "burst",
       "cooldown": 20,
+      "description": "■ 적 전체에게\n[최종 공격력 {0}% 버스트 스킬 대미지]\n■ 대상이 전격 코드라면 동일 적 대상에게\n[최종 공격력 {1}% 추가 대미지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "value"
+        }
+      ],
       "effects": [
         {
           "trigger": "burst_cast",

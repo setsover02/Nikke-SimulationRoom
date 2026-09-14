@@ -16,29 +16,84 @@
     "fireRate": 60,
     "fullChargeDamage": 100,
     "coreDamage": 200,
-    "pelletCount": 1
+    "pelletCount": 1,
+    "start_accuracy_circle_scale": 250,
+    "end_accuracy_circle_scale": 10
   },
   "skills": [
     {
       "id": "skill_1",
       "name": "뷰티-풀",
       "type": "passive",
+      "description": "■ 최대 장탄 재장전 완료 시 자신이 변경 준비 상태라면 자신에게\n[사용 무기 변경 : 저격 모드] :\n차지 시간 : 1초\n대미지 : 최종 공격력 {0}% 대미지\n풀 차지 대미지 : 250% 대미지\n최대 장탄 수 : 15발 (재장전 완료 시 최대 장탄 수 효과 갱신)\n추가 효과 1 : 관통 특화\n추가 효과 2 : 풀 차지 공격 시 탄환 소모 {1}발\n추가 효과 3 : 차지 시간 1초로 고정\n해제 조건 : 변경 준비 상태에서 최대 장탄 재장전 완료\n■ 전투 시작 시 자신에게\n[뷰티-풀: 공격 대미지 {2}% ▲] [지속]\n■ 최대 장탄 재장전 완료 시 자신에게\n[변경 준비 : 재장전 시간 3초로 고정] [{3}초 유지] [마지막 탄환 공격 시 제거]\n■ {9}초 마다 조준선에 가장 가까운 적 1기에게\n[최종 공격력 {6}% 대미지]\n■ 아군이 소비한 탄의 총합이 {7}발이 될 때마다 아군 전체에게\n[버스트 게이지 충전 {8}%] ",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 5,
+          "field": "value"
+        },
+        {
+          "effect": 6,
+          "field": "value"
+        },
+        {
+          "effect": 7,
+          "field": "duration"
+        },
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 9,
+          "field": "value"
+        },
+        {
+          "effect": 10,
+          "field": "trigger"
+        },
+        {
+          "effect": 10,
+          "field": "value"
+        },
+        {
+          "value": [
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5
+          ]
+        }
+      ],
       "effects": [
         {
           "trigger": "event:full_reload",
           "target": "self",
           "effect": "atk_pct",
           "value": [
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0
+            62.13,
+            62.13,
+            62.13,
+            62.13,
+            62.13,
+            62.13,
+            62.13,
+            62.13,
+            62.13,
+            62.13
           ],
           "unit": "percent",
           "duration": null,
@@ -259,6 +314,33 @@
       "id": "skill_2",
       "name": "모드 스왑",
       "type": "passive",
+      "description": "■ 전투 시작 시와 버스트 스킬 사용 시 자신에게\n[디코이 : 시전자의 최종 최대 체력 비례 {0}% 분신] [지속]\n■ 전투 시작 시 자신에게\n[공격력 {1}% ▲] [지속]\n■ 저격모드 적용 시 자신에게\n[디스트로이 : 파츠 대미지 {2}% ▲] [지속]\n[핀 포인트 해제]\n■ 전투 시작 시와 저격모드 해제 시 자신에게\n[핀 포인트 : 코어 대미지 {3}% ▲] [지속]\n[디스트로이 해제]\n■ 풀 버스트 타임 시작 시 직전에 자신이 버스트 스킬을 사용했다면\n[모드 적용 별 효과] [해당되는 효과만 적용]\n자신이 저격 모드라면 적 전체에게 (파츠 포함)\n효과 1 : [최종 공격력 {4}% 대미지]\n자신이 저격 모드가 아니라면 코어가 활성화된 적 전체에게\n효과 1 : [최종 공격력 {5}% 코어 명중 대미지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 2,
+          "field": "value"
+        },
+        {
+          "effect": 4,
+          "field": "value"
+        },
+        {
+          "effect": 6,
+          "field": "value"
+        },
+        {
+          "effect": 7,
+          "field": "value"
+        }
+      ],
       "effects": [
         {
           "trigger": "battle_start",
@@ -433,6 +515,43 @@
       "name": "유리 구두 풀 컨텍트 W",
       "type": "burst",
       "cooldown": 40,
+      "description": "■ 자신에게 \n[공격 대미지 {0}% ▲] [{1}초 유지]\n[공격력 {4}% ▲] [{5}초 유지]\n■ 최종 공격력이 가장 높은 적 1기에게\n[최종 공격력 {3}% 버스트 스킬 대미지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "value": [
+            100,
+            100,
+            100,
+            100,
+            100,
+            100,
+            100,
+            100,
+            100,
+            100
+          ]
+        },
+        {
+          "effect": 2,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "burst_cast",

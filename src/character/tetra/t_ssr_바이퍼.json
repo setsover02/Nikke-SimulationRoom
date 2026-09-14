@@ -16,13 +16,34 @@
     "fireRate": 1.51515,
     "fullChargeDamage": 100,
     "coreDamage": 200,
-    "pelletCount": 10
+    "pelletCount": 10,
+    "start_accuracy_circle_scale": 250,
+    "end_accuracy_circle_scale": 250
   },
   "skills": [
     {
       "id": "skill_1",
       "name": "스네이크 센스",
       "type": "passive",
+      "description": "■ 타겟이 출현했다면 아군 전체에게\n[공격력 {0}% ▲] [{1}초 유지]\n[명중률 {2}% ▲] [{3}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "passive",
@@ -68,6 +89,21 @@
       "id": "skill_2",
       "name": "스네이크 스케일",
       "type": "passive",
+      "description": "■ 자신에게\n[명중률 {0}% ▲] [지속]\n■ 풀 버스트 타임 시작 시 자신에게\n[애교 : 1인 공격 대상에서 제외 직접 피격 시 해제] [{1}초 유지]\n[무적] [{2}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "duration"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        }
+      ],
       "effects": [
         {
           "trigger": "passive",
@@ -134,6 +170,35 @@
       "name": "스네이크 바이트",
       "type": "burst",
       "cooldown": 20,
+      "description": "■ 지정한 적 대상 {0}기에게\n[최종 공격력 {1}% 대미지]\n■ 대상이 타겟이라면 동일 적 대상에게\n[방어력 {2}% ▼] [{3}초 유지]",
+      "description_params": [
+        {
+          "value": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ]
+        },
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "burst_cast",

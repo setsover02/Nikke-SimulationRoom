@@ -16,13 +16,30 @@
     "fireRate": 0,
     "fullChargeDamage": 250,
     "coreDamage": 200,
-    "pelletCount": 1
+    "pelletCount": 1,
+    "start_accuracy_circle_scale": 10,
+    "end_accuracy_circle_scale": 10
   },
   "skills": [
     {
       "id": "skill_1",
       "name": "GS",
       "type": "passive",
+      "description": "■ 마지막 탄환 명중 시 대상에게\n[도발] [{0}초 유지]\n■ 마지막 탄환 명중 시 자신에게\n[방어력 {1}% ▲] [{2}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "last_bullet_hit",
@@ -68,6 +85,13 @@
       "id": "skill_2",
       "name": "MDS",
       "type": "passive",
+      "description": "■ 전투 시작 시 자신에게\n[적 발사체 공격 시 해당 발사체에 가하는 대미지 {0}% ▲] [지속]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        }
+      ],
       "effects": [
         {
           "trigger": "battle_start",
@@ -95,6 +119,13 @@
       "name": "CIWS",
       "type": "burst",
       "cooldown": 20,
+      "description": "■ 적 전체에게\n[최종 공격력 {0}% 버스트 스킬 대미지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        }
+      ],
       "effects": [
         {
           "trigger": "burst_cast",

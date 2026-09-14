@@ -16,13 +16,48 @@
     "fireRate": 60,
     "fullChargeDamage": 100,
     "coreDamage": 200,
-    "pelletCount": 1
+    "pelletCount": 1,
+    "start_accuracy_circle_scale": 250,
+    "end_accuracy_circle_scale": 10
   },
   "skills": [
     {
       "id": "skill_1",
       "name": "렘에게 맡겨주세요!",
       "type": "passive",
+      "description": "■ 자신이 도깨비 기운 상태라면 일반 공격 {0}회 명중 시 자신에게\n[공격력 {1}% ▲] [{2} 중첩] [{3}초 유지]\n■ 버스트 스킬 사용 시 아군 전체에게\n[체력 회복 균등 분배] [{4}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "trigger"
+        },
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "value": [
+            30,
+            30,
+            30,
+            30,
+            30,
+            30,
+            30,
+            30,
+            30,
+            30
+          ]
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "hit_count:15",
@@ -69,6 +104,27 @@
       "id": "skill_2",
       "name": "렘이 치료하겠습니다!",
       "type": "passive",
+      "description": "■ 전투 시작 시 자신에게\n[공격 대미지 비례 {0}% 회복] [지속]\n■ 전투 시작 시 자신과 최종 공격력이 가장 높은 로켓 런처 소지 아군 {1}기에게\n[체력 회복 균등 분배] [지속]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "value": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2
+          ]
+        }
+      ],
       "effects": [
         {
           "trigger": "battle_start",
@@ -115,6 +171,33 @@
       "name": "렘은 용서하지 않습니다!",
       "type": "burst",
       "cooldown": 20,
+      "description": "■ 자신에게\n[도깨비 기운 : 크리티컬 확률 {0}% ▲] [{1}초 유지]\n■ 로켓 런처 소지 아군 전체에게\n[시전자 기준 공격력 {2}% ▲] [{3}초 유지]\n[최대 장탄 수 {4}발 ▲] [{5}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 2,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "burst_cast",

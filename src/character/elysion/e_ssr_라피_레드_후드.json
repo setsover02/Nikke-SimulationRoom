@@ -16,13 +16,60 @@
     "fireRate": 60,
     "fullChargeDamage": 100,
     "coreDamage": 200,
-    "pelletCount": 1
+    "pelletCount": 1,
+    "start_accuracy_circle_scale": 250,
+    "end_accuracy_circle_scale": 10
   },
   "skills": [
     {
       "id": "skill_1",
       "name": "전황 파악",
       "type": "passive",
+      "description": "■ 전투 시작 시와 풀 버스트 타임 종료 시\n[스쿼드 구성 별 효과] [해당되는 효과만 적용]\n기본 버스트 단계가 Step 1인 아군이 없다면 자신에게\n[전투 보조 : 버스트 {0}단계로 변경] [지속] [해제 불가]\n기본 버스트 단계가 Step 1인 아군이 있다면 자신에게\n[전투 보조 삭제]\n■ 풀 버스트 타임 시작 시 자신이 전투 보조 상태라면 아군 전체에게\n[버스트 스킬 재사용 시간 {1}초 ▼]\n[공격 대미지 {6}% ▲] [{7}초 유지]\n■ 풀 버스트 타임 시작 시 자신이 전투 보조 상태가 아니라면 자신에게\n[공격력 {2}% ▲] [{3}초 유지]\n[저지 부위 공격 대미지 {4}% ▲] [{5}초 유지]",
+      "description_params": [
+        {
+          "value": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ]
+        },
+        {
+          "effect": 2,
+          "field": "value"
+        },
+        {
+          "effect": 4,
+          "field": "value"
+        },
+        {
+          "effect": 3,
+          "field": "duration"
+        },
+        {
+          "effect": 5,
+          "field": "value"
+        },
+        {
+          "effect": 3,
+          "field": "duration"
+        },
+        {
+          "effect": 3,
+          "field": "value"
+        },
+        {
+          "effect": 3,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": [
@@ -164,6 +211,33 @@
       "id": "skill_2",
       "name": "부착형 유탄",
       "type": "passive",
+      "description": "■ 전투 시작 시 자신에게\n[전격 코드 적에게 우월 코드 대미지 적용] [지속] [해제 불가]\n[발사체 부착 대미지 {4}% ▲] [지속]\n[발사체 폭발 대미지 {5}% ▲] [지속]\n■ 일반 공격 {0}회 공격 시 자신에게\n[부착형 유탄]\n기능 : 부착형 발사체를 발사하여 적중된 위치에 부착. 풀 버스트 타임 지속 중 폭발.\n발사체 부착 대미지 : 최종 공격력 {1}% 대미지\n발사체 폭발 대미지 : 최종 공격력 {2}% 대미지\n최대 장탄 수 : {3}발",
+      "description_params": [
+        {
+          "effect": 3,
+          "field": "trigger"
+        },
+        {
+          "effect": 3,
+          "field": "value"
+        },
+        {
+          "effect": 3,
+          "field": "value"
+        },
+        {
+          "effect": 4,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 2,
+          "field": "value"
+        }
+      ],
       "effects": [
         {
           "trigger": "battle_start",
@@ -340,6 +414,45 @@
       "name": "계승되는 힘",
       "type": "burst",
       "cooldown": 40,
+      "description": "\n■ 자신에게\n[버스트 스킬 재사용 시간 20초 ▼]\n[폭발 범위 {0}% ▲] [{1}초 유지]\n■ 아군 전체에게\n[시전자 기준 공격력 {2}% ▲] [{3}초 유지]\n\n■ 조준선에서 가장 가까운 적 1기에게\n[최종 공격력 {4}% 추가 대미지]\n■ 자신에게\n[폭발 범위 {0}% ▲] [{1}초 유지]\n[발사체 부착 대미지 {5}% ▲] [{6}초 유지]\n[스킬2 부착형 유탄 발동 횟수 조건 {7}회 ▼] [{8}초 유지]",
+      "description_params": [
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "duration"
+        },
+        {
+          "effect": 2,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "duration"
+        },
+        {
+          "effect": 3,
+          "field": "value"
+        },
+        {
+          "effect": 5,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "duration"
+        },
+        {
+          "effect": 6,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "burst_cast",

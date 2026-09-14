@@ -16,13 +16,34 @@
     "fireRate": 0,
     "fullChargeDamage": 250,
     "coreDamage": 200,
-    "pelletCount": 1
+    "pelletCount": 1,
+    "start_accuracy_circle_scale": 10,
+    "end_accuracy_circle_scale": 10
   },
   "skills": [
     {
       "id": "skill_1",
       "name": "준비 태세",
       "type": "passive",
+      "description": "■ 마지막 탄환 공격 후 자신에게\n[차지 대미지 {0}% ▲] [{1}발 유지]\n[차지 속도 {2}% ▲] [{3}발 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "bullet"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "bullet"
+        }
+      ],
       "effects": [
         {
           "trigger": "passive",
@@ -68,6 +89,17 @@
       "id": "skill_2",
       "name": "약점 간파",
       "type": "passive",
+      "description": "■ 마지막 탄환 공격 후 대상에게\n[방어력 {0}% ▼] [{1}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "passive",
@@ -95,6 +127,43 @@
       "name": "전세 역전",
       "type": "burst",
       "cooldown": 20,
+      "description": "■ 최종 공격력이 가장 높은 적 {0}기에게\n[최종 공격력 {1}% 대미지]\n[방어력 {2}% ▼] [{3}초 유지]\n■ 아군 전체에게\n[크리티컬 확률 {4}% ▲] [{5}초 유지]",
+      "description_params": [
+        {
+          "value": [
+            10,
+            10,
+            10,
+            10,
+            10,
+            10,
+            10,
+            10,
+            10,
+            10
+          ]
+        },
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "duration"
+        },
+        {
+          "effect": 2,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "burst_cast",

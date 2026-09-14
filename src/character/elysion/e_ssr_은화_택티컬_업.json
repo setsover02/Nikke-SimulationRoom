@@ -16,13 +16,26 @@
     "fireRate": 0,
     "fullChargeDamage": 250,
     "coreDamage": 200,
-    "pelletCount": 1
+    "pelletCount": 1,
+    "start_accuracy_circle_scale": 10,
+    "end_accuracy_circle_scale": 10
   },
   "skills": [
     {
       "id": "skill_1",
       "name": "카모플라쥬 스카프",
       "type": "passive",
+      "description": "■ 버스트 스킬 사용 시 자신에게\n[카모플라쥬 : 1인 공격 대상에서 제외 직접 피격 시 해제] [{0}초 유지]\n■ 풀 차지 공격 시 풀 버스트 타임이라면 자신에게\n[카모플라쥬 : 1인 공격 대상에서 제외 직접 피격 시 해제] [{0}초 유지]\n■ 카모플라쥬 상태일 때 한하여 자신에게\n[일반 공격을 방어력 무시 대미지로 적용] [지속]\n[방어력 무시 대미지 {1}% ▲] [지속]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 3,
+          "field": "value"
+        }
+      ],
       "effects": [
         {
           "trigger": "burst_cast",
@@ -71,16 +84,16 @@
           "unit": "percent",
           "duration": "permanent",
           "value": [
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0
+            128.57,
+            138.46,
+            148.35,
+            158.24,
+            168.13,
+            178.02,
+            187.91,
+            197.8,
+            207.69,
+            217.14
           ]
         },
         {
@@ -108,6 +121,29 @@
       "id": "skill_2",
       "name": "포메이션 AS",
       "type": "passive",
+      "description": "■ 자신이 생존해 있을 때 한하여\n[포메이션 AS] :\n기능 : 대상에게 전투에 유리한 전술 작전을 하달합니다.\n효과 1 : 동일 스쿼드 아군 전체에게 [크리티컬 확률 {0}% ▲] [지속]\n효과 2 : 아군 전체에게 [차지 대미지 {1}% ▲] [지속]\n효과 3 : 자신에게 [공격력 {4}% ▲] [지속]\n\n[자신에게 포메이션 LT 적용 중 추가 효과]\n효과 1 : 아군 전체에게 [발사체 폭발 대미지 {2}% ▲] [지속]\n효과 2 : 아군 전체에게 [방어력 무시 대미지 {3}% ▲] [지속]",
+      "description_params": [
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 2,
+          "field": "value"
+        },
+        {
+          "effect": 5,
+          "field": "value"
+        },
+        {
+          "effect": 6,
+          "field": "value"
+        },
+        {
+          "effect": 3,
+          "field": "value"
+        }
+      ],
       "effects": [
         {
           "trigger": "passive",
@@ -253,6 +289,45 @@
       "name": "내부 폭발탄",
       "type": "burst",
       "cooldown": 20,
+      "description": "■ 자신에게\n[사용 무기 변경] :\n차지 시간 : 0.3초\n대미지 : 최종 공격력 {0}% 방어력 무시 대미지\n풀 차지 대미지 : 300% 대미지\n최대 장탄 수 : {1}발\n특이사항 : 폭발탄을 발사해 넓은 범위를 공격합니다.\n추가 효과\n대상 : 명중 대상에게\n효과 : [내부 폭발탄 : 받는 대미지 {2}% ▲] [{3}초 유지]",
+      "description_params": [
+        {
+          "value": [
+            62.4,
+            67.2,
+            72,
+            76.8,
+            81.6,
+            86.4,
+            91.19,
+            95.99,
+            100.8,
+            105.6
+          ]
+        },
+        {
+          "value": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ]
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "burst_cast",
@@ -287,18 +362,19 @@
           },
           "duration": 10,
           "value": [
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0
+            62.4,
+            67.2,
+            72,
+            76.8,
+            81.6,
+            86.4,
+            91.2,
+            96,
+            100.8,
+            105.6
           ],
-          "type": "weapon_change"
+          "type": "weapon_change",
+          "effect": "atk_pct"
         },
         {
           "trigger": "burst_cast",

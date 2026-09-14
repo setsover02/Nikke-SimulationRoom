@@ -16,13 +16,38 @@
     "fireRate": 24,
     "fullChargeDamage": 100,
     "coreDamage": 200,
-    "pelletCount": 1
+    "pelletCount": 1,
+    "start_accuracy_circle_scale": 110,
+    "end_accuracy_circle_scale": 110
   },
   "skills": [
     {
       "id": "skill_1",
       "name": "고양이 보은",
       "type": "passive",
+      "description": "■ 회복 효과 적용 시 대상에게\n[받는 대미지 {0}% ▼] [{1}초 유지]\n■ 회복 효과 적용 시 자신에게\n[고양이 보은: 받는 대미지 {2}% ▼] [{3} 중첩] [{4}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "passive",
@@ -70,6 +95,33 @@
       "id": "skill_2",
       "name": "고양이 손",
       "type": "passive",
+      "description": "■ 피격 시 {0}% 확률로 대상에게\n[받는 대미지 {1}% ▲] [{2}초 유지]\n■ 자신이 큰 고양이 상태라면 피격 시 {3}% 확률로 대상에게\n[최종 공격력 {4}% 대미지]\n■ 전투 시작 시 자신에게\n[최대 체력 {5}% ▲] [지속]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "condition"
+        },
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 0,
+          "field": "condition"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 2,
+          "field": "value"
+        }
+      ],
       "effects": [
         {
           "trigger": "on_hit",
@@ -136,6 +188,49 @@
       "name": "크고 난폭한 고양이",
       "type": "burst",
       "cooldown": 20,
+      "description": "■ 남은 체력 수치가 가장 높은 적 {0}기에게\n[최종 공격력 {1}% 버스트 스킬 대미지]\n■ 자신에게\n[주목: 적 전체 도발] [{2}초 유지]\n■ 자신이 고양이 보은 최대 중첩 상태라면 자신에게\n[큰 고양이: 받는 체력 회복량 {3}% ▲] [{4}초 유지]",
+      "description_params": [
+        {
+          "value": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ]
+        },
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "value": [
+            8,
+            8,
+            8,
+            10,
+            10,
+            10,
+            15,
+            15,
+            15,
+            15
+          ]
+        },
+        {
+          "effect": 2,
+          "field": "value"
+        },
+        {
+          "effect": 2,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "burst_cast",

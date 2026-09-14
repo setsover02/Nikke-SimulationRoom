@@ -16,13 +16,42 @@
     "fireRate": 24,
     "fullChargeDamage": 100,
     "coreDamage": 200,
-    "pelletCount": 1
+    "pelletCount": 1,
+    "start_accuracy_circle_scale": 110,
+    "end_accuracy_circle_scale": 110
   },
   "skills": [
     {
       "id": "skill_1",
       "name": "노도",
       "type": "passive",
+      "description": "■ 풀 버스트 타임 시작 시 자신에게\n[우월 코드 공격 대미지 {0}% ▲] [{1}초 유지]\n[공격 대미지 비례 {2}% 회복] [{3}초 유지]\n■ 최초 발동 시 추가로 자신에게\n[공격 대미지 비례 {4}% 회복] [{5}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 2,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "full_burst_start",
@@ -87,6 +116,49 @@
       "id": "skill_2",
       "name": "기습",
       "type": "passive",
+      "description": "■ 타겟이 출현했다면 아군 전체에게\n[버스트 게이지 충전 {0}%] [전투 중 {1}회 발동]\n[기절 면역] [{2}초 유지]\n■ 타겟이 출현했다면 자신에게\n[우월 코드 공격 대미지 {3}% ▲] [{4}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "value": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ]
+        },
+        {
+          "value": [
+            19.44,
+            21.39,
+            23.33,
+            25.28,
+            27.22,
+            29.17,
+            31.11,
+            33.06,
+            35,
+            36.95
+          ]
+        },
+        {
+          "effect": 2,
+          "field": "value"
+        },
+        {
+          "effect": 2,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "passive",
@@ -163,6 +235,25 @@
       "name": "처단",
       "type": "burst",
       "cooldown": 40,
+      "description": "■ 적 전체에게\n[최종 공격력 {0}% 버스트 스킬 대미지]\n■ 화력형 아군 전체에게\n[파츠 대미지 {1}% ▲] [{2}초 유지]\n■ 자신이 기절 면역 상태라면 아군 전체에게\n[풀 버스트 타임 지속 시간 {3}초 ▲]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "duration"
+        },
+        {
+          "effect": 2,
+          "field": "value"
+        }
+      ],
       "effects": [
         {
           "trigger": "burst_cast",

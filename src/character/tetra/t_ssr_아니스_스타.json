@@ -16,13 +16,48 @@
     "fireRate": 0,
     "fullChargeDamage": 250,
     "coreDamage": 200,
-    "pelletCount": 1
+    "pelletCount": 1,
+    "start_accuracy_circle_scale": 10,
+    "end_accuracy_circle_scale": 10
   },
   "skills": [
     {
       "id": "skill_1",
       "name": "스타 폴",
       "type": "passive",
+      "description": "■ 전투 시작 시 자신이 생존 상태일 때 한하여 아군 전체에게\n[버스트 게이지 충전 속도 {4}% ▲] [지속]\n■ 전투 시작 시와 풀 버스트 타임 종료 시\n[스쿼드 구성 별 효과] [해당되는 효과만 적용]\n자신을 제외한 기본 버스트 단계가 Step {0}인 아군이 없다면\n효과 1 : 자신에게 [모두의 별 삭제]\n효과 2 : 자신에게 [나만의 별 : 공격력 {1}% ▲] [지속] [해제 불가]\n효과 3 : 아군 전체에게 [버스트 스킬 재사용 시간 {2}초 ▼]\n자신을 제외한 기본 버스트 단계가 Step {0}인 아군이 있다면\n효과 1 : 자신에게 [나만의 별 삭제]\n효과 2 : 자신에게 [모두의 별 : 버스트 재진입 {0}단계로 변경] [지속] [해제 불가]\n■ 풀 차지 공격 명중 시 대상에게\n[최종 공격력 {3}% 추가 대미지]",
+      "description_params": [
+        {
+          "value": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ]
+        },
+        {
+          "effect": 2,
+          "field": "value"
+        },
+        {
+          "effect": 3,
+          "field": "value"
+        },
+        {
+          "effect": 6,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "value"
+        }
+      ],
       "effects": [
         {
           "trigger": "battle_start",
@@ -198,6 +233,37 @@
       "id": "skill_2",
       "name": "스타더스트",
       "type": "passive",
+      "description": "■ 풀 버스트 타임 시작 시 자신이 나만의 별 상태라면 아군 전체에게\n[시전자 기준 공격력 {0}% ▲] [{1}초 유지]\n■ 풀 차지 공격 시 자신이 모두의 별 상태라면 아군 전체에게\n[시전자의 최종 최대 체력 비례 {2}% 회복]\n■ 풀 버스트 타임 시작 시 자신과 자신보다 최종 방어력이 낮은 아군 전체에게\n[발사체 폭발 대미지 {3}% ▲] [{4}초 유지]\n■ 풀 버스트 타임 시작 시 아군 전체에게\n[공격 대미지 {5}% ▲] [{6}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 2,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 3,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "full_burst_start",
@@ -288,6 +354,49 @@
       "name": "스타 아니스",
       "type": "burst",
       "cooldown": 20,
+      "description": "■ 자신에게\n[슈팅 스타]\n기능 : 아니스 주변에 작은 별을 생성하여 무작위 대상에게 자동 공격합니다.\n대미지 : 최종 공격력 {0}%\n공격 간격 : 0.25초\n유지 시간 : {1}초\n추가 효과\n[차지 시간 {9}초로 고정] [{1}초 유지]\n[폭발 범위 {2}% ▲] [{1}초 유지]\n[방어력 {4}% ▲] [{1}초 유지]\n■ 자신이 나만의 별 상태라면 자신에게\n[공격 대미지 {5}% ▲] [{6}초 유지]\n■ 자신이 모두의 별 상태라면 아군 전체에게\n[시전자 기준 최대 체력 {7}% ▲] [{8}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 2,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 3,
+          "field": "value"
+        },
+        {
+          "effect": 4,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 5,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        }
+      ],
       "effects": [
         {
           "trigger": "burst_cast",

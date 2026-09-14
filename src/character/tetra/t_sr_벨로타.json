@@ -16,13 +16,26 @@
     "fireRate": 0,
     "fullChargeDamage": 350,
     "coreDamage": 200,
-    "pelletCount": 1
+    "pelletCount": 1,
+    "start_accuracy_circle_scale": 10,
+    "end_accuracy_circle_scale": 10
   },
   "skills": [
     {
       "id": "skill_1",
       "name": "서프라이즈",
       "type": "passive",
+      "description": "■ 풀 차지 공격 시 자신에게\n[폭발 범위 {0}% ▲] [{1}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "full_charge_attack",
@@ -49,6 +62,35 @@
       "id": "skill_2",
       "name": "그리디",
       "type": "passive",
+      "description": "■ {0}기 이상을 동시에 명중시켰다면 대상에게\n[방어력 {1}% ▼] [{2}초 유지]\n[최종 공격력 {3}% 추가 대미지]",
+      "description_params": [
+        {
+          "value": [
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4
+          ]
+        },
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        }
+      ],
       "effects": [
         {
           "trigger": "passive",
@@ -94,6 +136,21 @@
       "name": "트릭키 봄버",
       "type": "burst",
       "cooldown": 20,
+      "description": "■ 공격 범위 내 적들에게\n[최종 공격력 {0}% 대미지]\n■ 아군 전체에게\n[차지 속도 {1}% ▲] [{2}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "burst_cast",

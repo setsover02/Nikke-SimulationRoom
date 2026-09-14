@@ -16,13 +16,38 @@
     "fireRate": 12,
     "fullChargeDamage": 100,
     "coreDamage": 200,
-    "pelletCount": 1
+    "pelletCount": 1,
+    "start_accuracy_circle_scale": 75,
+    "end_accuracy_circle_scale": 75
   },
   "skills": [
     {
       "id": "skill_1",
       "name": "청소를 시작하겠습니다, 주인님.",
       "type": "passive",
+      "description": "■ 전투 시작 시 아군 전체에게\n[완벽한 메이드 : 해로운 효과 면역 {0}개] [{4} 중첩] [지속]\n■ 자신의 체력이  {1}% 이하일 때 아군 전체에게\n[시전자 기준 공격력 {2}% ▲] [{3}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "condition"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "duration"
+        },
+        {
+          "effect": 0,
+          "field": "value"
+        }
+      ],
       "effects": [
         {
           "trigger": "battle_start",
@@ -71,6 +96,33 @@
       "id": "skill_2",
       "name": "잠시 쉬어갈 시간입니다, 주인님.",
       "type": "passive",
+      "description": "■ 일반 공격 {0}회 공격 시 아군 전체에게\n[완벽한 메이드 : 해로운 효과 면역 {1}개] [{5} 중첩] [지속]\n■ 일반 공격 {2}회 공격 시 아군 전체에게\n[시전자 기준 최대 체력만 {3}% ▲] [{4}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "trigger"
+        },
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "trigger"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "duration"
+        },
+        {
+          "effect": 0,
+          "field": "value"
+        }
+      ],
       "effects": [
         {
           "trigger": "hit_count:420",
@@ -119,6 +171,25 @@
       "name": "식사 시간입니다, 주인님.",
       "type": "burst",
       "cooldown": 20,
+      "description": "■ 아군 전체에게\n[시전자 기준 최대 체력만 {0}% ▲] [{1}초 유지]\n[시전자 기준 공격력 {2}% ▲] [{3}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "burst_cast",

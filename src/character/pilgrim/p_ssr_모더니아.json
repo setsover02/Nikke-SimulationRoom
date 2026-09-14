@@ -16,13 +16,80 @@
     "fireRate": 60,
     "fullChargeDamage": 100,
     "coreDamage": 200,
-    "pelletCount": 1
+    "pelletCount": 1,
+    "start_accuracy_circle_scale": 250,
+    "end_accuracy_circle_scale": 10
   },
   "skills": [
     {
       "id": "skill_1",
       "name": "고속진화",
       "type": "passive",
+      "description": "■ 일반 공격 명중 시 대상에게\n[최종 공격력 {0}% 추가 대미지]\n■ 일반 공격 {1}회 명중 시 자신에게\n[크리티컬 대미지 {2}% ▲] [{3}중첩] [{4}초 유지]\n[최대 장탄 수 {5}% ▼] [{6}중첩] [{7}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "trigger"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "value": [
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5
+          ]
+        },
+        {
+          "effect": 1,
+          "field": "duration"
+        },
+        {
+          "value": [
+            5.04,
+            5.04,
+            5.04,
+            5.04,
+            5.04,
+            5.04,
+            5.04,
+            5.04,
+            5.04,
+            5.04
+          ]
+        },
+        {
+          "value": [
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5
+          ]
+        },
+        {
+          "effect": 1,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "hit_count:1",
@@ -92,6 +159,29 @@
       "id": "skill_2",
       "name": "대도약",
       "type": "passive",
+      "description": "■ 풀 버스트 타임 시작 시 아군 전체에게\n[명중률 {0}% ▲] [{1}초 유지]\n■ 일반 공격 {2}회 명중 시 자신이 명중률 증가 상태라면 자신에게\n[공격력 {3}% ▲] [{4}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 1,
+          "field": "trigger"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "full_burst_start",
@@ -141,6 +231,17 @@
       "name": "신세계",
       "type": "burst",
       "cooldown": 40,
+      "description": "■ 아군 전체에게\n[풀 버스트 타임 지속 시간 5초 ▲]\n■ 자신에게\n[장탄 수 무한] [{1}초 유지]\n[섬멸 모드] :\n기능 : 조준선 확장 & 조준 범위 내 적 전체 동시 조준. 보스는 저지 부위 및 파츠 무관, 단일 적으로 간주\n대미지 : 최종 공격력 {0}% 대미지\n유지 시간 : {1}초",
+      "description_params": [
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "burst_cast",
@@ -167,16 +268,16 @@
           "target": "self",
           "effect": "atk_pct",
           "value": [
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0
+            1.52,
+            1.6,
+            1.68,
+            1.76,
+            1.84,
+            1.92,
+            2,
+            2.08,
+            2.16,
+            2.24
           ],
           "unit": "percent",
           "duration": 15,

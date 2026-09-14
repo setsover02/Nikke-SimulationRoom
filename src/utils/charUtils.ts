@@ -174,6 +174,8 @@ export const applyBaseStats = (
         coreHitBonus: s.coreHitBonus,
         comboShots: 0,
         accuracyBuff: (s.accuracyBuff ?? 0) + eq.accuracyPercent + cube.accuracyBuff,
+        start_accuracy_circle_scale: s.start_accuracy_circle_scale,
+        end_accuracy_circle_scale: s.end_accuracy_circle_scale,
         warmupShots: 0,
         warmupLevel: 0,
         // 장비 추가 옵션

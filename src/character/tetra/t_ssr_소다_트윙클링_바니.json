@@ -16,13 +16,56 @@
     "fireRate": 1.51515,
     "fullChargeDamage": 100,
     "coreDamage": 200,
-    "pelletCount": 10
+    "pelletCount": 10,
+    "start_accuracy_circle_scale": 250,
+    "end_accuracy_circle_scale": 250
   },
   "skills": [
     {
       "id": "skill_1",
       "name": "럭키 골든 칩",
       "type": "passive",
+      "description": "■ 전투 시작 시 자신에게\n[골든 칩 중첩량 {0}개 ▲]\n■ 풀 버스트 타임 지속 중 일반 공격 {1}회 공격 시 자신에게\n[골든 칩 : 크리티컬 대미지 {2}% ▲] [{3} 중첩] [지속]\n■ 풀 버스트 타임 지속 중 일반 공격 {1}회 공격 시 자신과 자신을 제외한 최종 공격력이 가장 높은 아군 {6}기에게\n[공격 대미지 {4}% ▲] [{5}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "trigger"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "value": [
+            50,
+            50,
+            50,
+            50,
+            50,
+            50,
+            50,
+            50,
+            50,
+            50
+          ]
+        },
+        {
+          "effect": 2,
+          "field": "value"
+        },
+        {
+          "effect": 2,
+          "field": "duration"
+        },
+        {
+          "effect": 3,
+          "field": "target"
+        }
+      ],
       "effects": [
         {
           "trigger": "battle_start",
@@ -118,6 +161,57 @@
       "id": "skill_2",
       "name": "비기너즈 베네핏",
       "type": "passive",
+      "description": "■ 버스트 3단계 진입 시 아군 전체에게\n[골든 칩 중첩량 별 효과] [하위 효과 중복 적용]\n1단계 : 골든 칩 {0} 중첩 이상이라면\n[시간 연장 I : 풀 버스트 타임 지속 시간 {1}초 ▲] [풀 버스트 타임 동안 지속]\n2단계 : 골든 칩 {2} 중첩 이상이라면\n[시간 연장 II : 풀 버스트 타임 지속 시간 {3}초 ▲] [풀 버스트 타임 동안 지속]\n■ 풀 버스트 타임 지속 중 일반 공격 시 조준선에 가장 가까운 적 {4}기에게\n[시간 연장 상태 별 효과] [하위 효과 중복 적용]\n1단계 : 자신이 시간 연장 I 상태라면\n[최종 공격력 {5}% 대미지]\n2단계 : 자신이 시간 연장 II 상태라면\n[최종 공격력 {6}% 대미지]",
+      "description_params": [
+        {
+          "value": [
+            10,
+            10,
+            10,
+            10,
+            10,
+            10,
+            10,
+            10,
+            10,
+            10
+          ]
+        },
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "value": [
+            20,
+            20,
+            20,
+            20,
+            20,
+            20,
+            20,
+            20,
+            20,
+            20
+          ]
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 2,
+          "field": "target"
+        },
+        {
+          "effect": 2,
+          "field": "value"
+        },
+        {
+          "effect": 3,
+          "field": "value"
+        }
+      ],
       "effects": [
         {
           "trigger": "burst_enter:3",
@@ -210,6 +304,61 @@
       "name": "고 어헤드, 소다!",
       "type": "burst",
       "cooldown": 40,
+      "description": "■ 고 어헤드, 소다! 사용 시\n[골든 칩 중첩량 별 효과] [하위 효과 중복 적용] [효과 적용 후 골든 칩 중첩량 {0}개 ▼]\n1단계 : 적 전체에게\n[최종 공격력 {1}% 버스트 스킬 대미지]\n2단계 : 골든 칩 {2} 중첩 이상이라면 자신에게\n[명중률 {3}% ▲] [{4}초 유지]\n3단계 : 골든 칩 {5} 중첩 이상이라면 자신에게\n[공격력 {6}% ▲] [{7}초 유지]",
+      "description_params": [
+        {
+          "effect": 3,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "value": [
+            20,
+            20,
+            20,
+            20,
+            20,
+            20,
+            20,
+            20,
+            20,
+            20
+          ]
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "duration"
+        },
+        {
+          "value": [
+            30,
+            30,
+            30,
+            30,
+            30,
+            30,
+            30,
+            30,
+            30,
+            30
+          ]
+        },
+        {
+          "effect": 2,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "burst_cast",

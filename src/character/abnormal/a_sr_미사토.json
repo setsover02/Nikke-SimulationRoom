@@ -16,13 +16,66 @@
     "fireRate": 24,
     "fullChargeDamage": 100,
     "coreDamage": 200,
-    "pelletCount": 1
+    "pelletCount": 1,
+    "start_accuracy_circle_scale": 110,
+    "end_accuracy_circle_scale": 110
   },
   "skills": [
     {
       "id": "skill_1",
       "name": "사격 매뉴얼",
       "type": "passive",
+      "description": "■ 일반 공격 {0}회 공격 시 자신에게\n[사격 매뉴얼 : 명중률 {1}% ▲] [{2} 중첩] [{3}초 유지]\n■ 일반 공격 {4}회 공격 시 남은 체력 비율이 가장 낮은 아군 {5}기에게\n[시전자 최종 최대 체력 비례 {6}% 회복]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "trigger"
+        },
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "value": [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ]
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 1,
+          "field": "trigger"
+        },
+        {
+          "value": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ]
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        }
+      ],
       "effects": [
         {
           "trigger": "hit_count:60",
@@ -69,6 +122,17 @@
       "id": "skill_2",
       "name": "회복 보조",
       "type": "passive",
+      "description": "■  자신이 사격 매뉴얼 상태일 때 한하여 아군 전체에게\n[보호막에 가하는 대미지 {0}% ▲] [지속]\n■ 자신이 사격 매뉴얼 최대 중첩 상태일 때 한하여 자신에게\n[주는 체력 회복량 {1}% ▲] [지속]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        }
+      ],
       "effects": [
         {
           "trigger": "passive",
@@ -115,6 +179,17 @@
       "name": "휴식 명령",
       "type": "burst",
       "cooldown": 40,
+      "description": "■ 아군 전체에게\n[시전자 최종 최대 체력 비례 {0}% 회복] [1초 간격] [{1}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "burst_cast",

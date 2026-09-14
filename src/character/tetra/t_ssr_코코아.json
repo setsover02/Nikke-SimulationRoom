@@ -16,13 +16,40 @@
     "fireRate": 0,
     "fullChargeDamage": 250,
     "coreDamage": 200,
-    "pelletCount": 1
+    "pelletCount": 1,
+    "start_accuracy_circle_scale": 10,
+    "end_accuracy_circle_scale": 10
   },
   "skills": [
     {
       "id": "skill_1",
       "name": "프로 종이접기",
       "type": "passive",
+      "description": "■ 아군 전체에게\n[엄폐물 체력 회복 {0}%]\n■ 해로운 효과 소지 아군 중 무작위 아군 {1}기에게\n[해로운 효과 해제 {2}개]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "value": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2
+          ]
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        }
+      ],
       "effects": [
         {
           "trigger": "passive",
@@ -66,6 +93,31 @@
       "id": "skill_2",
       "name": "프로 케첩",
       "type": "passive",
+      "description": "■ 풀차지 공격 시 자신에게\n[프로 케첩 : 받는 대미지 {0}% ▼] [{1} 중첩] [{2}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "value": [
+            15,
+            15,
+            15,
+            15,
+            15,
+            15,
+            15,
+            15,
+            15,
+            15
+          ]
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "passive",
@@ -95,6 +147,21 @@
       "name": "프로 메이드장",
       "type": "burst",
       "cooldown": 20,
+      "description": "■ 아군 전체에게\n[해로운 효과 해제 {0}개]\n■ 자신이 프로 케첩 최대 중첩 상태라면 적 전체에게\n[공격력 {1}% ▼] [{2}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "burst_cast",

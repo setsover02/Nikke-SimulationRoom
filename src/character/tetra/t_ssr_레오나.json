@@ -16,13 +16,46 @@
     "fireRate": 1.51515,
     "fullChargeDamage": 100,
     "coreDamage": 200,
-    "pelletCount": 10
+    "pelletCount": 10,
+    "start_accuracy_circle_scale": 250,
+    "end_accuracy_circle_scale": 250
   },
   "skills": [
     {
       "id": "skill_1",
       "name": "우렁찬 포효",
       "type": "passive",
+      "description": "■ 일반 공격 {0}회 공격 시 아군 전체에게\n[포효 : 크리티컬 확률 {1}% ▲] [{2} 중첩] [{3}초 유지]\n■ 일반 공격 {4}회 공격 시 샷건 소지 아군 전체에게\n[적정 최대 사거리 {5}% ▲] [{6}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 1,
+          "field": "trigger"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "hit_count:5",
@@ -72,6 +105,29 @@
       "id": "skill_2",
       "name": "용기있는 시선",
       "type": "passive",
+      "description": "■ 풀 버스트 타임 시작 시 아군 전체에게\n[명중률 {0}% ▲] [{1}초 유지]\n■ 풀 버스트 타임 시작 시 최종 공격력이 가장 높은 샷건 소지 아군 {2}기에게\n[펠릿 개수 {3}개 ▲] [{4}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 1,
+          "field": "target"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "full_burst_start",
@@ -120,6 +176,25 @@
       "name": "사자의 심장",
       "type": "burst",
       "cooldown": 20,
+      "description": "■ 아군 전체에게\n[크리티컬 대미지 {0}% ▲] [{1}초 유지]\n■ 자신이 포효 최대 중첩 상태라면 샷건 소지 아군 전체에게\n[크리티컬 확률 {2}% ▲] [{3}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "burst_cast",

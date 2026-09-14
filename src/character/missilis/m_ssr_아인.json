@@ -16,13 +16,26 @@
     "fireRate": 0,
     "fullChargeDamage": 250,
     "coreDamage": 200,
-    "pelletCount": 1
+    "pelletCount": 1,
+    "start_accuracy_circle_scale": 10,
+    "end_accuracy_circle_scale": 10
   },
   "skills": [
     {
       "id": "skill_1",
       "name": "페더 스탠바이",
       "type": "passive",
+      "description": "■ 전투 시작 시 자신에게\n[니어 페더 4기 소환]\n■ 버스트 3단계 진입 시 자신에게\n[공격력 {0}% ▲] [{1}초 유지]",
+      "description_params": [
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "battle_start",
@@ -70,6 +83,25 @@
       "id": "skill_2",
       "name": "페더 샷",
       "type": "passive",
+      "description": "■ 니어 페더가 소환된 상태라면 무작위 적 {0}기에게\n[니어 페더 공격 : 최종 공격력 {1}% 방어력 무시 대미지]\n■ 풀 차지 공격 시 자신에게\n[차지 대미지 {2}% ▲] [{3}발 유지]",
+      "description_params": [
+        {
+          "effect": 1,
+          "field": "bullet"
+        },
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "bullet"
+        }
+      ],
       "effects": [
         {
           "trigger": "feather_tick",
@@ -119,6 +151,33 @@
       "name": "페더 올레인지",
       "type": "burst",
       "cooldown": 40,
+      "description": "■ 자신에게\n[니어 페더 6기 소환]\n[방어력 무시 대미지 {0}% ▲] [{1}초 유지]\n[차지 대미지 {2}% ▲] [{3}초 유지]\n■ 최종 방어력이 가장 높은 적 {4}기에게\n[최종 공격력 {5}% 방어력 무시 대미지]",
+      "description_params": [
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "duration"
+        },
+        {
+          "effect": 2,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "duration"
+        },
+        {
+          "effect": 1,
+          "field": "duration"
+        },
+        {
+          "effect": 3,
+          "field": "value"
+        }
+      ],
       "effects": [
         {
           "trigger": "burst_cast",

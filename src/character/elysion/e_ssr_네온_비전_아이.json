@@ -16,13 +16,70 @@
     "fireRate": 0,
     "fullChargeDamage": 250,
     "coreDamage": 200,
-    "pelletCount": 1
+    "pelletCount": 1,
+    "start_accuracy_circle_scale": 10,
+    "end_accuracy_circle_scale": 10
   },
   "skills": [
     {
       "id": "skill_1",
       "name": "건강한 몸",
       "type": "passive",
+      "description": "■ 피격 시 자신이 건강한 몸 상태가 아니라면 자신에게\n[무적] [{2}초 유지] [전투 중 {3}회 발동]\n[해로운 효과 면역 ∞개] [{4}초 유지] [전투 중 {5}회 발동]\n[건강한 몸 : 받는 체력 회복량 {0}% ▲] [{1}초 유지]\n■ 풀 차지 공격 명중 시 대상이 타겟이라면 대상에게\n[화력 폭발] : \n효과 : [최종 공격력 {6}% 추가 대미지]\n초화력 상태 추가 효과 : [최종 공격력 {7}% 추가 대미지]",
+      "description_params": [
+        {
+          "effect": 2,
+          "field": "value"
+        },
+        {
+          "effect": 2,
+          "field": "duration"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "value": [
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5
+          ]
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "value": [
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5
+          ]
+        },
+        {
+          "effect": 3,
+          "field": "value"
+        },
+        {
+          "effect": 4,
+          "field": "value"
+        }
+      ],
       "effects": [
         {
           "trigger": "received_hit_count:1",
@@ -134,6 +191,45 @@
       "id": "skill_2",
       "name": "화력 충전",
       "type": "passive",
+      "description": "■ 전투 시작 시 자신에게\n[화력 게이지 {7} 충전] \n■ 일반 공격 시 자신이 화력 충전 상태라면 자신에게\n[화력 게이지 2 충전]\n■ 화력 충전 상태 종료 시 자신에게\n[화력 게이지 {8} 충전]\n■ 풀 버스트 타임 종료 시 자신이 화력 게이지 보유 상태라면 자신에게\n[버스트 게이지 충전 속도 {1}% X 화력 게이지 충전량 ▲] [{2}초 유지]\n■ 풀 버스트 타임 시작 시 자신에게\n[화력 전개] :\n효과 : [공격력 {3}% ▲] [{4}초 유지]\n초화력 추가 효과 : [공격력 {5}% ▲] [{6}초 유지] ",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 3,
+          "field": "value"
+        },
+        {
+          "effect": 3,
+          "field": "duration"
+        },
+        {
+          "effect": 4,
+          "field": "value"
+        },
+        {
+          "effect": 4,
+          "field": "duration"
+        },
+        {
+          "effect": 5,
+          "field": "value"
+        },
+        {
+          "effect": 4,
+          "field": "duration"
+        },
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 2,
+          "field": "value"
+        }
+      ],
       "effects": [
         {
           "trigger": "battle_start",
@@ -267,6 +363,73 @@
       "name": "초화력",
       "type": "burst",
       "cooldown": 40,
+      "description": "■ 자신이 화력 게이지가 100미만이면 자신에게\n[화력 충전 : 화력 게이지 충전 가능] [{1}초 유지] [해제 불가]\n[화력 게이지 1 충전] \n■ 자신이 화력 게이지가 100이라면 자신에게\n[초화력 : 공격 대미지 {3}% ▲] [{4}초 유지]\n[화력 게이지 100 소모]\n■ 자신에게\n[폭발 범위 {5}% ▲] [{6}초 유지]\n[공격 대미지 {9}% ▲] [{10}초 유지]",
+      "description_params": [
+        {
+          "value": [
+            99,
+            99,
+            99,
+            99,
+            99,
+            99,
+            99,
+            99,
+            99,
+            99
+          ]
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 2,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 4,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "value": [
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 5,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "burst_cast",

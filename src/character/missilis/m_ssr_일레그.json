@@ -16,13 +16,44 @@
     "fireRate": 60,
     "fullChargeDamage": 100,
     "coreDamage": 200,
-    "pelletCount": 1
+    "pelletCount": 1,
+    "start_accuracy_circle_scale": 250,
+    "end_accuracy_circle_scale": 10
   },
   "skills": [
     {
       "id": "skill_1",
       "name": "쇼트",
       "type": "passive",
+      "description": "■ 전투 시작 시 아군 전체에게\n[적 발사체 공격 시 해당 발사체에 가하는 대미지 {0}% ▲] [지속]\n■ 일반 공격 {1}회 명중 시 대상이 붐 인스톨 상태라면 대상과 주변의 적 {2}기에게\n[최종 공격력 {3}% 분배 대미지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "trigger"
+        },
+        {
+          "value": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2
+          ]
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        }
+      ],
       "effects": [
         {
           "trigger": "battle_start",
@@ -67,6 +98,25 @@
       "id": "skill_2",
       "name": "패스트 차지",
       "type": "passive",
+      "description": "■ 일반 공격 {0}회 명중 시 대상이 붐 인스톨 상태라면 아군 전체에게\n[시전자 기준 공격력 {1}% ▲] [{2}초 유지]\n■ 타겟 출현 시 아군 전체에게\n[버스트 게이지 충전 {3}%] [전투 중 1회 발동]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "trigger"
+        },
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        }
+      ],
       "effects": [
         {
           "trigger": "hit_count:60",
@@ -113,6 +163,29 @@
       "name": "붐 인스톨",
       "type": "burst",
       "cooldown": 20,
+      "description": "■ 아군 전체에게\n[분배 대미지 {0}% ▲] [{1}초 유지]\n■ 조준선에 가장 가까운 적 1기에게\n[최종 공격력 {2}% 버스트 스킬 대미지]\n[붐 인스톨 : 방어력 {3}% ▼] [{4}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 2,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "burst_cast",

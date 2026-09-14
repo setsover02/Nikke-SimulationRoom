@@ -16,13 +16,40 @@
     "fireRate": 12,
     "fullChargeDamage": 100,
     "coreDamage": 200,
-    "pelletCount": 1
+    "pelletCount": 1,
+    "start_accuracy_circle_scale": 75,
+    "end_accuracy_circle_scale": 75
   },
   "skills": [
     {
       "id": "skill_1",
       "name": "두더지 숨기",
       "type": "passive",
+      "description": "■ 전투 시작 시 자신에게\n[발버둥 : 최종 최대 체력 비례 {0}% 보호막] [지속]\n■ 버스트 스킬 사용 시 자신이 발버둥 상태가 아니라면 자신에게\n[발버둥 : 최종 최대 체력 비례 {0}% 보호막] [지속]\n■ 발버둥 상태 종료 시 자신에게\n[최대 체력 {1}% ▲] [{2} 중첩] [지속]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 2,
+          "field": "value"
+        },
+        {
+          "value": [
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5
+          ]
+        }
+      ],
       "effects": [
         {
           "trigger": "battle_start",
@@ -90,6 +117,61 @@
       "id": "skill_2",
       "name": "필사의 지원",
       "type": "passive",
+      "description": "■ 일반 공격 {0}회 공격 명중 시 자신이 발버둥 상태라면 대상에게\n[도발] [{1}초 유지]\n■ 자신을 포함한 아군 누군가 파츠 파괴 시 아군 전체에게\n[지속 대미지 {2}% ▲] [{3} 중첩] [{4}초 유지]\n■ 자신을 포함한 아군 누군가 파츠 파괴 시 공격력 가장 높은 적 {5}기에게\n[최종 공격력 {6}% 지속 대미지] [1초 간격] [{7}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "trigger"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "value": [
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5
+          ]
+        },
+        {
+          "effect": 1,
+          "field": "duration"
+        },
+        {
+          "value": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ]
+        },
+        {
+          "effect": 2,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "hit_count:60",
@@ -157,6 +239,29 @@
       "name": "약자의 생존법",
       "type": "burst",
       "cooldown": 20,
+      "description": "■ 자신이 발버둥 상태라면 자신에게\n[시전자의 최종 최대 체력 비례 보호막 체력 {0}% 회복]\n■ 자신이 발버둥 상태가 아니라면 자신에게\n[최대 체력 {1}% ▲][{2}초 유지]\n■ 아군 전체에게\n[지속 대미지 {3}%▲][{4}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "duration"
+        },
+        {
+          "effect": 2,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "burst_cast",

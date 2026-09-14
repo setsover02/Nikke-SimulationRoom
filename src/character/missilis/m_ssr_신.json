@@ -16,13 +16,30 @@
     "fireRate": 12,
     "fullChargeDamage": 100,
     "coreDamage": 200,
-    "pelletCount": 1
+    "pelletCount": 1,
+    "start_accuracy_circle_scale": 75,
+    "end_accuracy_circle_scale": 75
   },
   "skills": [
     {
       "id": "skill_1",
       "name": "센텐스 엔딩스",
       "type": "passive",
+      "description": "■ 마지막 탄환 공격 시 자신에게\n[최대 체력이 가장 높은 아군 1기의 최대 체력 복제 {0}%] [{1}초 유지]\n[주목 : 적 전체를 도발] [{2}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "last_bullet_hit",
@@ -68,6 +85,41 @@
       "id": "skill_2",
       "name": "허리 온",
       "type": "passive",
+      "description": "■ 풀 버스트 타임 종료 시 자신에게\n[버스트 게이지 충전 속도 {0}% ▲] [{1}초 유지]\n■ 버스트 스킬 사용 시 자신에게\n[사용 횟수 별 효과] [하위 효과 중복 적용] :\n1회 : [공격 대미지 비례 {2}% 회복] [{3}초 유지]\n2회 : [받는 체력 회복량 {4}% ▲] [{5}초 유지]\n3회 : [방어력 {6}% ▲] [{7}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 2,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 3,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "full_burst_end",
@@ -155,6 +207,35 @@
       "name": "워드 오브 킬",
       "type": "burst",
       "cooldown": 20,
+      "description": "■ 니케를 제외한 적이 {1}기 이상이라면 적 전체에게\n[받는 대미지 {2}% ▲] [{3}초 유지]\n■ 공격 범위 내 적들에게\n[최종 공격력 {0}% 대미지]",
+      "description_params": [
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "value": [
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4
+          ]
+        },
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "burst_cast",

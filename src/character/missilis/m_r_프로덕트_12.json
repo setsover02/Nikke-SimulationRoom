@@ -16,13 +16,30 @@
     "fireRate": 60,
     "fullChargeDamage": 100,
     "coreDamage": 200,
-    "pelletCount": 1
+    "pelletCount": 1,
+    "start_accuracy_circle_scale": 250,
+    "end_accuracy_circle_scale": 10
   },
   "skills": [
     {
       "id": "skill_1",
       "name": "행동 : 공격 상승",
       "type": "passive",
+      "description": "■ 일반 공격 {2}회 공격 시 자신에게\n[공격력 {0}% ▲] [{1}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 0,
+          "field": "trigger"
+        }
+      ],
       "effects": [
         {
           "trigger": "hit_count:200",
@@ -49,6 +66,27 @@
       "id": "skill_2",
       "name": "행동 : 화력 집중",
       "type": "passive",
+      "description": "■ 남은 체력 수치가 가장 낮은 적 {1}기에게\n[최종 공격력 {0}% 대미지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "value": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ]
+        }
+      ],
       "effects": [
         {
           "trigger": "passive",
@@ -75,6 +113,27 @@
       "name": "행동 : 정밀 타격",
       "type": "burst",
       "cooldown": 40,
+      "description": "■ 공격 범위 내 적들에게\n[최종 공격력 {1}% 대미지]",
+      "description_params": [
+        {
+          "value": [
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5
+          ]
+        },
+        {
+          "effect": 0,
+          "field": "value"
+        }
+      ],
       "effects": [
         {
           "trigger": "burst_cast",

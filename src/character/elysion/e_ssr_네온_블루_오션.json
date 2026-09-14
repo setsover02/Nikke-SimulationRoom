@@ -16,13 +16,42 @@
     "fireRate": 60,
     "fullChargeDamage": 100,
     "coreDamage": 200,
-    "pelletCount": 1
+    "pelletCount": 1,
+    "start_accuracy_circle_scale": 250,
+    "end_accuracy_circle_scale": 10
   },
   "skills": [
     {
       "id": "skill_1",
       "name": "어퍼 웨이브",
       "type": "passive",
+      "description": "■ 버스트 스킬 사용 시 자신에게\n[시작 횟수 별 효과] [하위 효과 중복 적용]\n1회: [파츠 대미지 {0}% ▲] [{1}초 유지]\n2회: [파츠 대미지 {2}% ▲] [{3}초 유지]\n3회: [파츠 대미지 {4}% ▲] [{5}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "burst_cast",
@@ -90,6 +119,33 @@
       "id": "skill_2",
       "name": "워터 제트",
       "type": "passive",
+      "description": "■ 버스트 3단계 돌입 시 자신에게\n[시작 횟수 별 효과] [하위 효과 중복 적용]\n1회 : [우월 코드 공격 대미지 {0}% ▲] [{1}초 유지] \n2회 : [우월 코드 공격 대미지 {2}% ▲] [{3}초 유지] \n3회 : [우월 코드 공격 대미지 {4}% ▲] [{5}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "burst_enter:3",
@@ -158,6 +214,21 @@
       "name": "풀 하이드로 샷",
       "type": "burst",
       "cooldown": 40,
+      "description": "■ 자신에게\n[사용 무기 변경]\n대미지: 최종 공격력 {0}%\n유지 시간 : {1}초\n■ 대상이 작열 코드라면 대상에게\n[최종 공격력 {2}% 추가 대미지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        }
+      ],
       "effects": [
         {
           "trigger": "burst_cast",
@@ -178,18 +249,19 @@
           },
           "duration": 7,
           "value": [
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0
+            19.5,
+            21,
+            22.5,
+            24,
+            25.5,
+            27,
+            28.5,
+            30,
+            31.5,
+            33
           ],
-          "type": "weapon_change"
+          "type": "weapon_change",
+          "effect": "atk_pct"
         },
         {
           "trigger": "burst_cast",

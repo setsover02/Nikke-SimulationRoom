@@ -16,13 +16,48 @@
     "fireRate": 0,
     "fullChargeDamage": 250,
     "coreDamage": 200,
-    "pelletCount": 1
+    "pelletCount": 1,
+    "start_accuracy_circle_scale": 10,
+    "end_accuracy_circle_scale": 10
   },
   "skills": [
     {
       "id": "skill_1",
       "name": "파충류 애호가",
       "type": "passive",
+      "description": "■ 엄폐물 체력 회복 시 자신에게\n[버스트 스킬 재사용 시간 {0}초 ▼] [{1} 중첩] [{2}초 유지]\n■ 엄폐물 체력 회복 시 아군 전체에게\n[공격 대미지 {3}% ▲] [{4}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "value": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2
+          ]
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "heal_received",
@@ -69,6 +104,37 @@
       "id": "skill_2",
       "name": "카멜레온 은신술",
       "type": "passive",
+      "description": "■ 일반 공격 {0}회 명중 시 자신에게\n[시전자의 최대 체력 비례 엄폐물 최대 체력 {1}% ▲] [{2}초 유지]\n[주목 : 적 전체 도발] [{3}초 유지]\n■ 버스트 스킬 사용 시 자신에게\n[시전자의 최종 최대 체력 비례 엄폐물 체력 회복 {4}%]\n[공격 대미지 비례 {5}% 회복] [{6}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 2,
+          "field": "value"
+        },
+        {
+          "effect": 3,
+          "field": "value"
+        },
+        {
+          "effect": 3,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "hit_count:5",
@@ -152,6 +218,25 @@
       "name": "도마뱀의 보호",
       "type": "burst",
       "cooldown": 40,
+      "description": "■ 자신에게\n[시전자의 최종 최대 체력 비례 {0}% 보호막] [{1}초 유지]\n■ 자신을 제외한 아군 전체에게\n[시전자의 최종 최대 체력 비례 {2}% 보호막] [{3}초 유지]\n■ 아군 전체에게\n[버스트 재진입 1단계]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "burst_cast",

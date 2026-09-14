@@ -16,13 +16,48 @@
     "fireRate": 0,
     "fullChargeDamage": 250,
     "coreDamage": 200,
-    "pelletCount": 1
+    "pelletCount": 1,
+    "start_accuracy_circle_scale": 10,
+    "end_accuracy_circle_scale": 10
   },
   "skills": [
     {
       "id": "skill_1",
       "name": "요원의 시선",
       "type": "passive",
+      "description": "■ 풀 차지 공격으로 적정 사거리의 대상 명중 시 아군 전체에게\n[시전자 기준 공격력 {0}% ▲] [{1}초 유지]\n■ 풀 차지 공격 시 자신에게\n[스파이 렌즈 : 적정 최소 사거리 {2}% ▲] [{3}중첩] [{4}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "value": [
+            10,
+            10,
+            10,
+            10,
+            10,
+            10,
+            10,
+            10,
+            10,
+            10
+          ]
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "full_charge_hit",
@@ -72,6 +107,21 @@
       "id": "skill_2",
       "name": "요원의 움직임",
       "type": "passive",
+      "description": "■ 풀 차지 공격으로 적정 사거리의 대상 명중 시 아군 전체에게\n[관통 대미지 {0}% ▲] [{1}초 유지]\n■ 자신이 스파이 렌즈 최대 중첩 상태일 때 한하여 자신에게\n[관통 특화] [지속]\n[공격력 {2}% ▲] [지속]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 2,
+          "field": "value"
+        }
+      ],
       "effects": [
         {
           "trigger": "full_charge_hit",
@@ -142,6 +192,33 @@
       "name": "최첨단 요원 장비",
       "type": "burst",
       "cooldown": 20,
+      "description": "■ 자신에게\n[적정 최소 사거리 {0}% ▲] [{1}초 유지]\n■ 아군 전체에게\n[공격 대미지 {2}% ▲] [{3}초 유지]\n[관통 대미지 {4}% ▲] [{5}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 2,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "burst_cast",

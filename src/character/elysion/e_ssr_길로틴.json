@@ -16,13 +16,34 @@
     "fireRate": 60,
     "fullChargeDamage": 100,
     "coreDamage": 200,
-    "pelletCount": 1
+    "pelletCount": 1,
+    "start_accuracy_circle_scale": 250,
+    "end_accuracy_circle_scale": 10
   },
   "skills": [
     {
       "id": "skill_1",
       "name": "유열",
       "type": "passive",
+      "description": "■ 일반 공격 {0}회 명중 시 자신에게\n[크리티컬 확률 {1}% ▲] [{2}초 유지]\n[현재 체력 {3}% ▼]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "trigger"
+        },
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        }
+      ],
       "effects": [
         {
           "trigger": "hit_count:30",
@@ -67,6 +88,29 @@
       "id": "skill_2",
       "name": "흑화",
       "type": "passive",
+      "description": "■ 일반 공격 {0}회 명중 시 자신에게\n[크리티컬 대미지 {1}% ▲] [{2}초 유지]\n■ 자신의 체력이 {3}% 이하일 때 한하여 자신에게\n[잃은 체력 1% 당 공격력 {4}% ▲] [지속]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "trigger"
+        },
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 1,
+          "field": "condition"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        }
+      ],
       "effects": [
         {
           "trigger": "hit_count:150",
@@ -114,6 +158,21 @@
       "name": "마계흑룡파",
       "type": "burst",
       "cooldown": 40,
+      "description": "■ 최종 공격력이 가장 높은 적 1기에게\n[최종 공격력 {0}% 버스트 스킬 대미지]\n■ 자신의 체력이 {1}% 이하라면 동일 적 대상에게\n[최종 공격력 {2}% 추가 대미지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "condition"
+        },
+        {
+          "effect": 0,
+          "field": "value"
+        }
+      ],
       "effects": [
         {
           "trigger": "burst_cast",

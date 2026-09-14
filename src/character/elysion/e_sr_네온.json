@@ -16,13 +16,40 @@
     "fireRate": 1.51515,
     "fullChargeDamage": 100,
     "coreDamage": 200,
-    "pelletCount": 10
+    "pelletCount": 10,
+    "start_accuracy_circle_scale": 250,
+    "end_accuracy_circle_scale": 250
   },
   "skills": [
     {
       "id": "skill_1",
       "name": "네온 특제탄",
       "type": "passive",
+      "description": "■ 적 처치 시 최종 공격력이 가장 높은 아군 {0}기에게\n[크리티컬 확률 {1}% ▲] [{2}초 유지]",
+      "description_params": [
+        {
+          "value": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2
+          ]
+        },
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "kill_enemy",
@@ -49,6 +76,17 @@
       "id": "skill_2",
       "name": "화력 만세!",
       "type": "passive",
+      "description": "■ 풀 버스트 타임 시작 시 아군 전체에게\n[크리티컬 확률 {0}% ▲] [{1}발 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "bullet"
+        }
+      ],
       "effects": [
         {
           "trigger": "full_burst_start",
@@ -76,6 +114,35 @@
       "name": "오직 화력!",
       "type": "burst",
       "cooldown": 20,
+      "description": "■ 최종 방어력이 가장 높은 적 {0}기에게\n[최종 공격력 {1}% 버스트 스킬 대미지]\n■ 샷건 소지 아군 전체에게\n[최대 장탄 수 {2}발 ▲] [{3}초 유지]",
+      "description_params": [
+        {
+          "value": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ]
+        },
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "burst_cast",

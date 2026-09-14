@@ -16,13 +16,50 @@
     "fireRate": 0,
     "fullChargeDamage": 250,
     "coreDamage": 200,
-    "pelletCount": 1
+    "pelletCount": 1,
+    "start_accuracy_circle_scale": 10,
+    "end_accuracy_circle_scale": 10
   },
   "skills": [
     {
       "id": "skill_1",
       "name": "녹색 약초",
       "type": "passive",
+      "description": "■ 풀 차지 공격 {0}회 명중 시 최종 공격력이 가장 높은 아군 {1}기에게\n[녹색 허브 : 시전자의 최종 최대 체력 비례 {2}% 회복]",
+      "description_params": [
+        {
+          "value": [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ]
+        },
+        {
+          "value": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2
+          ]
+        },
+        {
+          "effect": 0,
+          "field": "value"
+        }
+      ],
       "effects": [
         {
           "trigger": "full_charge_attack",
@@ -49,6 +86,17 @@
       "id": "skill_2",
       "name": "임시 바리케이드",
       "type": "passive",
+      "description": "■ 버스트 스킬 사용 시 아군 전체에게\n[푸른 허브 : 시전자의 최종 최대 체력 비례 {0}% 보호막] [{1}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "burst_cast",
@@ -77,6 +125,17 @@
       "name": "R+G+B",
       "type": "burst",
       "cooldown": 40,
+      "description": "■ 아군 전체에게\n[시전자의 최종 최대 체력 비례 {0}% 회복]\n[해로운 효과 해제 {1}개]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        }
+      ],
       "effects": [
         {
           "trigger": "burst_cast",

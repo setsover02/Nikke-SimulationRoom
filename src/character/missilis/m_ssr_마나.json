@@ -16,13 +16,44 @@
     "fireRate": 12,
     "fullChargeDamage": 100,
     "coreDamage": 200,
-    "pelletCount": 1
+    "pelletCount": 1,
+    "start_accuracy_circle_scale": 75,
+    "end_accuracy_circle_scale": 75
   },
   "skills": [
     {
       "id": "skill_1",
       "name": "매터 감마",
       "type": "passive",
+      "description": "■ 전투 시작 시 자신에게\n[매터 감마 : 공격력 {0}% ▲] [지속] [전투 중 1회 발동]\n■ 일반 공격 10회 공격 시 자신이 매터 감마 상태라면 아군 전체에게\n[시전자의 최종 최대 체력 비례 {1}% 회복]\n■ 아군 전투불능 시 자신이 매터 감마 상태라면 자신을 제외한 전투불능 상태 최종 공격력이 가장 높은 아군 {2}기에게\n[체력 {3}%로 부활]\n■ 아군 전투불능 시 자신에게\n[매터 감마 해제]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 2,
+          "field": "target"
+        },
+        {
+          "value": [
+            56.72,
+            61.09,
+            65.45,
+            69.81,
+            74.18,
+            78.54,
+            82.9,
+            87.27,
+            91.63,
+            96
+          ]
+        }
+      ],
       "effects": [
         {
           "trigger": "battle_start",
@@ -113,6 +144,51 @@
       "id": "skill_2",
       "name": "매터 시그마",
       "type": "passive",
+      "description": "■ 전투 시작 시 자신에게\n[매터 시그마 : 버스트 게이지 충전 속도 {0}% ▲] [지속]\n■ 풀 버스트 타임 시작 시 자신이 매터 시그마 상태라면 자신에게\n[공격 대미지 {1}% ▲] [{2}초 유지]\n[공격력 {3}% ▲] [{4}초 유지]\n[매터 시그마 해제]\n■ 풀 버스트 타임 시작 시 기본 차지 시간이 가장 긴 아군 {5}기에게\n[차지 시간 {6}초 ▼] [{7}초 유지]\n■ 풀 버스트 타임 종료 시 직전에 자신이 버스트 스킬을 사용 했다면 자신에게\n[매터 시그마 : 버스트 게이지 충전 속도 {0}% ▲] [지속]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "duration"
+        },
+        {
+          "effect": 2,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "duration"
+        },
+        {
+          "effect": 4,
+          "field": "target"
+        },
+        {
+          "value": [
+            0.09,
+            0.1,
+            0.11,
+            0.12,
+            0.13,
+            0.14,
+            0.15,
+            0.16,
+            0.17,
+            0.18
+          ]
+        },
+        {
+          "effect": 1,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "battle_start",
@@ -246,6 +322,29 @@
       "name": "페이탈 에러!",
       "type": "burst",
       "cooldown": 40,
+      "description": "■ 자신에게\n[지속 대미지 {0}% ▲] [{1}초 유지]\n■ 조준선에 가장 가까운 적 {2}기에게\n [최종 공격력 {3}% 지속 대미지] [1초 간격] [{4}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 1,
+          "field": "target"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "burst_cast",

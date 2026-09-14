@@ -16,13 +16,48 @@
     "fireRate": 0,
     "fullChargeDamage": 350,
     "coreDamage": 200,
-    "pelletCount": 1
+    "pelletCount": 1,
+    "start_accuracy_circle_scale": 10,
+    "end_accuracy_circle_scale": 10
   },
   "skills": [
     {
       "id": "skill_1",
       "name": "노트 위의 기억",
       "type": "passive",
+      "description": "■ 풀 차지 공격 시 최종 공격력이 가장 높은 아군 {0}기에게\n[최대 장탄 수 {1}발 ▲] [{2}초 유지]\n[크리티컬 대미지 {3}% ▲] [{4}초 유지]",
+      "description_params": [
+        {
+          "value": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ]
+        },
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "full_charge_attack",
@@ -68,6 +103,31 @@
       "id": "skill_2",
       "name": "부상하는 기억",
       "type": "passive",
+      "description": "■ 최종 공격력이 가장 높은 아군 {0}기에게\n[차지 대미지 {1}% ▲] [{2}초 유지]",
+      "description_params": [
+        {
+          "value": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ]
+        },
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "passive",
@@ -95,6 +155,17 @@
       "name": "파란 나비의 기억",
       "type": "burst",
       "cooldown": 20,
+      "description": "■ 아군 전체에게\n[공격력 {0}% ▲] [{1}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "burst_cast",

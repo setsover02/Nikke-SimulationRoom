@@ -16,13 +16,48 @@
     "fireRate": 24,
     "fullChargeDamage": 100,
     "coreDamage": 250,
-    "pelletCount": 1
+    "pelletCount": 1,
+    "start_accuracy_circle_scale": 110,
+    "end_accuracy_circle_scale": 110
   },
   "skills": [
     {
       "id": "skill_1",
       "name": "정리정돈",
       "type": "passive",
+      "description": "■ 일반 공격 {0}회 명중 시 아군 전체에게\n[정리정돈 : 받는 대미지 {1}% ▼] [{2} 중첩] [{3}초 유지]\n■ 자신이 정리정돈 최대 중첩 상태라면 아군 전체에게\n[최대 장탄 수 {4}% ▲] [지속]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "trigger"
+        },
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "value": [
+            10,
+            10,
+            10,
+            10,
+            10,
+            10,
+            10,
+            10,
+            10,
+            10
+          ]
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        }
+      ],
       "effects": [
         {
           "trigger": "hit_count:120",
@@ -70,6 +105,41 @@
       "id": "skill_2",
       "name": "응원의 축포",
       "type": "passive",
+      "description": "■ 일반 공격 {0}회 명중 시 아군 전체에게\n[중첩 가능 이로운 효과 중첩량 {1}개 ▲]\n■ 전투 시작 시 자신에게\n[버스트 게이지 충전 속도 {2}% ▲] [지속]",
+      "description_params": [
+        {
+          "value": [
+            220,
+            212,
+            204,
+            196,
+            189,
+            181,
+            173,
+            165,
+            157,
+            150
+          ]
+        },
+        {
+          "value": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ]
+        },
+        {
+          "effect": 0,
+          "field": "value"
+        }
+      ],
       "effects": [
         {
           "trigger": "battle_start",
@@ -97,6 +167,21 @@
       "name": "설온제",
       "type": "burst",
       "cooldown": 20,
+      "description": "■ 아군 전체에게\n[해로운 효과 해제 {0}개]\n[시전자 기준 공격력 {1}% ▲] [{2}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "burst_cast",

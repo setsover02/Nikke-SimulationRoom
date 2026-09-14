@@ -16,13 +16,34 @@
     "fireRate": 0,
     "fullChargeDamage": 200,
     "coreDamage": 200,
-    "pelletCount": 1
+    "pelletCount": 1,
+    "start_accuracy_circle_scale": 10,
+    "end_accuracy_circle_scale": 10
   },
   "skills": [
     {
       "id": "skill_1",
       "name": "무결한 유리",
       "type": "passive",
+      "description": "■ 버스트 3단계 진입 시 자신에게\n[시전자의 최종 최대 체력의 {0}% 만큼 공격력 ▲] [{1}초 유지]\n■ 풀 차지 공격 시 자신에게\n[차지 속도 {2}% ▲] [최대 장탄 재장전 완료 시 삭제]\n■ 풀 차지 공격 명중 시 대상에게\n[최종 공격력 {3}% 추가 대미지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 3,
+          "field": "value"
+        }
+      ],
       "effects": [
         {
           "trigger": "burst_enter:3",
@@ -111,6 +132,45 @@
       "id": "skill_2",
       "name": "더러워지지 않는 거울",
       "type": "passive",
+      "description": "■ 전투 시작 시 자신에게\n[디코이 : 시전자의 최종 최대 체력 비례 {0}% 분신] [지속]\n■ 버스트 3단계 진입 시 자신에게\n[디코이 : 시전자의 최종 최대 체력 비례 {0}% 분신] [지속]\n■ 디코이가 있다면 {3}초마다 자신에게\n[아름다움 : 최대 체력 {1}% ▲] [{2} 중첩] [지속]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "value": [
+            12,
+            12,
+            12,
+            12,
+            12,
+            12,
+            12,
+            12,
+            12,
+            12
+          ]
+        },
+        {
+          "value": [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ]
+        }
+      ],
       "effects": [
         {
           "trigger": "battle_start",
@@ -163,6 +223,31 @@
       "name": "유리 구두 풀 컨텍트",
       "type": "burst",
       "cooldown": 40,
+      "description": "■ 무작위 적들 에게\n[최종 공격력 {0}% 대미지] [{1}회 순차 공격]\n■ 자신이 아름다움 상태라면 동일 적 대상에게\n[최종 공격력 {2}% 추가 대미지] [아름다움 중첩 복사]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "value": [
+            10,
+            10,
+            10,
+            10,
+            10,
+            10,
+            10,
+            10,
+            10,
+            10
+          ]
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        }
+      ],
       "effects": [
         {
           "trigger": "burst_cast",

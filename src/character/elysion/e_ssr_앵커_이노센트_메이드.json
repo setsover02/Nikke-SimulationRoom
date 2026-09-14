@@ -16,13 +16,46 @@
     "fireRate": 0,
     "fullChargeDamage": 250,
     "coreDamage": 200,
-    "pelletCount": 1
+    "pelletCount": 1,
+    "start_accuracy_circle_scale": 10,
+    "end_accuracy_circle_scale": 10
   },
   "skills": [
     {
       "id": "skill_1",
       "name": "불가사리(모양) 오므라이스",
       "type": "passive",
+      "description": "■ 풀 버스트 타임 시작 시 아군 전체에게\n[사용 횟수 별 효과] [하위 효과 중복 적용]\n1회 : [체력 회복량 {0}% ▲] [{1}초 유지]\n2회 : [분배 대미지 {2}% ▲] [{3}초 유지]\n3회 : [중첩 가능 해로운 효과 중첩량 {4}개 ▼]\n■ 풀 버스트 타임 시작 시 동일 스쿼드 아군이 있다면 아군 전체에게\n[시전자 최대 체력 비례 {5}% 회복] [1초 간격] [{6}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "duration"
+        },
+        {
+          "effect": 2,
+          "field": "value"
+        },
+        {
+          "effect": 3,
+          "field": "value"
+        },
+        {
+          "effect": 3,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "full_burst_start_count:1",
@@ -113,6 +146,33 @@
       "id": "skill_2",
       "name": "말미잘(모양) 파스타",
       "type": "passive",
+      "description": "■ 풀 버스트 타임 종료 시 아군 전체에게\n[사용 횟수 별 효과] [하위 효과 중복 적용]\n1회 : [명중률 {0}% ▲] [{1}초 유지]\n2회 : [시전자 기준 공격력 {2}% ▲] [{3}초 유지]\n3회 : [재장전 속도 {4}% ▲] [{5}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 2,
+          "field": "value"
+        },
+        {
+          "effect": 2,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "full_burst_end_count:1",
@@ -181,6 +241,29 @@
       "name": "바다 산책",
       "type": "burst",
       "cooldown": 40,
+      "description": "■ 아군 전체에게\n[저장 : 시전자 기준 최대 체력 {0}%까지 초과 받는 체력 회복량 저장] [{1}초 유지]\n[시전자 최대 체력 비례 {2}% 회복]\n[시전자 기준 공격력 {3}% ▲] [{4}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 2,
+          "field": "value"
+        },
+        {
+          "effect": 2,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "burst_cast",

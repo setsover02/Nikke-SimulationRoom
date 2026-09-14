@@ -16,13 +16,54 @@
     "fireRate": 12,
     "fullChargeDamage": 100,
     "coreDamage": 200,
-    "pelletCount": 1
+    "pelletCount": 1,
+    "start_accuracy_circle_scale": 75,
+    "end_accuracy_circle_scale": 75
   },
   "skills": [
     {
       "id": "skill_1",
       "name": "변신! 아크레인저 블랙!",
       "type": "passive",
+      "description": "■ 전투 시작 시 자신에게\n[파츠 대미지 {0}% ▲] [지속]\n■ 자신을 포함한 아군 누군가 파츠 파괴 시 자신에게\n[배터리 {1}% 충전] [최대 100%] [지속] [해제 불가]\n■ 배터리가 100% 도달 시 자신에게\n[변신]\n기능 : 아크레인저로 변신하여 배터리를 소모하는 대신 자신을 강화합니다.\n효과 1 : [배터리 {3}% ▼] [0.2초 간격] [지속] [해제 불가]\n효과 2 : [공격력 {4}% ▲] [지속] [해제 불가]\n제거 시점 : 배터리가 0% 도달 시\n■ 일반 공격 {6}회 공격 시 자신에게\n[지속 대미지 {7}% ▲] [{8}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 5,
+          "field": "value"
+        },
+        {
+          "effect": 4,
+          "field": "value"
+        },
+        {
+          "effect": 3,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 2,
+          "field": "trigger"
+        },
+        {
+          "effect": 2,
+          "field": "value"
+        },
+        {
+          "effect": 2,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "battle_start",
@@ -155,6 +196,21 @@
       "id": "skill_2",
       "name": "전율! 아크 블랙 코레더!",
       "type": "passive",
+      "description": "■ 변신 상태 적용 시와 변신 상태 적용 중 적 등장 시 적 전체에게\n[아크 블랙 코레더 : 최종 공격력 {0}% 지속 대미지] [1초 간격] [변신 삭제 시 해제]\n■ 풀 버스트 타임 시작 시 풍압 코드 소총 아군 전체에게\n[지속 대미지 {1}% ▲] [{2}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 2,
+          "field": "value"
+        },
+        {
+          "effect": 2,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "event:변신",
@@ -226,6 +282,53 @@
       "name": "궁극! 아크 블랙 메테오!",
       "type": "burst",
       "cooldown": 40,
+      "description": "■ 자신이 변신 상태라면 자신에게\n[배터리 {2}% ▲]\n■ 자신이 변신 상태가 아니라면 자신에게\n[배터리 긴급 충전] :\n기능 : 긴급하게 배터리를 충전하여 아크레인저로 변신합니다.\n효과 1 : [배터리 100% ▲]\n효과 2 : 변신 이후 [배터리 {5}% ▼]\n■ 최종 최대 체력이 가장 높은 적 {6}기에게\n[최종 공격력 {7}% 지속 대미지] [1초 간격] [{8}초 유지]\n■ 자신에게\n[지속 대미지 {9}% ▲] [{10}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 3,
+          "field": "target"
+        },
+        {
+          "effect": 3,
+          "field": "value"
+        },
+        {
+          "effect": 3,
+          "field": "duration"
+        },
+        {
+          "effect": 4,
+          "field": "value"
+        },
+        {
+          "effect": 3,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "burst_cast",

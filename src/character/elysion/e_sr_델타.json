@@ -16,13 +16,26 @@
     "fireRate": 0,
     "fullChargeDamage": 250,
     "coreDamage": 200,
-    "pelletCount": 1
+    "pelletCount": 1,
+    "start_accuracy_circle_scale": 10,
+    "end_accuracy_circle_scale": 10
   },
   "skills": [
     {
       "id": "skill_1",
       "name": "리콜렉션",
       "type": "passive",
+      "description": "■ 풀 차지 공격 시 자신에게\n[최대 체력 {0}% ▲] [{1}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "full_charge_attack",
@@ -49,6 +62,17 @@
       "id": "skill_2",
       "name": "라스트 메모리",
       "type": "passive",
+      "description": "■ 버스트 스킬 사용 시 자신에게\n[방어력 {0}% ▲] [{1}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "burst_cast",
@@ -76,6 +100,21 @@
       "name": "리멤버 미",
       "type": "burst",
       "cooldown": 40,
+      "description": "■ 자신에게\n[디코이 : 시전자의 최종 최대 체력 비례 {0}% 분신] [{1}초 유지]\n[주목 : 적 전체 도발] [{2}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "burst_cast",

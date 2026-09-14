@@ -16,13 +16,60 @@
     "fireRate": 0,
     "fullChargeDamage": 250,
     "coreDamage": 200,
-    "pelletCount": 1
+    "pelletCount": 1,
+    "start_accuracy_circle_scale": 10,
+    "end_accuracy_circle_scale": 10
   },
   "skills": [
     {
       "id": "skill_1",
       "name": "나쁜 손버릇",
       "type": "passive",
+      "description": "■ 전투 시작 시와 버스트 2단계 진입 시\n[탄환 가져오기] :\n기능 : 적의 탄환을 훔쳐 자신의 탄환 주머니를 채웁니다.\n효과 1 : 적 전체에게 [탄환 {0}% 제거]\n효과 2 : 자신에게 [탄환 주머니 {1}발 충전] [최대 {2}발 저장] [지속] [해제 불가]\n■ 풀 차지 공격 시 풀 버스트 상태가 아니라면 자신에게\n기능 : 탄환 주머니의 탄환을 소모하여 자신을 강화합니다.\n효과 1 : [탄환 주머니의 탄환 소모 {3}발]\n효과 2 : [공격력 {4}% ▲] [{5}초 유지]\n효과 3 : [공격 대미지 {6}% ▲] [{7}초 유지]",
+      "description_params": [
+        {
+          "value": [
+            2.95,
+            3.18,
+            3.41,
+            3.63,
+            3.86,
+            4.09,
+            4.31,
+            4.54,
+            4.77,
+            5
+          ]
+        },
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 2,
+          "field": "value"
+        },
+        {
+          "effect": 2,
+          "field": "duration"
+        },
+        {
+          "effect": 2,
+          "field": "value"
+        },
+        {
+          "effect": 2,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "battle_start",
@@ -113,6 +160,49 @@
       "id": "skill_2",
       "name": "사랑의 탄환",
       "type": "passive",
+      "description": "■ 풀 차지 공격 시 풀 버스트 타임일 때 한하여\n기능 : 탄환 주머니의 탄환을 소모하여 아군을 강화합니다.\n효과 1 : 자신에게 [탄환 주머니의 탄환 소모 {0}발]\n효과 2 : 아군 전체에게 [시전자 기준 공격력 {1}% ▲] [{2}초 유지]\n효과 3 : 아군 전체에게 [차지 대미지 {3}% ▲] [{4}초 유지]\n■ 일반 공격 {5}회 명중 시 풀 버스트 타임일 때 한하여\n기능 : 탄환 주머니의 탄환을 소모하여 적에게 추가 대미지를 가합니다.\n효과 1 : 자신에게 [탄환 주머니의 탄환 소모 {6}발]\n효과 2 : 자신에게[공격 대미지 {7}% ▲] [{8}초 유지]\n효과 3 : 대상에게[최종 공격력 {9}% 추가 대미지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "duration"
+        },
+        {
+          "effect": 2,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "duration"
+        },
+        {
+          "effect": 3,
+          "field": "trigger"
+        },
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 4,
+          "field": "value"
+        },
+        {
+          "effect": 4,
+          "field": "duration"
+        },
+        {
+          "effect": 5,
+          "field": "value"
+        }
+      ],
       "effects": [
         {
           "trigger": "full_charge_hit",
@@ -247,22 +337,51 @@
       "name": "깔끔한 마무리",
       "type": "burst",
       "cooldown": 20,
+      "description": "■ 자신에게\n[사용 무기 변경] :\n대미지 : 최종 공격력 {0}%\n유지 시간 : {1}초\n추가 효과\n[공격 대미지 {2}% ▲] [{3}초 유지]",
+      "description_params": [
+        {
+          "value": [
+            4.14,
+            4.45,
+            4.77,
+            5.09,
+            5.41,
+            5.73,
+            6.05,
+            6.37,
+            6.68,
+            7
+          ]
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "burst_cast",
           "target": "self",
           "effect": "atk_pct",
           "value": [
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0
+            4.14,
+            4.45,
+            4.77,
+            5.08,
+            5.4,
+            5.71,
+            6.03,
+            6.34,
+            6.66,
+            6.99
           ],
           "unit": "percent",
           "duration": 10,

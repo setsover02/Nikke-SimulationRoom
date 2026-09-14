@@ -16,13 +16,56 @@
     "fireRate": 0,
     "fullChargeDamage": 250,
     "coreDamage": 200,
-    "pelletCount": 1
+    "pelletCount": 1,
+    "start_accuracy_circle_scale": 10,
+    "end_accuracy_circle_scale": 10
   },
   "skills": [
     {
       "id": "skill_1",
       "name": "은밀한 지원",
       "type": "passive",
+      "description": "■ 풀 버스트 타임 시작 시 직전에 버스트 스킬을 사용한 기본 버스트 단계가 Step {6}인 아군 전체에게\n[시전자 기준 공격력 {0}% ▲] [{1}초 유지]\n[방어력 무시 대미지 {2}% ▲] [{3}초 유지]\n[공격 대미지 비례 {4}% 회복] [{5}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 2,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "value": [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ]
+        }
+      ],
       "effects": [
         {
           "trigger": "full_burst_start",
@@ -90,6 +133,45 @@
       "id": "skill_2",
       "name": "섬광 수류탄",
       "type": "passive",
+      "description": "■ 풀 버스트 타임 지속 중 {0}초마다 조준선에 가장 가까운 공격 범위 내 적들에게\n[섬광 수류탄 투척 : 최종 공격력 {1}% 방어력 무시 대미지]\n■ 버스트 스킬 사용 시 자신에게\n[섬광 수류탄 투척 발동 시간 조건 {2}초 ▼] [{3}초 유지]",
+      "description_params": [
+        {
+          "value": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2
+          ]
+        },
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "value": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ]
+        },
+        {
+          "effect": 1,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "every:2s",
@@ -141,6 +223,47 @@
       "name": "시크릿 에이전트",
       "type": "burst",
       "cooldown": 40,
+      "description": "■ 자신에게\n[공격력 {0}% ▲] [{1}초 유지]\n[방어력 무시 대미지 {2}% ▲] [{3}초 유지]\n[특수 개조]\n기능 : 차지 속도가 감소하는 대신 차지 대미지 증가 {4}발 유지\n효과 1 : [차지 속도 {5}% ▼]\n효과 2 : [차지 대미지 {6}% ▲]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 2,
+          "field": "bullet"
+        },
+        {
+          "value": [
+            300,
+            300,
+            300,
+            300,
+            300,
+            300,
+            300,
+            300,
+            300,
+            300
+          ]
+        },
+        {
+          "effect": 3,
+          "field": "value"
+        }
+      ],
       "effects": [
         {
           "trigger": "burst_cast",

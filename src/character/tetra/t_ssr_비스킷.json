@@ -16,13 +16,34 @@
     "fireRate": 0,
     "fullChargeDamage": 250,
     "coreDamage": 200,
-    "pelletCount": 1
+    "pelletCount": 1,
+    "start_accuracy_circle_scale": 10,
+    "end_accuracy_circle_scale": 10
   },
   "skills": [
     {
       "id": "skill_1",
       "name": "해피 퍼피",
       "type": "passive",
+      "description": "■ 풀 버스트 타임 종료 시 화력형 아군 전체에게\n[일반 공격 크리티컬 확률 {0}% ▲] [{1}초 유지]\n[시전자의 최종 최대 체력 비례 {2}% 지속 회복] [1초 간격] [{3}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "full_burst_end",
@@ -69,6 +90,49 @@
       "id": "skill_2",
       "name": "터그 놀이",
       "type": "passive",
+      "description": "■ 방어형 아군 누군가의 체력이 {0}% 이하라면 대상에게\n[무적] [{3}초 유지] [전투 중 {4}회 발동]\n[시전자의 최종 최대 체력 비례 {1}% 회복] [전투 중 {2}회 발동]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "condition"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "value": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2
+          ]
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "value": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2
+          ]
+        }
+      ],
       "effects": [
         {
           "trigger": "passive",
@@ -118,6 +182,43 @@
       "name": "산책 훈련",
       "type": "burst",
       "cooldown": 40,
+      "description": "■ 엄폐물이 파괴된 아군 무작위 {0}기에게\n[엄폐물 체력 {1}%로 엄폐물 부활]\n■ 지원형 아군 전체에게\n[공격력 {2}% ▲] [{3}초 유지]\n[공격 대미지 비례 {4}% 회복] [{5}초 유지]",
+      "description_params": [
+        {
+          "value": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2
+          ]
+        },
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "duration"
+        },
+        {
+          "effect": 2,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "burst_cast",

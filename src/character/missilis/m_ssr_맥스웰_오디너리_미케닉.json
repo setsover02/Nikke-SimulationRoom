@@ -16,13 +16,48 @@
     "fireRate": 0,
     "fullChargeDamage": 250,
     "coreDamage": 200,
-    "pelletCount": 1
+    "pelletCount": 1,
+    "start_accuracy_circle_scale": 10,
+    "end_accuracy_circle_scale": 10
   },
   "skills": [
     {
       "id": "skill_1",
       "name": "순차적 리미트 해제",
       "type": "passive",
+      "description": "■ 풀 차지 공격 시 아군 전체에게\n[시전자 기준 최대 체력 {0}% ▲] [{1}중첩] [지속]\n■ 버스트 {2}단계 진입 시 아군 전체에게\n[공격 대미지 {3}% ▲] [{4}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "value": [
+            30,
+            30,
+            30,
+            30,
+            30,
+            30,
+            30,
+            30,
+            30,
+            30
+          ]
+        },
+        {
+          "effect": 1,
+          "field": "trigger"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "full_charge_hit",
@@ -71,6 +106,57 @@
       "id": "skill_2",
       "name": "출력 전환 시퀀스",
       "type": "passive",
+      "description": "■ 버스트 스킬 사용 시 아군 전체에게\n[시전자의 최종 최대 체력의 {0}% 만큼 공격력 ▲] [{1}초 유지]\n■ 버스트 스킬 사용 시 자신에게\n[과전류 : 공격력 {4}% ▲] [최대 {5}단계] [지속]\n■ 풀 차지 공격 시 아군 전체에게\n[버스트 게이지 충전 {6}%] ",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 3,
+          "field": "value"
+        },
+        {
+          "value": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "value": [
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5
+          ]
+        },
+        {
+          "effect": 3,
+          "field": "value"
+        }
+      ],
       "effects": [
         {
           "trigger": "burst_cast",
@@ -159,22 +245,71 @@
       "name": "메티스 버스트 버스터",
       "type": "burst",
       "cooldown": 20,
+      "description": "■ 자신에게\n[사용 무기 변경 : 메티스 버스트 버스터] :\n[차지 시간]\n[과전류 단계별 효과] [단계별 효과만 적용]\n차지 시간 : {8}초\n1단계이하 : {8}초 고정\n2단계 : {0}초 고정\n3단계 : {1}초 고정\n4단계 : {2}초 고정\n5단계이상 : {3}초 고정\n대미지 : 최종 공격력 {4}% 대미지\n풀 차지 대미지 : 300%\n최대 장탄 수 : {5}발\n추가 효과 : [관통 특화]\n■ 아군 전체에게\n[공격 대미지 {6}%▲] [{7}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 4,
+          "field": "value"
+        },
+        {
+          "effect": 5,
+          "field": "value"
+        },
+        {
+          "effect": 6,
+          "field": "value"
+        },
+        {
+          "value": [
+            175,
+            194.44,
+            213.89,
+            233.33,
+            252.78,
+            272.22,
+            291.67,
+            311.11,
+            330.56,
+            350
+          ]
+        },
+        {
+          "effect": 0,
+          "field": "bullet"
+        },
+        {
+          "effect": 7,
+          "field": "value"
+        },
+        {
+          "effect": 7,
+          "field": "duration"
+        },
+        {
+          "effect": 2,
+          "field": "value"
+        }
+      ],
       "effects": [
         {
           "trigger": "burst_cast",
           "target": "self",
           "effect": "atk_pct",
           "value": [
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0
+            2.5,
+            2.5,
+            2.5,
+            2.5,
+            2.5,
+            2.5,
+            2.5,
+            2.5,
+            2.5,
+            2.5
           ],
           "unit": "percent",
           "duration": null,

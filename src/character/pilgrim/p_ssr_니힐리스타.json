@@ -16,13 +16,44 @@
     "fireRate": 0,
     "fullChargeDamage": 250,
     "coreDamage": 200,
-    "pelletCount": 1
+    "pelletCount": 1,
+    "start_accuracy_circle_scale": 10,
+    "end_accuracy_circle_scale": 10
   },
   "skills": [
     {
       "id": "skill_1",
       "name": "버닝 샷",
       "type": "passive",
+      "description": "■ 풀 차지 공격 시 자신에게\n[관통 특화] [{0}발 유지]\n[관통 범위 50% 확장] [{1}발 유지]\n■ {2}기 이상을 동시에 명중시켰다면 대상에게\n[최종 공격력 {3}% 추가 대미지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "bullet"
+        },
+        {
+          "effect": 0,
+          "field": "bullet"
+        },
+        {
+          "value": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2
+          ]
+        },
+        {
+          "effect": 2,
+          "field": "value"
+        }
+      ],
       "effects": [
         {
           "trigger": "full_charge_attack",
@@ -86,6 +117,13 @@
       "id": "skill_2",
       "name": "메기도 플레임",
       "type": "passive",
+      "description": "■ 공격 범위 내 적들에게\n[최종 공격력 {0}% 대미지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        }
+      ],
       "effects": [
         {
           "trigger": "passive",
@@ -112,6 +150,29 @@
       "name": "번 아포칼립스",
       "type": "burst",
       "cooldown": 20,
+      "description": "■ 공격 범위 내 적들에게\n[최종 공격력 {0}% 대미지]\n[화상 : 최종 공격력 {1}% 지속 대미지] [1초 간격] [{2}초 유지]\n■ 자신에게\n[최대 장탄 수 {3}발 ▲] [{4}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "duration"
+        },
+        {
+          "effect": 2,
+          "field": "value"
+        },
+        {
+          "effect": 2,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "burst_cast",

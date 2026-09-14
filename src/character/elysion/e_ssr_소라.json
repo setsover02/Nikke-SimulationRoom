@@ -16,13 +16,22 @@
     "chargeTime": 1,
     "fullChargeDamage": 250,
     "coreDamage": 200,
-    "pelletCount": 1
+    "pelletCount": 1,
+    "start_accuracy_circle_scale": 10,
+    "end_accuracy_circle_scale": 10
   },
   "skills": [
     {
       "id": "skill_1",
       "name": "탑승 수속",
       "type": "passive",
+      "description": "■ 전투 시작 시 자신에게\n[주는 체력 회복량 {0}% ▲] [지속]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        }
+      ],
       "effects": [
         {
           "trigger": "battle_start",
@@ -49,6 +58,39 @@
       "id": "skill_2",
       "name": "비밀 수화물",
       "type": "passive",
+      "description": "■ 자신을 포함한 아군 누군가 파츠 파괴 시 아군 전체에게\n[저장 : 시전자 기준 최대 체력 {0}% 까지 초과 받는 체력 회복량 저장] [{4} 중첩] [{1}초 유지]\n[시전자 기준 공격력 {2}% ▲] [{3}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "value": [
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5
+          ]
+        }
+      ],
       "effects": [
         {
           "trigger": "part_destroy",
@@ -97,6 +139,17 @@
       "name": "품 안의 비밀",
       "type": "burst",
       "cooldown": 40,
+      "description": "■ 아군 전체에게\n[시전자의 최종 최대 체력 비례 {0}% 회복]\n[해로운 효과 해제 {1}개]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        }
+      ],
       "effects": [
         {
           "trigger": "burst_cast",

@@ -16,13 +16,30 @@
     "fireRate": 1.51515,
     "fullChargeDamage": 100,
     "coreDamage": 200,
-    "pelletCount": 10
+    "pelletCount": 10,
+    "start_accuracy_circle_scale": 250,
+    "end_accuracy_circle_scale": 250
   },
   "skills": [
     {
       "id": "skill_1",
       "name": "언령 : 기교의 언",
       "type": "passive",
+      "description": "■ {0}회 피격 시 자신에게\n[복수 : 공격력 {1}% ▲] [{2}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "hit_count:20",
@@ -50,6 +67,21 @@
       "id": "skill_2",
       "name": "언령 : 필중의 언",
       "type": "passive",
+      "description": "■ 적 전체에게\n[도발] [{0}초 유지]\n■ 자신에게\n[크리티컬 대미지 {1}% ▲] [{2}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "passive",
@@ -96,6 +128,17 @@
       "name": "언령 : 힘있는 말",
       "type": "burst",
       "cooldown": 40,
+      "description": "■ 적 전체에게\n[최종 공격력 {0}% 버스트 스킬 대미지]\n■ 자신이 복수 상태라면 동일 적 대상에게\n[최종 공격력 {1}% 추가 대미지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "value"
+        }
+      ],
       "effects": [
         {
           "trigger": "burst_cast",

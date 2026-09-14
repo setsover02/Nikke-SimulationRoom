@@ -82,6 +82,8 @@ export interface Character {
     coreHitBonus?: number;   // 코어 히트 시 Major Modifiers에 가산되는 값 (기본 1.0, 강화형 1.5)
     comboShots?: number;     // 연속 사격 횟수 (반동 누적용)
     accuracyBuff?: number;   // 명중률 버프 합산 (0.2 = +20%)
+    start_accuracy_circle_scale?: number; // 무기 기본 명중 원형 크기 (작을수록 고명중)
+    end_accuracy_circle_scale?: number;   // 최대 사격 시 명중 원형 크기
     totalAmmoUsed?: number;
     warmupShots?: number;  // MG 예열 누적 발수 (0 ~ 41.4발)
     warmupLevel?: number;  // MG 예열 레벨 (0=냉각, 1=예열 완료, warmupShots / 41.4)

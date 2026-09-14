@@ -16,13 +16,42 @@
     "fireRate": 60,
     "fullChargeDamage": 100,
     "coreDamage": 200,
-    "pelletCount": 1
+    "pelletCount": 1,
+    "start_accuracy_circle_scale": 250,
+    "end_accuracy_circle_scale": 10
   },
   "skills": [
     {
       "id": "skill_1",
       "name": "인법 애시드 봄",
       "type": "passive",
+      "description": "■ 풀 버스트 타임 시작 시 적 전체에게\n[인법 애시드 봄 :  받는 대미지 {0}% ▲] [{1}초 유지]\n■ 버스트 스킬 사용 시 자신에게\n[공격력 {2}% ▲] [{3}초 유지]\n■ 버스트 스킬 사용 시 조준선에 가장 가까운 공격 범위 내 적들에게\n[인법 하이퍼 애시드 봄 :  받는 대미지 {4}% ▲] [{5}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "duration"
+        },
+        {
+          "effect": 2,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "full_burst_start",
@@ -90,6 +119,49 @@
       "id": "skill_2",
       "name": "인법 카모플라쥬",
       "type": "passive",
+      "description": "■ 전투 시작 시\n[스쿼드 구성 별 효과] [해당되는 효과만 적용]\n아군 중 자신을 제외한 방어형 아군이 없다면 자신에게\n효과 1 : [시전자의 최종 최대 체력 비례 {0}% 보호막] [{1}초 유지]\n효과 2 : [주목 : 적 전체 도발] [지속]\n아군 중 자신을 제외한 방어형 아군이 있다면 자신에게\n효과 1 : [인법 카모플라쥬 : 1인 공격 대상에서 제외 직접 피격 시 해제] [{5}초 유지]\n효과 2 : [인법 인젝션 : 공격 대미지 비례 {6}% 회복] [지속]\n■ 일반 공격 {2}회 공격 시 자신이 주목 상태라면  자신에게\n[시전자의 최종 최대 체력 비례 {3}% 보호막] [{4}초 유지]\n■ {7}초마다 자신이 인법 인젝션 상태라면 자신에게\n[인법 IFAK] [{9}초 유지] : \n기능 : 유지 시간 동안 받은 회복량을 충전하고 유지 시간 만료 시 아군 전체에게 충전량 만큼 회복\n효과 1 : [최대 충전량은 시전자 최종 공격력의 {8}%] \n효과 2 : [유지 시간 만료 후 아군 전체에게 충전량 회복]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 4,
+          "field": "trigger"
+        },
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 3,
+          "field": "value"
+        },
+        {
+          "effect": 5,
+          "field": "duration"
+        },
+        {
+          "effect": 5,
+          "field": "value"
+        },
+        {
+          "effect": 5,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "battle_start",
@@ -248,6 +320,45 @@
       "name": "비기 : 닌자 오버드라이브",
       "type": "burst",
       "cooldown": 40,
+      "description": "■ 아군 전체에게\n[분배 대미지 {0}% ▲] [{1}초 유지]\n[시전자 기준 공격력 {2}% ▲] [{3}초 유지]\n■ 적 전체에게\n[최종 공격력 {4}% 분배 대미지]\n■ 자신이 주목 상태라면 자신에게\n[다음 보호막 체력 {5}% ▲] [{6}초 유지]\n■ 자신이 인법 인젝션 상태라면 자신에게\n[인법 IFAK 최대 누적량 {7}% ▲] [{8}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 2,
+          "field": "value"
+        },
+        {
+          "effect": 3,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 3,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "burst_cast",

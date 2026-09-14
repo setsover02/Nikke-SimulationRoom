@@ -16,13 +16,26 @@
     "fireRate": 24,
     "fullChargeDamage": 100,
     "coreDamage": 200,
-    "pelletCount": 1
+    "pelletCount": 1,
+    "start_accuracy_circle_scale": 110,
+    "end_accuracy_circle_scale": 110
   },
   "skills": [
     {
       "id": "skill_1",
       "name": "정밀 조정",
       "type": "passive",
+      "description": "■ 무작위 아군 1기에게\n[시전자 기준 공격력 {0}% ▲] [{1}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "passive",
@@ -49,6 +62,13 @@
       "id": "skill_2",
       "name": "긴급 보수",
       "type": "passive",
+      "description": "■ 아군 전체에게\n[엄폐물 체력 회복 {0}%]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        }
+      ],
       "effects": [
         {
           "trigger": "passive",
@@ -75,6 +95,29 @@
       "name": "최고의 엔지니어!",
       "type": "burst",
       "cooldown": 40,
+      "description": "■ 엄폐물이 파괴된 아군 무작위 1기에게\n[엄폐물 체력 {0}%로 엄폐물 부활]\n[시전자 기준 공격력 {1}% ▲] [{2}초 유지]\n■ 엄폐물이 파괴된 아군이 없다면 무작위 아군 1기에게\n[시전자 기준 공격력 {3}% ▲][{4}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "duration"
+        },
+        {
+          "effect": 2,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "burst_cast",

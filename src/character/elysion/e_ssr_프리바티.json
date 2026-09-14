@@ -16,13 +16,52 @@
     "fireRate": 12,
     "fullChargeDamage": 100,
     "coreDamage": 200,
-    "pelletCount": 1
+    "pelletCount": 1,
+    "start_accuracy_circle_scale": 75,
+    "end_accuracy_circle_scale": 75
   },
   "skills": [
     {
       "id": "skill_1",
       "name": "EX 매거진",
       "type": "passive",
+      "description": "■ 풀 버스트 타임 시작 시 아군 전체에게\n[공격력 {0}% ▲] [{1}초 유지]\n[재장전 속도 {2}% ▲] [{3}초 유지]\n[최대 장탄 수 {4}% ▼] [{5}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "value": [
+            50.66,
+            50.66,
+            50.66,
+            50.66,
+            50.66,
+            50.66,
+            50.66,
+            50.66,
+            50.66,
+            50.66
+          ]
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "full_burst_start",
@@ -90,6 +129,17 @@
       "id": "skill_2",
       "name": "LD 어설트",
       "type": "passive",
+      "description": "■ 마지막 탄환 명중 시 대상에게\n[최종 공격력 {0}% 추가 대미지]\n■ 마지막 탄환 명중 시 대상이 기절 상태라면 동일 적 대상에게\n[최종 공격력 {1}% 추가 대미지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        }
+      ],
       "effects": [
         {
           "trigger": "last_bullet",
@@ -139,6 +189,17 @@
       "name": "AK 미사일",
       "type": "burst",
       "cooldown": 40,
+      "description": "■ 적 전체에게\n[최종 공격력 {0}% 버스트 스킬 대미지]\n[기절] [{1}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "burst_cast",

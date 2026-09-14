@@ -16,13 +16,34 @@
     "fireRate": 12,
     "fullChargeDamage": 100,
     "coreDamage": 200,
-    "pelletCount": 1
+    "pelletCount": 1,
+    "start_accuracy_circle_scale": 75,
+    "end_accuracy_circle_scale": 75
   },
   "skills": [
     {
       "id": "skill_1",
       "name": "피어나다",
       "type": "passive",
+      "description": "■ 전투 시작 시 자신에게\n[스킬 2 강제 사용]\n■ 자신을 포함한 아군 누군가 파츠 파괴 시 자신에게\n[지속 대미지 {1}% ▲] [{2}초 유지]\n■ 자신을 포함한 아군 누군가 파츠 파괴 시 자신이 춤추는 꽃 상태라면 자신에게\n[춤추는 꽃 유지 시간 {0}초 ▲]\n■ 자신을 포함한 아군 누군가 파츠 파괴 시 벚꽃잎 상태인 적 전체에게\n[벚꽃잎 유지 시간 {3}초 ▲]",
+      "description_params": [
+        {
+          "effect": 2,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "duration"
+        },
+        {
+          "effect": 2,
+          "field": "value"
+        }
+      ],
       "effects": [
         {
           "trigger": "battle_start",
@@ -113,6 +134,25 @@
       "id": "skill_2",
       "name": "흐드러지다",
       "type": "passive",
+      "description": "■ 자신에게\n[춤추는 꽃 : 공격 대미지 {0}% ▲] [{1}초 유지]\n■ 최종 공격력이 가장 높은 적 1기에게\n[벚꽃잎 : 최종 공격력 {2}% 지속 대미지] [1초 간격] [{3}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "every:30.0s",
@@ -163,6 +203,29 @@
       "name": "화양연화",
       "type": "burst",
       "cooldown": 40,
+      "description": "■ 무작위 적들에게\n[최종 공격력 {0}% 대미지] [{1}회 순차 공격] \n■ 동일 적 대상에게\n[최종 공격력 {2}% 지속 대미지] [1초 간격] [{3}중첩][{4}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "duration"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "duration"
+        },
+        {
+          "effect": 1,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "burst_cast",

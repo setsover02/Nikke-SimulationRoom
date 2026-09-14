@@ -16,13 +16,26 @@
     "fireRate": 0,
     "fullChargeDamage": 250,
     "coreDamage": 200,
-    "pelletCount": 1
+    "pelletCount": 1,
+    "start_accuracy_circle_scale": 10,
+    "end_accuracy_circle_scale": 10
   },
   "skills": [
     {
       "id": "skill_1",
       "name": "플라워 리프",
       "type": "passive",
+      "description": "■ 마지막 탄환 명중 시 대상에게\n[공격력 {0}% ▼] [{1}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "last_bullet_hit",
@@ -49,6 +62,31 @@
       "id": "skill_2",
       "name": "플라워 컬러",
       "type": "passive",
+      "description": "■ 최종 공격력이 가장 높은 적 {0}기에게\n[공격력 {1}% ▼] [{2}초 유지]",
+      "description_params": [
+        {
+          "value": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ]
+        },
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "passive",
@@ -76,6 +114,31 @@
       "name": "플라워 퍼퓸",
       "type": "burst",
       "cooldown": 20,
+      "description": "■ 최종 공격력이 가장 높은 적 {0}기에게\n[최종 공격력 {2}% 버스트 스킬 대미지]\n[도발] [{1}초 유지]",
+      "description_params": [
+        {
+          "value": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ]
+        },
+        {
+          "effect": 1,
+          "field": "duration"
+        },
+        {
+          "effect": 0,
+          "field": "value"
+        }
+      ],
       "effects": [
         {
           "trigger": "burst_cast",

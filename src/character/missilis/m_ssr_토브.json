@@ -16,13 +16,66 @@
     "fireRate": 12,
     "fullChargeDamage": 100,
     "coreDamage": 200,
-    "pelletCount": 1
+    "pelletCount": 1,
+    "start_accuracy_circle_scale": 75,
+    "end_accuracy_circle_scale": 75
   },
   "skills": [
     {
       "id": "skill_1",
       "name": "급조 탄환",
       "type": "passive",
+      "description": "■ 공격 시 {0}% 확률로 자신에게\n[급조 탄환 : 탄환 충전 {1}%]\n■ 급조 탄환이 적용될 때 아군 전체에게\n[임시 개조 : 최대 장탄 수 {2}발 ▲] [{3}중첩] [{4}초 유지]\n[크리티컬 대미지 {5}% ▲] [{6}초 유지]",
+      "description_params": [
+        {
+          "value": [
+            2,
+            2,
+            3,
+            3,
+            3,
+            4,
+            4,
+            4,
+            5,
+            5
+          ]
+        },
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "value": [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ]
+        },
+        {
+          "effect": 1,
+          "field": "duration"
+        },
+        {
+          "effect": 2,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "on_attack",
@@ -93,6 +146,17 @@
       "id": "skill_2",
       "name": "개조 성공",
       "type": "passive",
+      "description": "■ 자신이 임시 개조가 최대 중첩 상태일 때 한하여 아군 전체에게\n[크리티컬 확률 {0}% ▲] [지속]\n■ 자신이 임시 개조가 최대 중첩 상태일 때 한하여 샷건 소지 아군 전체에게\n[공격 속도 {1}% ▲] [지속]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        }
+      ],
       "effects": [
         {
           "trigger": "passive",
@@ -143,6 +207,25 @@
       "name": "급조품의 기적",
       "type": "burst",
       "cooldown": 20,
+      "description": "■ 아군 전체에게\n[급조품의 기적 : 시전자 기준 공격력 {0}% ▲] [임시 개조 중첩 복사] [{1}초 유지]\n■ 샷건 소지 아군 전체에게\n[급조품의 기적 : 시전자 기준 공격력 {2}% ▲] [임시 개조 중첩 복사] [{3}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "burst_cast",

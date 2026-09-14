@@ -16,13 +16,44 @@
     "fireRate": 1.51515,
     "fullChargeDamage": 100,
     "coreDamage": 200,
-    "pelletCount": 10
+    "pelletCount": 10,
+    "start_accuracy_circle_scale": 250,
+    "end_accuracy_circle_scale": 250
   },
   "skills": [
     {
       "id": "skill_1",
       "name": "쌓여가는 사진첩",
       "type": "passive",
+      "description": "■ 풀 버스트 타임 종료 시 샷건 소지 아군 전체에게\n[시전자 기준 공격력 {0}% X 소중한 추억 중첩 수 ▲] [{1}초 유지]\n■ 행복한 기억 적용 시 자신에게\n[청춘의 기록 : 일반 공격 대미지 {2}% 배율 ▲] [{3} 중첩] [지속]\n■ 풀 버스트 타임 종료 시 자신에게\n[추억 남기기 해제]\n[청춘의 기록 해제]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 7,
+          "field": "value"
+        },
+        {
+          "value": [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ]
+        }
+      ],
       "effects": [
         {
           "trigger": "full_burst_end",
@@ -200,6 +231,57 @@
       "id": "skill_2",
       "name": "기억과 추억",
       "type": "passive",
+      "description": "■ 일반 공격 시 자신이 추억 남기기 상태라면 자신에게\n[공격 횟수 별 효과] [단계별 효과만 적용] [추억 남기기 해제 시 초기화]\n2회 : [탄환 충전 {0}발]\n4회 : [행복한 기억 : 펠릿 개수 {1}개 ▲] [{2} 중첩] [지속]\n6회 : [소중한 추억 : 공격력 {3}% ▲] [{4} 중첩] [지속]\n■ 버스트 스킬 사용 시 자신을 제외한 샷건 소지 아군 전체에게\n[공격 대미지 {5}% ▲] [{6}초 유지]",
+      "description_params": [
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "value": [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ]
+        },
+        {
+          "effect": 3,
+          "field": "value"
+        },
+        {
+          "value": [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ]
+        },
+        {
+          "effect": 4,
+          "field": "value"
+        },
+        {
+          "effect": 4,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "on_attack",
@@ -316,6 +398,25 @@
       "name": "빛나는 청춘",
       "type": "burst",
       "cooldown": 20,
+      "description": "■ 자신에게\n[추억 남기기] :\n기능 : 자신의 공격 능력 강화.\n효과 1 : [크리티컬 확률 {0}% ▲] [지속]\n효과 2 : [탄환 충전 {1}발]\n효과 3 : [공격 대미지 {2}% ▲] [지속]\n■ 적 전체에게\n[최종 공격력 {3}% 버스트 스킬 대미지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 2,
+          "field": "value"
+        },
+        {
+          "effect": 3,
+          "field": "value"
+        }
+      ],
       "effects": [
         {
           "trigger": "burst_cast",
