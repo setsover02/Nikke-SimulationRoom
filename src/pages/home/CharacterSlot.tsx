@@ -428,7 +428,7 @@ const CharacterSlot: React.FC<Props> = ({ slot, index, onUpdate, outpostState })
                 <Chip
                     variant={slot.collectionGrade === 'SSR' ? 'core' : (slot.collectionGrade === 'SR' || slot.collectionGrade === 'R') ? 'limit-break' : 'default'}
                     onClick={() => {
-                        const hasTreasure = slot.char.data.stats.treasure;
+                        const hasTreasure = !!(slot.char.data.stats?.treasure || slot.char.data.favoriteItem);
                         const current = slot.collectionGrade || 'None';
                         let next: 'None' | 'R' | 'SR' | 'SSR' = 'None';
 
@@ -437,22 +437,44 @@ const CharacterSlot: React.FC<Props> = ({ slot, index, onUpdate, outpostState })
                         else if (current === 'SR') next = hasTreasure ? 'SSR' : 'None';
                         else if (current === 'SSR') next = 'None';
 
-                        const level = next === 'SSR' && (!slot.collectionLevel || slot.collectionLevel === '0') ? '1' : slot.collectionLevel;
+                        let level = slot.collectionLevel || '0';
+                        if (next === 'SSR') {
+                            const parsed = parseInt(level, 10);
+                            level = (!parsed || parsed < 1 || parsed > 3) ? '3' : String(parsed);
+                        } else if (next === 'SR' && (level === '1' || level === '2' || level === '3') && current === 'SSR') {
+                            level = '15';
+                        }
                         onUpdate({ collectionGrade: next, collectionLevel: level });
                     }}
                 >
                     {slot.collectionGrade === 'SSR' ? '애장품' : slot.collectionGrade === 'SR' ? 'SR' : slot.collectionGrade === 'R' ? 'R' : '없음'}
                 </Chip>
 
-                <span className={styles['color-777']}>소장품 레벨</span>
+                <span className={styles['color-777']}>
+                    {slot.collectionGrade === 'SSR' ? '애장품 단계' : '소장품 레벨'}
+                </span>
                 <div style={{ display: 'flex', justifyContent: 'flex-end', width: '80px' }}>
                     <TextField
                         size="small"
                         type="number"
-                        min={0}
-                        max={15}
-                        value={slot.collectionLevel || '0'}
-                        onChange={e => onUpdate({ collectionLevel: e.target.value })}
+                        min={slot.collectionGrade === 'SSR' ? 1 : 0}
+                        max={slot.collectionGrade === 'SSR' ? 3 : 15}
+                        value={slot.collectionGrade === 'SSR' ? String(Math.max(1, Math.min(3, parseInt(slot.collectionLevel || '3', 10) || 3))) : (slot.collectionLevel || '0')}
+                        onChange={e => {
+                            let val = e.target.value;
+                            if (slot.collectionGrade === 'SSR') {
+                                const num = parseInt(val, 10);
+                                if (!isNaN(num)) {
+                                    val = String(Math.max(1, Math.min(3, num)));
+                                }
+                            } else {
+                                const num = parseInt(val, 10);
+                                if (!isNaN(num)) {
+                                    val = String(Math.max(0, Math.min(15, num)));
+                                }
+                            }
+                            onUpdate({ collectionLevel: val });
+                        }}
                         disabled={slot.collectionGrade === 'None' || !slot.collectionGrade}
                     />
                 </div>

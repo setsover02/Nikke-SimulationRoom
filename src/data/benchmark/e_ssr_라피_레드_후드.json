@@ -1,0 +1,360 @@
+{
+  "characterId": "Char_16",
+  "characterKey": "e_ssr_라피_레드_후드",
+  "characterName": "라피 : 레드 후드",
+  "generatedAt": "2026-09-14T07:20:12.282Z",
+  "conditions": {
+    "battleDuration": 180,
+    "target": "단일 보스",
+    "weaknessElement": "철갑",
+    "control": "자동",
+    "synchroLevel": 400,
+    "consoleLevel": 500,
+    "growthStage": "10 (3돌 + 7코강)",
+    "skills": "10/10/10",
+    "equipment": "Overload 5 (4부위)",
+    "collection": "SR 15",
+    "cubeLevel": 15
+  },
+  "records": [
+    {
+      "id": "rapi-rh-1",
+      "rank": 1,
+      "squad": [
+        {
+          "id": "Char_17",
+          "name": "아니스 : 스타"
+        },
+        {
+          "id": "Crown",
+          "name": "크라운"
+        },
+        {
+          "id": "Char_16",
+          "name": "라피 : 레드 후드",
+          "isTarget": true
+        },
+        {
+          "id": "Char_73",
+          "name": "브리드 : 사일런트 트랙"
+        },
+        {
+          "id": "MiharaBondingChain",
+          "name": "미하라 : 본딩 체인"
+        }
+      ],
+      "cube": {
+        "id": "03-cube-resilience",
+        "name": "렐릭 베어"
+      },
+      "overloadTags": [
+        "우코4",
+        "공증4",
+        "장탄4"
+      ],
+      "damage": 6085053165,
+      "percentage": 100,
+      "dps": 33805851,
+      "teamDamage": 10192706826,
+      "details": [
+        {
+          "id": "Char_17",
+          "name": "아니스 : 스타",
+          "damage": 1293664089
+        },
+        {
+          "id": "Crown",
+          "name": "크라운",
+          "damage": 656956714
+        },
+        {
+          "id": "Char_16",
+          "name": "라피 : 레드 후드",
+          "damage": 6085053165
+        },
+        {
+          "id": "Char_73",
+          "name": "브리드 : 사일런트 트랙",
+          "damage": 598602489
+        },
+        {
+          "id": "MiharaBondingChain",
+          "name": "미하라 : 본딩 체인",
+          "damage": 1558430369
+        }
+      ]
+    },
+    {
+      "id": "rapi-rh-2",
+      "rank": 2,
+      "squad": [
+        {
+          "id": "Char_17",
+          "name": "아니스 : 스타"
+        },
+        {
+          "id": "Crown",
+          "name": "크라운"
+        },
+        {
+          "id": "Char_16",
+          "name": "라피 : 레드 후드",
+          "isTarget": true
+        },
+        {
+          "id": "Char_73",
+          "name": "브리드 : 사일런트 트랙"
+        },
+        {
+          "id": "MiharaBondingChain",
+          "name": "미하라 : 본딩 체인"
+        }
+      ],
+      "cube": {
+        "id": "03-cube-resilience",
+        "name": "렐릭 베어"
+      },
+      "overloadTags": [
+        "우코4",
+        "공증4",
+        "장탄3",
+        "크댐1"
+      ],
+      "damage": 6011136657,
+      "percentage": 98.8,
+      "dps": 33395204,
+      "teamDamage": 10125211655,
+      "details": [
+        {
+          "id": "Char_17",
+          "name": "아니스 : 스타",
+          "damage": 1296833317
+        },
+        {
+          "id": "Crown",
+          "name": "크라운",
+          "damage": 657045183
+        },
+        {
+          "id": "Char_16",
+          "name": "라피 : 레드 후드",
+          "damage": 6011136657
+        },
+        {
+          "id": "Char_73",
+          "name": "브리드 : 사일런트 트랙",
+          "damage": 589532702
+        },
+        {
+          "id": "MiharaBondingChain",
+          "name": "미하라 : 본딩 체인",
+          "damage": 1570663796
+        }
+      ]
+    },
+    {
+      "id": "rapi-rh-3",
+      "rank": 3,
+      "squad": [
+        {
+          "id": "Char_17",
+          "name": "아니스 : 스타"
+        },
+        {
+          "id": "Crown",
+          "name": "크라운"
+        },
+        {
+          "id": "Char_16",
+          "name": "라피 : 레드 후드",
+          "isTarget": true
+        },
+        {
+          "id": "Char_73",
+          "name": "브리드 : 사일런트 트랙"
+        },
+        {
+          "id": "MiharaBondingChain",
+          "name": "미하라 : 본딩 체인"
+        }
+      ],
+      "cube": {
+        "id": "03-cube-resilience",
+        "name": "렐릭 베어"
+      },
+      "overloadTags": [
+        "우코4",
+        "공증4",
+        "장탄3",
+        "차속1"
+      ],
+      "damage": 5918047383,
+      "percentage": 97.3,
+      "dps": 32878041,
+      "teamDamage": 10032122381,
+      "details": [
+        {
+          "id": "Char_17",
+          "name": "아니스 : 스타",
+          "damage": 1296833317
+        },
+        {
+          "id": "Crown",
+          "name": "크라운",
+          "damage": 657045183
+        },
+        {
+          "id": "Char_16",
+          "name": "라피 : 레드 후드",
+          "damage": 5918047383
+        },
+        {
+          "id": "Char_73",
+          "name": "브리드 : 사일런트 트랙",
+          "damage": 589532702
+        },
+        {
+          "id": "MiharaBondingChain",
+          "name": "미하라 : 본딩 체인",
+          "damage": 1570663796
+        }
+      ]
+    },
+    {
+      "id": "rapi-rh-4",
+      "rank": 4,
+      "squad": [
+        {
+          "id": "Char_17",
+          "name": "아니스 : 스타"
+        },
+        {
+          "id": "Crown",
+          "name": "크라운"
+        },
+        {
+          "id": "Char_16",
+          "name": "라피 : 레드 후드",
+          "isTarget": true
+        },
+        {
+          "id": "Char_73",
+          "name": "브리드 : 사일런트 트랙"
+        },
+        {
+          "id": "MiharaBondingChain",
+          "name": "미하라 : 본딩 체인"
+        }
+      ],
+      "cube": {
+        "id": "03-cube-resilience",
+        "name": "렐릭 베어"
+      },
+      "overloadTags": [
+        "우코4",
+        "공증4",
+        "장탄2",
+        "크댐2"
+      ],
+      "damage": 5766360141,
+      "percentage": 94.8,
+      "dps": 32035334,
+      "teamDamage": 9888870292,
+      "details": [
+        {
+          "id": "Char_17",
+          "name": "아니스 : 스타",
+          "damage": 1284767575
+        },
+        {
+          "id": "Crown",
+          "name": "크라운",
+          "damage": 657189827
+        },
+        {
+          "id": "Char_16",
+          "name": "라피 : 레드 후드",
+          "damage": 5766360141
+        },
+        {
+          "id": "Char_73",
+          "name": "브리드 : 사일런트 트랙",
+          "damage": 598347654
+        },
+        {
+          "id": "MiharaBondingChain",
+          "name": "미하라 : 본딩 체인",
+          "damage": 1582205095
+        }
+      ]
+    },
+    {
+      "id": "rapi-rh-5",
+      "rank": 5,
+      "squad": [
+        {
+          "id": "Char_17",
+          "name": "아니스 : 스타"
+        },
+        {
+          "id": "Crown",
+          "name": "크라운"
+        },
+        {
+          "id": "Char_16",
+          "name": "라피 : 레드 후드",
+          "isTarget": true
+        },
+        {
+          "id": "Char_73",
+          "name": "브리드 : 사일런트 트랙"
+        },
+        {
+          "id": "MiharaBondingChain",
+          "name": "미하라 : 본딩 체인"
+        }
+      ],
+      "cube": {
+        "id": "03-cube-resilience",
+        "name": "렐릭 베어"
+      },
+      "overloadTags": [
+        "우코4",
+        "공증2",
+        "크댐2",
+        "크확2"
+      ],
+      "damage": 4500344263,
+      "percentage": 74,
+      "dps": 25001913,
+      "teamDamage": 8603240535,
+      "details": [
+        {
+          "id": "Char_17",
+          "name": "아니스 : 스타",
+          "damage": 1290642368
+        },
+        {
+          "id": "Crown",
+          "name": "크라운",
+          "damage": 656673713
+        },
+        {
+          "id": "Char_16",
+          "name": "라피 : 레드 후드",
+          "damage": 4500344263
+        },
+        {
+          "id": "Char_73",
+          "name": "브리드 : 사일런트 트랙",
+          "damage": 596558279
+        },
+        {
+          "id": "MiharaBondingChain",
+          "name": "미하라 : 본딩 체인",
+          "damage": 1559021912
+        }
+      ]
+    }
+  ]
+}

@@ -22,6 +22,32 @@ function commonWeakPointBonus(level: number): number {
     return 19.09; // 15
 }
 
+export interface CubeOption {
+    value: string;
+    label: string;
+    icon: string | null;
+}
+
+export const CUBE_OPTIONS: CubeOption[] = [
+    { value: 'None', label: '없음', icon: null },
+    { value: '01-cube-assault', label: '어썰트', icon: '/src/assets/cube/01-cube-assault.webp' },
+    { value: '02-cube-onslaught', label: '택티컬 어설트', icon: '/src/assets/cube/02-cube-onslaught.webp' },
+    { value: '03-cube-resilience', label: '렐릭 베어', icon: '/src/assets/cube/03-cube-resilience.webp' },
+    { value: '04-cube-bastion', label: '택티컬 베어', icon: '/src/assets/cube/04-cube-bastion.webp' },
+    { value: '05-cube-adjutant', label: '렐릭 부스트', icon: '/src/assets/cube/05-cube-adjutant.webp' },
+    { value: '06-cube-wingman', label: '택티컬 부스트', icon: '/src/assets/cube/06-cube-wingman.webp' },
+    { value: '07-cube-quantum', label: '렐릭 퀀텀', icon: '/src/assets/cube/07-cube-quantum.webp' },
+    { value: '08-cube-vigor', label: '렐릭 비고르', icon: '/src/assets/cube/08-cube-vigor.webp' },
+    { value: '09-cube-endurance', label: '렐릭 인듀어', icon: '/src/assets/cube/09-cube-endurance.webp' },
+    { value: '10-cube-healing', label: '렐릭 힐링', icon: '/src/assets/cube/10-cube-healing.webp' },
+    { value: '11-cube-tempering', label: '렐릭 템퍼링', icon: '/src/assets/cube/11-cube-tempering.webp' },
+    { value: '12-cube-assist', label: '렐릭 어시스터', icon: '/src/assets/cube/12-cube-assist.webp' },
+    { value: '13-cube-destruction', label: '렐릭 디스트로이', icon: '/src/assets/cube/13-cube-destruction.webp' },
+    { value: '14-cube-piercing', label: '렐릭 피어싱', icon: '/src/assets/cube/14-cube-piercing.webp' },
+    { value: '15-cube-crash', label: '렐릭 크래시', icon: '/src/assets/cube/15-cube-crash.webp' },
+    { value: '16-cube-divide', label: '렐릭 디바이드', icon: '/src/assets/cube/16-cube-divide.webp' }
+];
+
 export interface CubeEffect {
     weakPointPercent: number;      // 공통 우코 대미지 증가% (0.1 = +10%)
     accuracyBuff: number;          // 명중률 증가% (0.01 = +1%)

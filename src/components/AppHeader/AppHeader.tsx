@@ -27,6 +27,9 @@ const AppHeader: React.FC = () => {
                 />
             </Link>
             <nav style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
+                <Link to="/benchmark" className="body font-semibold">
+                    Benchmark
+                </Link>
                 <Link to="/nikke" className="body font-semibold">
                     Nikke
                 </Link>

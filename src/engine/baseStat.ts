@@ -353,10 +353,10 @@ export function calculateBaseStat(params: BaseStatParams): BaseStatResult {
     // ── 5. 장비 ──────────────────────────────────────────────────
     const equipment = calcEquipmentStat(classType, params);
 
-    // ── 6. 소장품 ─────────────────────────────────────────────────
+    // ── 6. 소장품 / 애장품 ──────────────────────────────────────────
     const collectionStat: StatBlock = ZERO_STAT();
-    if (collectionGrade && collectionGrade !== 'None' && collectionGrade !== 'SSR') {
-        const key = `${collectionGrade}${collectionLevel}`;
+    if (collectionGrade && collectionGrade !== 'None') {
+        const key = collectionGrade === 'SSR' ? 'SR15' : `${collectionGrade}${collectionLevel}`;
         const ce = COLLECTION['_stat_table']?.[key];
         if (ce) {
             collectionStat.atk = ce.atk;

@@ -33,15 +33,23 @@ const Rules: React.FC = () => {
                     </div>
 
                     <div>
-                        <Font variant="subtitle" weight="semibold" as="h3" className="mb-2 d-block">무기 대미지</Font>
+                        <Font variant="subtitle" weight="semibold" as="h3" className="d-block">무기 대미지</Font>
                         <Grid as="ul" columns={1} gap={0} className="pl-3 ma-0 list-disc">
                             <li><Font variant="body">RL, SR 소장품 차지 대미지 배율 적용시 대미지 수치 틀림</Font></li>
                         </Grid>
                     </div>
 
                     <div>
-                        <Font variant="subtitle" weight="semibold" as="h3" className="mb-2 d-block">사거리 보너스</Font>
+                        <Font variant="subtitle" weight="semibold" as="h3" className="d-block">사거리 보너스</Font>
                         <Font variant="body" color="muted">-</Font>
+                    </div>
+                    <div>
+                        <Font variant="subtitle" weight="semibold" as="h3" className="d-block">무기 변경시</Font>
+                        <Grid as="ul" columns={1} gap={0} className="pl-3 ma-0 list-disc">
+
+                            <li><Font variant="body">무기 변경시 발생하는 대미지는 scatter chart에서도 표시해준다.</Font></li>
+                            <li><Font variant="body">이 때 무기 변경의 경우 스킬이 아닌 평타 판정이므로 코어, 코어+크리티컬 대미지가 발생한다.</Font></li>                        </Grid>
+
                     </div>
                 </Grid>
             </Card>

@@ -8,7 +8,8 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "scrape": "node scripts/fetchCdnData.js"
+    "scrape": "node scripts/fetchCdnData.js",
+    "benchmark": "npx tsx scripts/runBenchmark.ts"
   },
   "dependencies": {
     "react": "^19.2.0",

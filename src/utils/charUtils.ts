@@ -104,6 +104,7 @@ export const applyBaseStats = (
                 const targetIdx = rawSkills.findIndex((sk: any) => sk.id === targetId || (targetId === 'burst' && sk.type === 'burst'));
                 if (targetIdx !== -1) {
                     rawSkills[targetIdx] = {
+                        ...rawSkills[targetIdx],
                         ...stageDef.skill,
                         id: targetId,
                         type: targetId === 'burst' ? 'burst' : (rawSkills[targetIdx].type || 'passive'),

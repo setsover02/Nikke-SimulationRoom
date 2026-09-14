@@ -80,19 +80,39 @@ function parseCollection(raw: string): { grade: CollectionGrade; level: string }
     if (!raw) return { grade: 'None', level: '0' };
     const trimmed = raw.trim();
 
-    if (trimmed.includes('애장품')) {
-        return { grade: 'SSR', level: '15' };
+    if (trimmed.includes('애장품') || trimmed.startsWith('SSR')) {
+        // 1) 별(★) 개수 확인: ★☆☆ (1), ★★☆ (2), ★★★ (3)
+        const starCount = (trimmed.match(/★/g) || []).length;
+        if (starCount >= 1 && starCount <= 3) {
+            return { grade: 'SSR', level: String(starCount) };
+        }
+
+        // 2) 숫자 확인: 애장품 1, 애장품 2, 애장품 3, SSR 1, SSR 2, SSR 3 등
+        const numMatch = trimmed.match(/\d+/);
+        if (numMatch) {
+            const n = parseInt(numMatch[0], 10);
+            if (n >= 1 && n <= 3) {
+                return { grade: 'SSR', level: String(n) };
+            }
+            // 레거시 15단계 표기인 경우 최고 단계인 3단계로 보정
+            if (n >= 15) {
+                return { grade: 'SSR', level: '3' };
+            }
+        }
+
+        // 기본값: 애장품 3단계
+        return { grade: 'SSR', level: '3' };
     }
 
     if (trimmed.startsWith('SR')) {
-        const parts = trimmed.split(/\s+/);
-        const lvl = parts[1] || '0';
+        const numMatch = trimmed.match(/\d+/);
+        const lvl = numMatch ? String(Math.max(0, Math.min(15, parseInt(numMatch[0], 10)))) : '0';
         return { grade: 'SR', level: lvl };
     }
 
     if (trimmed.startsWith('R')) {
-        const parts = trimmed.split(/\s+/);
-        const lvl = parts[1] || '0';
+        const numMatch = trimmed.match(/\d+/);
+        const lvl = numMatch ? String(Math.max(0, Math.min(15, parseInt(numMatch[0], 10)))) : '0';
         return { grade: 'R', level: lvl };
     }
 

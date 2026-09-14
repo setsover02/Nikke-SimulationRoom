@@ -63,3 +63,27 @@
         filter: brightness(1.15);
     }
 }
+
+.size-small {
+    height: 22px;
+    padding: 0 6px;
+    border-radius: 12px;
+}
+
+/* 선택불가한 칩 케이스: border 0 */
+.variant-non-selectable,
+.chip-button.non-selectable {
+    border: 0;
+    cursor: default;
+    background: var(--Interact-Default);
+    color: var(--Font-Default);
+
+    &:hover {
+        background: var(--Interact-Default);
+        border: 0;
+    }
+
+    &:active {
+        transform: none;
+    }
+}

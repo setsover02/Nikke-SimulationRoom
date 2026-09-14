@@ -1,0 +1,322 @@
+@use '../../assets/style/layout/layout' as layout;
+
+/* 스티키 검색 필터 카드 (홈 화면과 동일 배치 및 스크롤 시 sticky 고정) */
+.filter-card {
+  min-width: 0;
+  width: 100%;
+
+  @media (min-width: 1280px) {
+    position: sticky;
+    top: layout.$header-height + layout.$base-spacing;
+    align-self: start;
+    z-index: 10;
+  }
+}
+
+/* 고점 세팅 랭킹 테이블 카드 */
+.table-card {
+  min-width: 0;
+  width: 100%;
+}
+
+/* 필터 구분선 */
+.filter-divider {
+  width: 1px;
+  height: 24px;
+  background-color: var(--Divider-Normal);
+  margin: 0 4px;
+}
+
+/* 아바타 그리드 스크롤 래퍼 (사이드바에 맞춘 스크롤 영역 및 커스텀 스크롤바) */
+.avatar-grid-wrapper {
+  max-height: 460px;
+  overflow-y: auto;
+  padding: 4px 2px 8px 2px;
+  box-sizing: border-box;
+
+  @media (min-width: 1280px) {
+    max-height: calc(100vh - #{layout.$header-height + 200px});
+  }
+
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: var(--Interact-Stroke-Hover);
+    border-radius: 4px;
+  }
+}
+
+/* 아바타 카드 */
+.avatar-card {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  border: 2px solid transparent;
+  background-color: var(--Interact-Default);
+  transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+  box-sizing: border-box;
+
+  &:hover {
+    transform: translateY(-2px);
+    border-color: var(--Interact-Stroke-Active);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+
+  &.selected {
+    border-color: var(--Primary);
+    box-shadow: 0 0 0 2px var(--Primary-24);
+  }
+}
+
+.avatar-image {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  border-radius: 10px !important;
+  border: none !important;
+}
+
+/* 오버레이 배지 (좌상단 속성, 우상단 버스트) */
+.badge-container {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  right: 3px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.badge-item {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  background: var(--Background-Overlay);
+  backdrop-filter: blur(2px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.badge-icon {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* 테이블 순위 셀 (배경색 없음) */
+.rank-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+}
+
+/* 테이블 스쿼드 셀: 기준 니케와 나머지 4인 스택 */
+.squad-cell {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* 기준 니케 썸네일 (강조 및 독립 표시) */
+.squad-thumb {
+  position: relative;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--Secondary100);
+  flex-shrink: 0;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+/* 미세 구분선 (기준 니케와 서포터 분리) */
+.squad-divider {
+  width: 1px;
+  height: 18px;
+  background: var(--Divider-Strong);
+  flex-shrink: 0;
+  margin: 0 2px;
+}
+
+/* 나머지 4인 아바타 스택 (살짝 겹치도록 배치) */
+.support-stack {
+  display: flex;
+  align-items: center;
+}
+
+.support-thumb {
+  position: relative;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--Secondary100);
+  flex-shrink: 0;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  &:not(:first-child) {
+    margin-left: 4px;
+  }
+
+}
+
+/* 큐브 썸네일 */
+.cube-thumb {
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  border: 1px solid var(--Border-Default);
+  background: var(--Background-Overlay);
+  object-fit: contain;
+}
+
+/* 오버로드 태그 칩 색상 (디자인 토큰 활용, border 0 유지) */
+.tag-element {
+  background: var(--Status-Warning-24) !important;
+  color: var(--Status-Warning-F100) !important;
+}
+
+.tag-atk {
+  background: var(--Primary-24) !important;
+  color: var(--Primary-F100) !important;
+}
+
+.tag-ammo {
+  background: var(--Status-Success-24) !important;
+  color: var(--Status-Success-F100) !important;
+}
+
+.tag-crit {
+  background: var(--Primary-12) !important;
+  color: var(--Primary-F100) !important;
+}
+
+.tag-charge {
+  background: var(--Interact-Active) !important;
+  color: var(--Font-Default) !important;
+}
+
+/* 최종 대미지 셀 및 CSS Bar Chart */
+.damage-cell {
+  width: 100%;
+  min-width: 260px;
+  padding-right: 12px;
+}
+
+.bar-chart-track {
+  width: 100%;
+  height: 10px;
+  border-radius: 5px;
+  background: var(--Disabled-Background);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+
+.bar-chart-fill {
+  width: var(--progress-percent, 100%);
+  height: 100%;
+  border-radius: 5px;
+  background: var(--Primary-100);
+  transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 0 4px var(--Primary-24);
+
+  &.top-bar {
+    background: var(--Primary-100);
+    box-shadow: 0 0 8px var(--Primary-100);
+  }
+}
+
+/* ===== 기준 니케 프로필 헤더 ===== */
+.target-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--Divider-Normal);
+}
+
+.target-avatar {
+  position: relative;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--Secondary100);
+  flex-shrink: 0;
+  border: 2px solid var(--Primary-24);
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+  }
+}
+
+.target-info {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+/* 메타 배지 행 (속성, 클래스, 버스트, 무기, 기업) */
+.target-meta {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.meta-icon {
+  width: 20px;
+  height: 20px;
+  border-radius: 6px;
+  background: var(--Background-Overlay);
+  border: 1px solid var(--Border-Default);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px;
+  flex-shrink: 0;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+}
+
+.meta-divider {
+  width: 1px;
+  height: 14px;
+  background: var(--Divider-Normal);
+  flex-shrink: 0;
+  margin: 0 2px;
+}
