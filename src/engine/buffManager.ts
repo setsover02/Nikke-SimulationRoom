@@ -587,6 +587,12 @@ export class BuffManager {
     return true;
   }
 
+  /** 상시 재판정(Runtime Condition) 평가 — 영구 버프(isPermanent)의 실시간 조건 충족 여부 판정 */
+  private _runtimeConditionOk(ab: ActiveBuff, t: number, ctx: BattleContext): boolean {
+    if (!ab.effectDef) return true;
+    return this._conditionOk(ab.effectDef, t, ab.casterId, ctx);
+  }
+
   /** weapon_change 모드 종료 및 원래 무기 스탯 복원 */
   private _endWeaponChange(charId: string, buffName: string, t: number, ctx: BattleContext): void {
     if (ctx.state) {
@@ -616,9 +622,11 @@ export class BuffManager {
 
   /** 자신 상태(버프명 또는 weapon_change 모드) 판정 */
   private _hasSelfState(charId: string, stateName: string, ctx: BattleContext): boolean {
+    const t = ctx ? ctx.time : 0;
     const inActive = this._active.some(
       (ab) =>
         ab.targetId === charId &&
+        (ab.isPermanent || ab.expiresAt > t) &&
         (ab.name === stateName ||
           ab.sourceSkill === stateName ||
           (ab.effectDef as any)?.name === stateName)
@@ -705,6 +713,27 @@ export class BuffManager {
           this._infiniteAmmoChars.add(targetId);
         }
       } else {
+        const isPerm = duration === Infinity;
+        const conditions = eff.trigger?.condition || [];
+        const hasRuntimeConditions = isPerm && conditions.some((c: string) =>
+          c.startsWith('self_state:') ||
+          c.startsWith('not_self_state:') ||
+          c.startsWith('target_state:') ||
+          c.startsWith('not_target_state:') ||
+          c === 'during_full_burst' ||
+          c === 'during_burst' ||
+          c === 'not_during_full_burst' ||
+          c === 'not_during_burst' ||
+          c.startsWith('self_hp_above:') ||
+          c.startsWith('self_hp_below:') ||
+          c.startsWith('enemy_count_above:') ||
+          c.startsWith('enemy_count_below:') ||
+          c.startsWith('gauge_above:') ||
+          c.startsWith('gauge_below:') ||
+          c === 'during_shield' ||
+          c.startsWith('self_stack_above:')
+        );
+
         const newBuff: ActiveBuff = {
           uid: this._nextUid++,
           id: `${casterId}__${eff.name}__${eff.stat}__${this._nextUid}`,
@@ -722,7 +751,8 @@ export class BuffManager {
           expiresAt,
           bulletsLeft: eff.duration_bullets ?? (eff as any).bullet,
           shotsLeft: eff.duration_shots,
-          isPermanent: duration === Infinity,
+          isPermanent: isPerm,
+          hasRuntimeConditions,
           effectDef: eff,
           scaling: eff.scaling,
           scalingRef: eff.scaling_ref,
@@ -1201,7 +1231,7 @@ export class BuffManager {
       // ── 현재 체력 감소 (UnParsing.md 캐릭터 예외) ─────────
       else if (stat === 'current_hp_reduce') {
         if (char) {
-          const reduceAmt = (char.maxHp || char.hp) * (value / 100);
+          const reduceAmt = char.hp * (value / 100);
           char.hp = Math.max(1, char.hp - reduceAmt);
         }
       }
@@ -1298,19 +1328,23 @@ export class BuffManager {
       else if (stat === 'remove_named_buff') {
         const buffName = eff.target_effect;
         if (buffName) {
+          const removed: ActiveBuff[] = [];
           this._active = this._active.filter((ab) => {
             const matchesName = ab.name === buffName || ab.effectDef?.name === buffName;
             const matchesTarget = ab.targetId === targetId || ab.casterId === targetId || targetId === '__enemy__';
             if (matchesName && matchesTarget) {
-              const ev = this._timelineEvents.find((e) => e.uid === ab.uid && e.endTime === Infinity);
-              if (ev) ev.endTime = t;
-              if (ab.type === 'weapon_change') {
-                this._endWeaponChange(ab.targetId, ab.name, t, ctx);
-              }
+              removed.push(ab);
               return false;
             }
             return true;
           });
+          for (const ab of removed) {
+            const ev = this._timelineEvents.find((e) => e.uid === ab.uid && e.endTime === Infinity);
+            if (ev) ev.endTime = t;
+            if (ab.type === 'weapon_change') {
+              this._endWeaponChange(ab.targetId, ab.name, t, ctx);
+            }
+          }
         }
       }
 
@@ -1496,35 +1530,45 @@ export class BuffManager {
 
   /** 매 프레임(dt) 갱신 */
   public tick(t: number, dt: number, ctx: BattleContext): void {
-    // 1. 만료된 버프 정리
+    // 1. 만료된 버프 분리 및 _active 갱신
+    const expired: ActiveBuff[] = [];
     this._active = this._active.filter((ab) => {
       if (ab.isPermanent) return true;
       if (t >= ab.expiresAt) {
-        const ev = this._timelineEvents.find(
-          (e) => e.uid === ab.uid && e.endTime === Infinity
-        );
-        if (ev) ev.endTime = t;
-
-        if (ab.type === 'weapon_change') {
-          this._endWeaponChange(ab.targetId, ab.name, t, ctx);
-        }
-
-        // infinite_ammo 만료 시 상태 제거
-        if (ab.stat === 'infinite_ammo') {
-          const stillHas = this._active.some(
-            (other) =>
-              other !== ab &&
-              other.targetId === ab.targetId &&
-              other.stat === 'infinite_ammo' &&
-              other.expiresAt > t
-          );
-          if (!stillHas) this._infiniteAmmoChars.delete(ab.targetId);
-        }
-
+        expired.push(ab);
         return false;
       }
       return true;
     });
+
+    // 만료 후처리 (notify 등 _active에 새 버프를 추가할 수 있는 로직은 filter 완료 후 실행)
+    for (const ab of expired) {
+      const ev = this._timelineEvents.find(
+        (e) => e.uid === ab.uid && e.endTime === Infinity
+      );
+      if (ev) ev.endTime = t;
+
+      if (ab.type === 'weapon_change') {
+        this._endWeaponChange(ab.targetId, ab.name, t, ctx);
+      }
+
+      // infinite_ammo 만료 시 상태 제거
+      if (ab.stat === 'infinite_ammo') {
+        const stillHas = this._active.some(
+          (other) =>
+            other !== ab &&
+            other.targetId === ab.targetId &&
+            other.stat === 'infinite_ammo' &&
+            other.expiresAt > t
+        );
+        if (!stillHas) this._infiniteAmmoChars.delete(ab.targetId);
+      }
+
+      // 명명 버프 만료 시 event:state_end 통지
+      if (ab.name && ab.type !== 'weapon_change') {
+        this.notify(`event:state_end:${ab.name}`, t, ab.targetId, ctx);
+      }
+    }
 
     // 2. DoT 타이머 처리
     for (let i = this._dotTimers.length - 1; i >= 0; i--) {
@@ -1585,6 +1629,7 @@ export class BuffManager {
 
     for (const ab of this._active) {
       if (ab.targetId !== targetId && ab.targetId !== '__all__') continue;
+      if (ab.hasRuntimeConditions && !this._runtimeConditionOk(ab, t, ctx)) continue;
 
       const stat = ab.stat;
 

@@ -61,7 +61,7 @@ export function applyCurrentHpReduce(
 ): void {
   const char = ctx.team.members.find((m) => m.id === charId);
   if (!char) return;
-  const reduceAmt = (char.maxHp || char.hp) * (value / 100);
+  const reduceAmt = char.hp * (value / 100);
   char.hp = Math.max(1, char.hp - reduceAmt);
 }
 
