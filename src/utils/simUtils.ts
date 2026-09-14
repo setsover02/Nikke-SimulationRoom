@@ -151,6 +151,7 @@ export const SKILL_DAMAGE_TYPES = new Set([
 /**
  * 개별 대미지 인스턴스를 점으로 찍기 위한 스캐터 데이터 생성.
  * sourceFilter를 지정하면 해당 캐릭터 ID만, typeFilter를 지정하면 해당 타입만 집계.
+ * 무기 변경(weapon_change)으로 발생한 공격 대미지는 일반 평타이지만 스킬 기인 대미지이므로 예외적으로 포함.
  */
 export const generateScatterData = (
     result: any,
@@ -161,7 +162,8 @@ export const generateScatterData = (
     const data: ScatterPoint[] = [];
 
     for (const log of result.log) {
-        if (!DAMAGE_TYPES.has(log.type)) continue;
+        const isWeaponChange = log.description === 'weapon_change' || log.description?.startsWith('weapon_change');
+        if (!DAMAGE_TYPES.has(log.type) && !isWeaponChange) continue;
         if (sourceFilter && log.source !== sourceFilter) continue;
         if (!log.value || log.value <= 0) continue;
 
@@ -171,7 +173,7 @@ export const generateScatterData = (
             source: log.source,
             description: log.description || '',
             skillName: log.skillName || log.description || '',
-            dmgType: log.type,
+            dmgType: isWeaponChange ? 'weapon_change' : log.type,
             dmgStat: resolveDmgStat(log.description || '', log.type),
         });
     }

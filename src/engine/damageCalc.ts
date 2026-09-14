@@ -83,15 +83,25 @@ export function processAttack(ctx: BattleContext) {
                 ctx.buffManager.notify('last_bullet_fire', ctx.time, char.id, ctx);
             }
 
+            const weaponChangeSkill = (char as any).weaponOverrideSkillName || (ctx.state as any)?.weapon_change?.[char.id];
+
             if (isSG) {
                 // SG: 펠릿 시스템 — 탄 1발 = 펠릿 N개, 각각 독립 명중 판정
                 const pelletDmg = calcShotgunDamage(char, ctx, rangeMode);
-                applyDamage(ctx, pelletDmg, char.id);
+                if (weaponChangeSkill) {
+                    applyDamage(ctx, pelletDmg, char.id, 'attack', weaponChangeSkill, 'weapon_change');
+                } else {
+                    applyDamage(ctx, pelletDmg, char.id);
+                }
             } else {
                 // 일반 단발 처리 (RL는 추후 폭발 반경 데미지를 추가 구현 예정이므로 임시로 1타격으로 고정)
                 const result = calcCharacterDamage(char, ctx, isChargeAttack, rangeMode);
                 const simulatedHits = 1;
-                applyDamage(ctx, result.damage * simulatedHits, char.id);
+                if (weaponChangeSkill) {
+                    applyDamage(ctx, result.damage * simulatedHits, char.id, 'attack', weaponChangeSkill, 'weapon_change');
+                } else {
+                    applyDamage(ctx, result.damage * simulatedHits, char.id);
+                }
 
                 // 코어 히트 통지 (AR/SMG/MG/SR/RL)
                 if (ctx.buffManager && result.isCore) {
@@ -387,7 +397,7 @@ function processWeaponOverrideAttack(
 
         // weaponOverride 중 변경된 스킬 이름 추적 및 weapon_change 태그 부여
         const overrideSkillName = (char as any).weaponOverrideSkillName || '';
-        applyDamage(ctx, totalDmg, char.id, 'skill_damage', overrideSkillName, 'weapon_change');
+        applyDamage(ctx, totalDmg, char.id, 'attack', overrideSkillName, 'weapon_change');
 
         // 탄약 소모 및 버프 소모
         char.ammo -= 1;
