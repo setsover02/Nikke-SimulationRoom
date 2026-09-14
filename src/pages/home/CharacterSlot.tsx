@@ -239,25 +239,53 @@ const CharacterSlot: React.FC<Props> = ({ slot, index, onUpdate, outpostState })
     const toggleSkillDesc = (id: string) =>
         setSkillDescOpen(prev => ({ ...prev, [id]: !prev[id] }));
 
-    // description_params 기반으로 스킬 설명의 {N} 플레이스홀더를 레벨에 맞는 값으로 치환
+    // description_params 또는 인덱스/서브필드 기반으로 스킬 설명의 {N} 플레이스홀더를 레벨에 맞는 값으로 치환
     const renderSkillDescription = (skill: any, level: number): string => {
         const desc: string = skill.description || '';
         const params: Array<{ effect: number; field: string }> = skill.description_params || [];
         const effects: any[] = skill.effects || [];
         if (!desc) return '';
-        return desc.replace(/\{(\d+)\}/g, (_match: string, idxStr: string) => {
+
+        return desc.replace(/\{(\d+)(?:\.([a-zA-Z0-9_]+))?\}/g, (_match: string, idxStr: string, subField?: string) => {
             const idx = parseInt(idxStr, 10);
-            const param = params[idx];
-            if (!param) return _match;
-            const effect = effects[param.effect];
+            let effect: any = null;
+            let field = subField || 'value';
+
+            if (params.length > 0 && params[idx]) {
+                effect = effects[params[idx].effect];
+                field = params[idx].field;
+            } else if (effects[idx]) {
+                effect = effects[idx];
+            }
+
             if (!effect) return _match;
-            const field = param.field;
-            const val = effect[field];
-            if (val === undefined || val === null) return _match;
-            // 레벨별 딕셔너리 ("1"~"10")
-            if (typeof val === 'object' && !Array.isArray(val)) {
+
+            let val = effect[field];
+            if (val === undefined || val === null) {
+                if (field === 'values' && effect.value !== undefined) {
+                    val = effect.value;
+                } else {
+                    return _match;
+                }
+            }
+
+            // 1) 배열 (표준 value: number[]) -> level에 해당하는 값 반환 (1-indexed)
+            if (Array.isArray(val)) {
+                const lvlIdx = Math.min(val.length - 1, Math.max(0, level - 1));
+                return String(val[lvlIdx]);
+            }
+
+            // 2) 딕셔너리 객체 (values: {"1": ...})
+            if (typeof val === 'object' && val !== null) {
                 return String(val[String(level)] ?? val['10'] ?? _match);
             }
+
+            // 3) condition 문자열에서 숫자 추출 (예: "enemy_count_above:5" -> "5")
+            if (field === 'condition' && typeof val === 'string') {
+                const match = val.match(/:(\d+(\.\d+)?)$/);
+                if (match) return match[1];
+            }
+
             return String(val);
         });
     };
@@ -714,6 +742,9 @@ const CharacterSlot: React.FC<Props> = ({ slot, index, onUpdate, outpostState })
                 const skills: any[] = data.skills || [];
                 if (skills.length === 0) return null;
                 const levelMap: Record<string, number> = {
+                    'skill_1': slot.skill1Level || 10,
+                    'skill_2': slot.skill2Level || 10,
+                    'burst': slot.burstLevel || 10,
                     '스킬1': slot.skill1Level || 10,
                     '스킬2': slot.skill2Level || 10,
                     '스킬3': slot.burstLevel || 10,

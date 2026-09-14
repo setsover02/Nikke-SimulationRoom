@@ -44,7 +44,9 @@ for (const path in characterModules) {
     });
 
     // 매칭되는 아바타 파일 찾기
-    const matchingAvatarPath = Object.keys(avatarModules).find(p => p.includes(`${filename}.webp`));
+    const baseName = filename.replace(/_test$/, '');
+    const matchingAvatarPath = Object.keys(avatarModules).find(p => p.includes(`${filename}.webp`))
+        || Object.keys(avatarModules).find(p => p.includes(`${baseName}.webp`));
     if (matchingAvatarPath) {
         avatarMap[data.characterID] = avatarModules[matchingAvatarPath];
         avatarMap[filename] = avatarModules[matchingAvatarPath];
@@ -53,7 +55,8 @@ for (const path in characterModules) {
     }
 
     // 매칭되는 전신 파일 찾기
-    const matchingFullbodyPath = Object.keys(fullbodyModules).find(p => p.includes(`${filename}.webp`));
+    const matchingFullbodyPath = Object.keys(fullbodyModules).find(p => p.includes(`${filename}.webp`))
+        || Object.keys(fullbodyModules).find(p => p.includes(`${baseName}.webp`));
     if (matchingFullbodyPath) {
         fullbodyMap[data.characterID] = fullbodyModules[matchingFullbodyPath];
         fullbodyMap[filename] = fullbodyModules[matchingFullbodyPath];

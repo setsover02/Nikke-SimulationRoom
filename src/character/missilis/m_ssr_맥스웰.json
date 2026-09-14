@@ -23,6 +23,25 @@
       "id": "skill_1",
       "name": "스트레이트 샷",
       "type": "passive",
+      "description": "■ 풀 버스트 타임 시작 시 최종 공격력이 가장 높은 아군 2기에게\n[차지 속도 {0}% ▲] [{1}초 유지]\n[공격력 {2}% ▲] [{3}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "duration"
+        }
+      ],
       "effects": [
         {
           "trigger": "full_burst_start",
@@ -70,6 +89,21 @@
       "id": "skill_2",
       "name": "일렉트릭 샷",
       "type": "passive",
+      "description": "■ 니케를 제외한 적이 {0}기 이상일 때 한하여 자신에게\n[크리티컬 확률 {1}% ▲] [지속]\n[크리티컬 대미지 {2}% ▲] [지속]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "condition"
+        },
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        }
+      ],
       "effects": [
         {
           "trigger": "passive",
@@ -120,22 +154,33 @@
       "name": "피어스 샷",
       "type": "burst",
       "cooldown": 40,
+      "description": "■ 자신에게\n[사용 무기 변경] :\n차지 시간 : 2초\n대미지 : 최종 공격력 {0}%\n풀 차지 대미지 : 300% 대미지\n최대 장탄 수 : {1}발\n추가 효과 : 관통 특화",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "bullet"
+        }
+      ],
       "effects": [
         {
           "trigger": "burst_cast",
           "target": "self",
           "effect": "atk_pct",
           "value": [
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0
+            144.85,
+            219.14,
+            293.42,
+            367.71,
+            442.0,
+            516.28,
+            590.57,
+            664.85,
+            739.14,
+            813.42
           ],
           "unit": "percent",
           "duration": null,
