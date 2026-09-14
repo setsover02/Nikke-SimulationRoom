@@ -83,7 +83,8 @@ export interface Character {
     comboShots?: number;     // 연속 사격 횟수 (반동 누적용)
     accuracyBuff?: number;   // 명중률 버프 합산 (0.2 = +20%)
     totalAmmoUsed?: number;
-    warmupLevel?: number;  // MG 예열 레벨 (0=냉각, 1=예열 완료)
+    warmupShots?: number;  // MG 예열 누적 발수 (0 ~ 41.4발)
+    warmupLevel?: number;  // MG 예열 레벨 (0=냉각, 1=예열 완료, warmupShots / 41.4)
     activeIntervalSkills?: any[]; // 주기적으로 발동하는 액티브 스킬 상태 추적
     maxHp?: number;              // 최대 체력 (heal 계산용, 스킬 버프로 변경 가능)
 

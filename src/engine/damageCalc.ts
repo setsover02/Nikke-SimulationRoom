@@ -1,7 +1,7 @@
 import { BattleContext, Character } from "../types/battle";
 import { calcNikkeDamage } from "./nikkeFormula";
 import { WeaponType, resolveHit, ResolveHitParams } from "./accuraySystem";
-import { heatWarmupByTime, coolWarmupLevel, getMgFireRate } from "./mgWarmup";
+import { heatWarmupShots, coolWarmupShots, getMgFireRate, getMgWarmupLevel } from "./mgWarmup";
 import { getWeaponMultipliers, getWeaponRangeBonus, RangeMode } from "../constants/weaponStats";
 import { checkAdvantage } from "../utils/charUtils";
 import { decrementBulletBuffs } from "./skillResolver";
@@ -31,9 +31,10 @@ export function processAttack(ctx: BattleContext) {
         const isFiring = canAttack(char);
         const buffs = ctx.buffManager ? ctx.buffManager.getBuffs(char.id, char.id, ctx, ctx.time) : null;
 
-        // MG: 사격 중이 아닐 때 냉각 (시간 기반)
+        // MG: 사격 중이 아닐 때 냉각 (시간 비례 점진 냉각)
         if (isMG && !isFiring) {
-            char.warmupLevel = coolWarmupLevel(char.warmupLevel ?? 0, dt);
+            char.warmupShots = coolWarmupShots(char.warmupShots ?? 0, dt);
+            char.warmupLevel = getMgWarmupLevel(char.warmupShots);
         }
 
         if (!isFiring) {
@@ -62,9 +63,11 @@ export function processAttack(ctx: BattleContext) {
             }
         } else {
             // 일반 연사 (AR / SMG / SG / MG)
-            let effectiveFireRate = char.fireRate * (1 + (buffs ? buffs.attack_speed_pct / 100 : 0));
+            let effectiveFireRate: number;
             if (isMG) {
-                effectiveFireRate = getMgFireRate(effectiveFireRate, char.warmupLevel ?? 0);
+                effectiveFireRate = getMgFireRate(char.warmupShots ?? 0, buffs ? buffs.attack_speed_pct : 0);
+            } else {
+                effectiveFireRate = char.fireRate * (1 + (buffs ? buffs.attack_speed_pct / 100 : 0));
             }
 
             char.fireAccumulator = (char.fireAccumulator || 0) + effectiveFireRate * dt;
@@ -130,9 +133,11 @@ export function processAttack(ctx: BattleContext) {
             }
         }
 
-        // MG: 사격 후 시간 기반 예열 (+dt 분)
+        // MG: 사격 후 발수 기반 예열 (버프 mg_warmup_speed_pct 반영)
         if (isMG && shotsToFire > 0) {
-            char.warmupLevel = heatWarmupByTime(char.warmupLevel ?? 0, dt);
+            const warmupSpeedPct = buffs ? buffs.mg_warmup_speed_pct : 0;
+            char.warmupShots = heatWarmupShots(char.warmupShots ?? 0, shotsToFire, warmupSpeedPct);
+            char.warmupLevel = getMgWarmupLevel(char.warmupShots);
         }
     });
 }
