@@ -125,3 +125,5 @@ stack_boost: 중첩 가능 이로운 효과 중첩량 증가 (페퍼 등)
 remove_status: 고유 상태 해제
 charge_status: 고유 상태 충전 / 스택 획득
 status_damage_with_stack_copy: 대상의 특정 상태 중첩을 복사하여 적용하는 지속 대미지 (미하라 전용)
+imjeon_state: 임전 상태 마커 (마리안 : 퀸, 홍련 : 신살 등 임전 계열 상태 식별용)
+normal_atk_width_pct: 일반 공격 폭 증가 (홍련 : 신살 전용, 단일 보스 DPS 무관)

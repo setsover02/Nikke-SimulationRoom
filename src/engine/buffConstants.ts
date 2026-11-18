@@ -226,4 +226,6 @@ export const _UNIMPLEMENTED_STATS = new Set([
   'targeting_exclude',
   'force_move',
   'burst_reentry',    // burst_reenter는 charExceptions에서 처리
+  'imjeon_state',     // 마리안 : 퀸 / 홍련 : 신살 임전 상태 마커
+  'normal_atk_width_pct', // 홍련 : 신살 일반 공격 폭 증가 (단일 보스 no-op)
 ]);

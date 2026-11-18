@@ -41,8 +41,105 @@ interface SimToolbarProps {
     onWeaknessChange: (v: string) => void;
     enemyDef: string;
     onEnemyDefChange: (v: string) => void;
-    onSimulate: () => void;
 }
+
+interface TargetSummaryPanelProps {
+    fullBurstInterval: string;
+    showCore: boolean;
+    coreSize: number;
+    rangeMode: RangeMode;
+    weaknessElement: string;
+    enemyDef: string;
+    onOpenTargetModal: () => void;
+}
+
+export const TargetSummaryPanel: React.FC<TargetSummaryPanelProps> = ({
+    fullBurstInterval,
+    showCore,
+    coreSize,
+    rangeMode,
+    weaknessElement,
+    enemyDef,
+    onOpenTargetModal,
+}) => {
+    const activeElementOption = ELEMENT_OPTIONS.find(opt => opt.value === weaknessElement) || ELEMENT_OPTIONS[0];
+    const activeRangeOption = RANGE_OPTIONS.find(opt => opt.value === rangeMode);
+    const activeWeapons = activeRangeOption ? activeRangeOption.weapons.split(' · ') : [];
+
+    return (
+        <Grid columns={1} gap={2} className="pa-2">
+            {/* 상단 헤더: 타이틀 & 타겟 설정 모달 열기 버튼 */}
+            <Grid templateColumns="1fr auto" alignItems="center" className="pb-2 divider-bottom">
+                <Font as="h3" variant="subtitle" weight="bold">
+                    타겟 설정
+                </Font>
+                <Button
+                    variant="assistive"
+                    size="small"
+                    leftIcon="settings"
+                    onClick={onOpenTargetModal}
+                >
+                    타겟 설정
+                </Button>
+            </Grid>
+
+            {/* 타겟 설정 간략 요약 */}
+            <Grid columns={{ xs: 2, sm: 3, lg: 5 }} gap={2} alignItems="center">
+                <Grid columns={1} gap={1}>
+                    <Font as="span" variant="caption-2" color="muted">약점 속성</Font>
+                    <Grid templateColumns="auto auto" gap={1} alignItems="center" justifyContent="start">
+                        <ButtonIconToggle
+                            size="small"
+                            svgIcon={activeElementOption.iconName}
+                            element={activeElementOption.element}
+                            selected
+                            aria-label={activeElementOption.label}
+                        />
+                        <Font as="span" variant="body" weight="semibold">
+                            {activeElementOption.label}
+                        </Font>
+                    </Grid>
+                </Grid>
+
+                <Grid columns={1} gap={1}>
+                    <Font as="span" variant="caption-2" color="muted">적 방어력</Font>
+                    <Grid templateColumns="auto" justifyContent="start">
+                        <Chip variant="non-selectable">{enemyDef || '100'}</Chip>
+                    </Grid>
+                </Grid>
+
+                <Grid columns={1} gap={1}>
+                    <Font as="span" variant="caption-2" color="muted">버스트 충전</Font>
+                    <Grid templateColumns="auto" justifyContent="start">
+                        <Chip variant="non-selectable">{fullBurstInterval || '3.5'}초</Chip>
+                    </Grid>
+                </Grid>
+
+                <Grid columns={1} gap={1}>
+                    <Font as="span" variant="caption-2" color="muted">교전 거리</Font>
+                    <Grid templateColumns="auto auto" gap={1} alignItems="center" justifyContent="start">
+                        <Chip variant="non-selectable">{rangeMode}</Chip>
+                        <Font as="span" variant="caption-1" color="muted">
+                            {activeWeapons.join(' · ')}
+                        </Font>
+                    </Grid>
+                </Grid>
+
+                <Grid columns={1} gap={1}>
+                    <Font as="span" variant="caption-2" color="muted">코어</Font>
+                    <Grid templateColumns="auto" justifyContent="start">
+                        <Chip
+                            variant={showCore ? 'core' : 'non-selectable'}
+                            selectable={false}
+                        >
+                            {showCore ? `코어 ${coreSize}px` : '미적용'}
+                        </Chip>
+                    </Grid>
+                </Grid>
+            </Grid>
+        </Grid>
+    );
+};
 
 const SimToolbar: React.FC<SimToolbarProps> = ({
     fullBurstInterval, onFullBurstIntervalChange,
@@ -51,37 +148,25 @@ const SimToolbar: React.FC<SimToolbarProps> = ({
     rangeMode, onRangeModeChange,
     weaknessElement, onWeaknessChange,
     enemyDef, onEnemyDefChange,
-    onSimulate,
 }) => {
     const activeRangeOption = RANGE_OPTIONS.find(opt => opt.value === rangeMode);
     const activeWeapons = activeRangeOption ? activeRangeOption.weapons.split(' · ') : [];
-    const currentRangeIndex = RANGE_OPTIONS.findIndex(opt => opt.value === rangeMode);
 
-    const rangeMarks = RANGE_OPTIONS.map((opt, idx) => ({
-        value: idx,
+    const rangeMarks = RANGE_OPTIONS.map(opt => ({
+        value: opt.value,
         label: opt.label,
     }));
 
     return (
-        <Grid columns={1} gap={2} className="pa-3">
-            {/* 상단 헤더: 타이틀 & 시뮬레이션 버튼 */}
-            <Grid templateColumns="1fr auto" alignItems="center">
-                <Font as="h3" variant="subtitle" weight="bold">
-                    타겟 설정
-                </Font>
-                <Button onClick={onSimulate} variant="primary" size="default">
-                    시뮬레이션
-                </Button>
-            </Grid>
-
-            {/* 설정 영역: 가로 3개 컬럼 그룹 */}
-            <Grid columns={{ xs: 1, md: 2, lg: 3 }} gap={3} alignItems="start">
+        <Grid columns={1} gap={2}>
+            {/* 설정 영역: 1열 Column 배치 (모달 내 세로 스크롤 대응) */}
+            <Grid columns={1} gap={3}>
                 {/* 그룹 1: 타겟 속성 및 스펙 */}
                 <Grid columns={1} gap={2}>
                     {/* 약점 속성 선택 */}
                     <Grid columns={1} gap={1}>
                         <Font as="span" variant="caption-1" color="muted">약점 속성</Font>
-                        <Grid columns={5} gap={1}>
+                        <Grid templateColumns="repeat(5, auto)" gap={1} justifyContent="start">
                             {ELEMENT_OPTIONS.map(opt => (
                                 <ButtonIconToggle
                                     key={opt.value}
@@ -124,7 +209,7 @@ const SimToolbar: React.FC<SimToolbarProps> = ({
                         <Font as="span" variant="caption-1" color="muted">교전 거리</Font>
                         <Grid templateColumns={`repeat(${activeWeapons.length}, auto)`} gap={1} justifyContent="end">
                             {activeWeapons.map(w => (
-                                <Chip key={w}>{w}</Chip>
+                                <Chip key={w} readOnly>{w}</Chip>
                             ))}
                         </Grid>
                     </Grid>
@@ -137,18 +222,14 @@ const SimToolbar: React.FC<SimToolbarProps> = ({
                         </Grid>
                         <Slider
                             min={0}
-                            max={RANGE_OPTIONS.length - 1}
-                            step={1}
+                            max={100}
                             type="discrete"
-                            value={currentRangeIndex >= 0 ? currentRangeIndex : 0}
-                            onChange={idx => {
-                                const selected = RANGE_OPTIONS[idx];
-                                if (selected) onRangeModeChange(selected.value);
-                            }}
+                            value={rangeMode}
+                            onChange={val => onRangeModeChange(val as RangeMode)}
                             marks={rangeMarks}
-                            formatTooltip={idx => {
-                                const opt = RANGE_OPTIONS[idx];
-                                return opt ? `${opt.label} (${opt.weapons})` : '';
+                            formatTooltip={val => {
+                                const opt = RANGE_OPTIONS.find(o => o.value === val);
+                                return opt ? `${opt.label} (${opt.weapons})` : String(val);
                             }}
                         />
                     </Grid>

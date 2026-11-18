@@ -171,31 +171,65 @@ export function getCharDefaultState(charOption: typeof characterOptions[0]): Slo
     };
 }
 
-export function loadTeamLayout(): (string | null)[] {
+const DEFAULT_FIRST_TEAM: (string | null)[] = [
+    characterOptions[0].data.characterID,
+    characterOptions[1].data.characterID,
+    characterOptions[2].data.characterID,
+    characterOptions[3].data.characterID,
+    null,
+];
+
+const EMPTY_TEAM_IDS: (string | null)[] = [null, null, null, null, null];
+
+function normalizeTeamSlots(raw: unknown): (string | null)[] {
+    if (!Array.isArray(raw)) return [...EMPTY_TEAM_IDS];
+    const normalized = raw.slice(0, 5).map(id => (typeof id === 'string' ? id : null));
+    while (normalized.length < 5) normalized.push(null);
+    return normalized;
+}
+
+function padTeamsToFive(teams: (string | null)[][]): (string | null)[][] {
+    const padded = teams.slice(0, 5).map(normalizeTeamSlots);
+    while (padded.length < 5) padded.push([...EMPTY_TEAM_IDS]);
+    return padded;
+}
+
+export function loadTeamLayouts(): (string | null)[][] {
     try {
         const stored = localStorage.getItem(TEAM_LAYOUT_KEY);
         if (stored) {
-            return JSON.parse(stored);
+            const parsed = JSON.parse(stored);
+            if (Array.isArray(parsed) && parsed.length > 0) {
+                // 신규 멀티 스쿼드 형식: (string | null)[][]
+                if (Array.isArray(parsed[0])) {
+                    return padTeamsToFive(parsed);
+                }
+                // 기존 단일 스쿼드 형식 호환: (string | null)[]
+                return padTeamsToFive([parsed]);
+            }
         }
     } catch (e) {
-        console.error('Failed to load team layout', e);
+        console.error('Failed to load team layouts', e);
     }
-    // 기본값: 첫 4명, 마지막 빈칸 (Home.tsx 기존 로직과 동일)
-    return [
-        characterOptions[0].data.characterID,
-        characterOptions[1].data.characterID,
-        characterOptions[2].data.characterID,
-        characterOptions[3].data.characterID,
-        null
-    ];
+    return padTeamsToFive([[...DEFAULT_FIRST_TEAM]]);
+}
+
+export function saveTeamLayouts(teamsIds: (string | null)[][]) {
+    try {
+        localStorage.setItem(TEAM_LAYOUT_KEY, JSON.stringify(padTeamsToFive(teamsIds)));
+    } catch (e) {
+        console.error('Failed to save team layouts', e);
+    }
+}
+
+export function loadTeamLayout(): (string | null)[] {
+    return loadTeamLayouts()[0] || [...DEFAULT_FIRST_TEAM];
 }
 
 export function saveTeamLayout(teamIds: (string | null)[]) {
-    try {
-        localStorage.setItem(TEAM_LAYOUT_KEY, JSON.stringify(teamIds));
-    } catch (e) {
-        console.error('Failed to save team layout', e);
-    }
+    const current = loadTeamLayouts();
+    current[0] = normalizeTeamSlots(teamIds);
+    saveTeamLayouts(current);
 }
 
 // -------------------------

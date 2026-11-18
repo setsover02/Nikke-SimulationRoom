@@ -1,0 +1,453 @@
+{
+  "characterID": "Char_405",
+  "characterName": "신 : 스위프트 바니",
+  "stats": {
+    "rarity": "SSR",
+    "element": "수냉",
+    "weapon": "SR",
+    "class": "화력형",
+    "company": "Missilis",
+    "squad": "리얼 카인드니스",
+    "burstLevel": 3,
+    "atkCoef": 69.04,
+    "maxAmmo": 6,
+    "reloadTime": 2,
+    "chargeTime": 1,
+    "fireRate": 0,
+    "fullChargeDamage": 250,
+    "coreDamage": 200,
+    "pelletCount": 1,
+    "start_accuracy_circle_scale": 10,
+    "end_accuracy_circle_scale": 10
+  },
+  "skills": [
+    {
+      "id": "skill_1",
+      "name": "바니 시프트",
+      "type": "passive",
+      "description": "■ 전투 시작 시 자신에게\n[공격력 {0}% ▲] [지속] \n■ 풀 차지 시 자신이 스위프트 캐럿 상태가 아니라면 자신에게\n[일반 공격 대미지 배율 {1}% ▲] [{2}발 유지]\n[차지 대미지 {3}% ▲] [{4}발 유지]\n■ 전투 시작 시와 풀 차지 상태를 {5}초 이상 유지 시 자신에게\n[상태에 맞는 바니 모드만 적용]\n자신이 바니 모드 : 스탠스 상태라면\n[바니 모드 : 인게이지] [지속] [해제 불가]\n자신이 바니 모드 : 스탠스 상태가 아니라면\n[바니 모드 : 스탠스] [지속] [해제 불가]\n■ 자신에게 바니 모드 : 인게이지 적용 시 바니 모드 : 스탠스 상태인 아군 전체에게 \n[바니 모드 : 인게이지] [지속] [해제 불가]\n■ 자신에게 바니 모드 : 스탠스 적용 시 바니 모드 : 인게이지 상태인 아군 전체에게\n[바니 모드 : 스탠스] [지속] [해제 불가]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "bullet"
+        },
+        {
+          "effect": 2,
+          "field": "value"
+        },
+        {
+          "effect": 2,
+          "field": "bullet"
+        },
+        {
+          "value": [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+        }
+      ],
+      "effects": [
+        {
+          "trigger": "battle_start",
+          "target": "self",
+          "name": "바니 시프트",
+          "effect": "atk_pct",
+          "value": [
+            9.07,
+            9.77,
+            10.47,
+            11.16,
+            11.86,
+            12.56,
+            13.26,
+            13.95,
+            14.65,
+            15.35
+          ],
+          "unit": "percent",
+          "duration": "permanent",
+          "type": "buff"
+        },
+        {
+          "trigger": "full_charge",
+          "condition": "not_self_state:스위프트 캐럿",
+          "target": "self",
+          "name": "바니 시프트 2",
+          "effect": "normal_atk_dmg_pct",
+          "value": [
+            59.09,
+            63.64,
+            68.18,
+            72.73,
+            77.27,
+            81.82,
+            86.36,
+            90.91,
+            95.45,
+            100
+          ],
+          "unit": "percent",
+          "duration": null,
+          "bullet": 1,
+          "type": "buff"
+        },
+        {
+          "trigger": "full_charge",
+          "condition": "not_self_state:스위프트 캐럿",
+          "target": "self",
+          "name": "바니 시프트 3",
+          "effect": "charge_dmg_pct",
+          "value": [
+            30.8,
+            33.17,
+            35.54,
+            37.91,
+            40.27,
+            42.64,
+            45.01,
+            47.38,
+            49.75,
+            52.12
+          ],
+          "unit": "percent",
+          "duration": null,
+          "bullet": 1,
+          "type": "buff"
+        },
+        {
+          "trigger": ["battle_start", "charge_hold:1"],
+          "target": "self",
+          "name": "바니 모드 전환 카운트",
+          "effect": "gauge_charge",
+          "gauge_id": "바니_모드",
+          "value": [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+          "unit": "count",
+          "duration": null,
+          "type": "instant"
+        },
+        {
+          "trigger": ["battle_start", "charge_hold:1"],
+          "target": "self",
+          "effect": "remove_named_buff",
+          "target_effect": "바니 모드 : 스탠스",
+          "value": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          "unit": "percent",
+          "duration": null,
+          "type": "instant"
+        },
+        {
+          "trigger": ["battle_start", "charge_hold:1"],
+          "target": "self",
+          "effect": "remove_named_buff",
+          "target_effect": "바니 모드 : 인게이지",
+          "value": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          "unit": "percent",
+          "duration": null,
+          "type": "instant"
+        },
+        {
+          "trigger": ["battle_start", "charge_hold:1"],
+          "condition": "gauge_mod:바니_모드:2:1",
+          "target": "self",
+          "name": "바니 모드 : 스탠스",
+          "effect": "atk_pct",
+          "value": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          "unit": "percent",
+          "duration": "permanent",
+          "type": "buff"
+        },
+        {
+          "trigger": ["battle_start", "charge_hold:1"],
+          "condition": "gauge_mod:바니_모드:2:0",
+          "target": "self",
+          "name": "바니 모드 : 인게이지",
+          "effect": "atk_pct",
+          "value": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          "unit": "percent",
+          "duration": "permanent",
+          "type": "buff"
+        },
+        {
+          "trigger": "event:바니 모드 : 인게이지",
+          "target": "allies_with_buff:바니 모드 : 스탠스",
+          "effect": "remove_named_buff",
+          "target_effect": "바니 모드 : 스탠스",
+          "value": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          "unit": "percent",
+          "duration": null,
+          "type": "instant"
+        },
+        {
+          "trigger": "event:바니 모드 : 인게이지",
+          "target": "allies_with_buff:바니 모드 : 스탠스",
+          "name": "바니 모드 : 인게이지",
+          "effect": "atk_pct",
+          "value": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          "unit": "percent",
+          "duration": "permanent",
+          "type": "buff"
+        },
+        {
+          "trigger": "event:바니 모드 : 스탠스",
+          "target": "allies_with_buff:바니 모드 : 인게이지",
+          "effect": "remove_named_buff",
+          "target_effect": "바니 모드 : 인게이지",
+          "value": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          "unit": "percent",
+          "duration": null,
+          "type": "instant"
+        },
+        {
+          "trigger": "event:바니 모드 : 스탠스",
+          "target": "allies_with_buff:바니 모드 : 인게이지",
+          "name": "바니 모드 : 스탠스",
+          "effect": "atk_pct",
+          "value": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          "unit": "percent",
+          "duration": "permanent",
+          "type": "buff"
+        }
+      ]
+    },
+    {
+      "id": "skill_2",
+      "name": "스위칭 불렛",
+      "type": "passive",
+      "description": "■ 자신이 바니 모드 : 인게이지 상태일 때 한하여 자신에게\n[노이즈 불렛]\n기능 : 공격을 방어력 무시 대미지로 변경합니다.\n효과 1 : [일반 공격을 방어력 무시 대미지로 적용] [지속] [해제 불가]\n효과 2 : [스위프트 캐럿을 방어력 무시 대미지로 적용] [지속] [해제 불가]\n■ 자신이 바니 모드 : 스탠스 상태일 때 한하여 자신에게\n[인헨스 불렛]\n기능 : 공격 능력을 강화합니다.\n효과 1 : [크리티컬 확률 {0}% ▲] [지속] [해제 불가]\n효과 2 : [크리티컬 대미지 {1}% ▲] [지속] [해제 불가]\n■ 버스트 스킬 사용 시 자신에게\n[스위프트 캐럿 : 사용 무기 변경] :\n차지 시간 : 0.5초로 고정\n대미지 : 최종 공격력 {2}%\n풀 차지 대미지 : 300% 대미지\n유지 시간 : {3}초",
+      "description_params": [
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 2,
+          "field": "value"
+        },
+        {
+          "effect": 3,
+          "field": "value"
+        },
+        {
+          "effect": 3,
+          "field": "duration"
+        }
+      ],
+      "effects": [
+        {
+          "trigger": "passive",
+          "condition": "self_state:바니 모드 : 인게이지",
+          "target": "self",
+          "name": "노이즈 불렛",
+          "effect": "armor_break_enabled",
+          "value": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          "unit": "percent",
+          "duration": "permanent",
+          "type": "buff"
+        },
+        {
+          "trigger": "passive",
+          "condition": "self_state:바니 모드 : 스탠스",
+          "target": "self",
+          "name": "인헨스 불렛",
+          "effect": "crit_rate",
+          "value": [
+            20.76,
+            22.36,
+            23.96,
+            25.56,
+            27.15,
+            28.75,
+            30.35,
+            31.95,
+            33.54,
+            35.14
+          ],
+          "unit": "percent",
+          "duration": "permanent",
+          "type": "buff"
+        },
+        {
+          "trigger": "passive",
+          "condition": "self_state:바니 모드 : 스탠스",
+          "target": "self",
+          "name": "인헨스 불렛 2",
+          "effect": "crit_dmg",
+          "value": [
+            44.39,
+            47.8,
+            51.22,
+            54.63,
+            58.05,
+            61.46,
+            64.88,
+            68.29,
+            71.71,
+            75.12
+          ],
+          "unit": "percent",
+          "duration": "permanent",
+          "type": "buff"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "name": "스위프트 캐럿",
+          "effect": "atk_pct",
+          "value": [
+            43.27,
+            46.59,
+            49.92,
+            53.25,
+            56.58,
+            59.91,
+            63.24,
+            66.56,
+            69.89,
+            73.22
+          ],
+          "unit": "percent",
+          "duration": 5,
+          "type": "weapon_change",
+          "weapon_override": {
+            "chargeTime": 0.5,
+            "atkCoef": [
+              43.27,
+              46.59,
+              49.92,
+              53.25,
+              56.58,
+              59.91,
+              63.24,
+              66.56,
+              69.89,
+              73.22
+            ],
+            "fullChargeDamage": 300,
+            "maxAmmo": "infinity"
+          }
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "name": "스위프트 캐럿 차지시간고정",
+          "effect": "charge_time_fixed",
+          "value": [0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5],
+          "unit": "seconds",
+          "duration": 5,
+          "type": "buff"
+        }
+      ]
+    },
+    {
+      "id": "burst",
+      "name": "스위프트 피어싱",
+      "type": "burst",
+      "cooldown": 40,
+      "description": "■ 자신에게\n[공격력 {0}% ▲] [{1}초 유지]\n■ 적 전체에게\n[최종 공격력 {2}% 버스트 스킬 대미지]\n■ 자신이 바니 모드 : 스탠스 상태라면 동일 적 대상에게\n[최종 공격력 {3}% 추가 대미지]\n■ 자신이 바니 모드 : 인게이지 상태라면 동일 적 대상에게\n[최종 공격력 {4}% 방어력 무시 대미지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 2,
+          "field": "value"
+        },
+        {
+          "effect": 3,
+          "field": "value"
+        }
+      ],
+      "effects": [
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "name": "스위프트 피어싱",
+          "effect": "atk_pct",
+          "value": [65, 70, 75, 80, 85, 90, 95, 100, 105, 110],
+          "unit": "percent",
+          "duration": 5,
+          "type": "buff"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "all_enemies",
+          "name": "스위프트 피어싱 2",
+          "effect": "burst_damage",
+          "value": [
+            305.26,
+            328.75,
+            352.23,
+            375.71,
+            399.19,
+            422.67,
+            446.15,
+            469.64,
+            493.12,
+            516.6
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "damage"
+        },
+        {
+          "trigger": "burst_cast",
+          "condition": "self_state:바니 모드 : 스탠스",
+          "target": "same_target",
+          "name": "스위프트 피어싱 3",
+          "effect": "bonus_damage",
+          "value": [
+            566.62,
+            610.21,
+            653.8,
+            697.38,
+            740.97,
+            784.55,
+            828.14,
+            871.73,
+            915.31,
+            958.9
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "damage"
+        },
+        {
+          "trigger": "burst_cast",
+          "condition": "self_state:바니 모드 : 인게이지",
+          "target": "same_target",
+          "name": "스위프트 피어싱 4",
+          "effect": "armor_break_damage",
+          "value": [
+            504.99,
+            543.84,
+            582.68,
+            621.53,
+            660.37,
+            699.22,
+            738.06,
+            776.91,
+            815.75,
+            854.6
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "damage"
+        }
+      ]
+    }
+  ]
+}

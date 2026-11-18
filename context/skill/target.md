@@ -42,6 +42,10 @@ self_and_highest_atk_allies_1: 자신과 자신을 제외한 최종 공격력이
 self_and_highest_atk_allies_2: 자신과 자신을 제외한 최종 공격력이 가장 높은 아군 2기에게
 self_and_highest_atk_allies_3: 자신과 자신을 제외한 최종 공격력이 가장 높은 아군 3기에게
 self_and_adjacent_allies_2: 자신과 양 옆에 있는 아군 2기에게
+ally_right:1: 자신의 우측 자리 아군 1기에게 (벨로타 : 펌킨 위치 등)
+self_and_allies_imjeon: 자신과 임전 상태인 아군 전체에게 (라푼젤 : 생츄어리 등)
+allies_imjeon: 임전 상태인 아군 전체에게
+allies_down_all: 전투불능 상태 아군 전체에게 (라푼젤 : 생츄어리 등)
 highest_atk_allies_1: 최종 공격력이 가장 높은 아군 1기에게 (전투중 버프가 적용된 수치를 계산후 공격력이 가장 높은 아군)
 highest_atk_allies_2: 최종 공격력이 가장 높은 아군 2기에게 (전투중 버프가 적용된 수치를 계산후 공격력이 가장 높은 아군)
 highest_atk_allies_3: 최종 공격력이 가장 높은 아군 3기에게 (전투중 버프가 적용된 수치를 계산후 공격력이 가장 높은 아군)

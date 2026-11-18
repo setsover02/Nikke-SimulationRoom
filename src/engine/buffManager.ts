@@ -37,6 +37,11 @@ export class BuffManager {
     expiresAt: number;
     isSkillDamage?: boolean;
   }> = [];
+  private _everyTimers: Array<{
+    eff: NormalizedSkillEffect;
+    baseInterval: number;
+    elapsed: number;
+  }> = [];
 
   // 스쿼드 탄 소비 누적 집계 (squad_ammo_consume:N trigger용)
   private _squadAmmoConsumed = 0;
@@ -69,6 +74,7 @@ export class BuffManager {
     this._triggerCounts = {};
     this._eventCounts = {};
     this._dotTimers = [];
+    this._everyTimers = [];
     this._timelineEvents = [];
     this._squadAmmoConsumed = 0;
     this._infiniteAmmoChars.clear();
@@ -186,6 +192,20 @@ export class BuffManager {
           };
 
           this._effects.push(normalized);
+
+          for (const tm of normalized.trigger.timing) {
+            const everyMatch = tm.match(/^every:([\d.]+)s$/);
+            if (everyMatch) {
+              const sec = parseFloat(everyMatch[1]);
+              if (sec > 0) {
+                this._everyTimers.push({
+                  eff: normalized,
+                  baseInterval: sec,
+                  elapsed: 0,
+                });
+              }
+            }
+          }
         });
       });
     });
@@ -543,6 +563,21 @@ export class BuffManager {
         const thresh = parseFloat(parts[2] || '0');
         const gaugeVal = (ctx.state as any)?.gauges?.[eff.casterId || casterId || '']?.[gaugeId] ?? 0;
         if (gaugeVal >= thresh) return false;
+      }
+
+      if (cond.startsWith('gauge_mod:')) {
+        const parts = cond.split(':');
+        const gaugeId = parts[1];
+        const mod = parseInt(parts[2] || '2', 10);
+        const rem = parseInt(parts[3] || '0', 10);
+        const gaugeVal = (ctx.state as any)?.gauges?.[eff.casterId || casterId || '']?.[gaugeId] ?? 0;
+        if (mod > 0 && gaugeVal % mod !== rem) return false;
+      }
+
+      if (cond.startsWith('downed_allies_above:')) {
+        const n = parseInt(cond.split(':')[1] || '1', 10);
+        const downedCount = (ctx.state as any)?.downedAlliesCount ?? 0;
+        if (downedCount < n) return false;
       }
 
       if (cond.startsWith('enemy_count_below:')) {
@@ -1159,6 +1194,43 @@ export class BuffManager {
         .map((m) => m.id);
     }
 
+    // ── 우측 인접 아군 N명 (벨로타 : 펌킨 위치 등) ───────────
+    const rightAllyMatch = targetPattern.match(/^ally_right:(\d+)$/);
+    if (rightAllyMatch && casterIdx !== -1) {
+      const count = parseInt(rightAllyMatch[1], 10);
+      const result: string[] = [];
+      for (let d = 1; d <= count; d++) {
+        if (casterIdx + d < members.length) {
+          result.push(members[casterIdx + d].id);
+        }
+      }
+      return result;
+    }
+
+    // ── 자신 + 임전 상태 아군 전체 (라푼젤 : 생츄어리 등) ────
+    if (targetPattern === 'self_and_allies_imjeon' || targetPattern === 'allies_imjeon') {
+      const t = ctx ? ctx.time : 0;
+      const imjeonAllies = members
+        .filter((m) =>
+          this._active.some(
+            (ab) =>
+              ab.targetId === m.id &&
+              (ab.isPermanent || ab.expiresAt > t) &&
+              (ab.stat === 'imjeon_state' || (ab.name && ab.name.startsWith('임전')))
+          )
+        )
+        .map((m) => m.id);
+      if (targetPattern === 'self_and_allies_imjeon') {
+        return [...new Set([casterId, ...imjeonAllies])];
+      }
+      return imjeonAllies;
+    }
+
+    // ── 전투불능 아군 전체 (단일 보스 시뮬 0명) ──────────────
+    if (targetPattern === 'allies_down_all') {
+      return [];
+    }
+
     // ── 버스트3 + persona_state 보유 (자신 제외) ──────────────
     if (targetPattern === 'allies_burst3_persona_excl_self') {
       return members
@@ -1356,6 +1428,27 @@ export class BuffManager {
           (ctx.state as any)[stateKey] = ((ctx.state as any)[stateKey] || 0) + value;
         }
       }
+
+      // ── 게이지 충전 / 소모 ─────────────────────────────────
+      else if (stat === 'gauge_charge') {
+        if (ctx.state) {
+          const gId = eff.gauge_id || '무대_단계';
+          (ctx.state as any).gauges = (ctx.state as any).gauges || {};
+          (ctx.state as any).gauges[targetId] = (ctx.state as any).gauges[targetId] || {};
+          (ctx.state as any).gauges[targetId][gId] =
+            ((ctx.state as any).gauges[targetId][gId] || 0) + value;
+        }
+      } else if (stat === 'gauge_consume') {
+        if (ctx.state) {
+          const gId = eff.gauge_id || '무대_단계';
+          (ctx.state as any).gauges = (ctx.state as any).gauges || {};
+          (ctx.state as any).gauges[targetId] = (ctx.state as any).gauges[targetId] || {};
+          (ctx.state as any).gauges[targetId][gId] = Math.max(
+            0,
+            ((ctx.state as any).gauges[targetId][gId] || 0) - value
+          );
+        }
+      }
     }
   }
 
@@ -1403,17 +1496,34 @@ export class BuffManager {
       if (scaleFactor === 0) return;
     }
 
+    // dmg_scale_mag_pct 증폭 (홍련 : 신살 거합 등)
+    if (eff.name) {
+      for (const ab of this._active) {
+        if (
+          ab.stat === 'dmg_scale_mag_pct' &&
+          (ab.targetId === casterId || ab.casterId === casterId) &&
+          ab.effectDef?.target_effect === eff.name &&
+          (ab.isPermanent || ab.expiresAt > t)
+        ) {
+          scaleFactor *= 1 + (ab.value || 0) / 100;
+        }
+      }
+    }
+
     const buffs = this.getBuffs(caster.id, caster.id, ctx, t);
     const enemyBuffs = this.getBuffs('__enemy__', caster.id, ctx, t);
     const hasAdvantage = checkAdvantage(ctx.enemy.element, caster.element, caster.id, ctx);
     const critChance = (buffs.crit_rate || (caster.crit ?? 15) + (caster.buff?.critRate || 0)) / 100;
     const isCrit = ctx.rng ? ctx.rng.next() < critChance : false;
+    const isCoreDmg = eff.stat === 'core_damage';
+    const isArmorBreak = eff.stat === 'armor_break_damage';
+    const isSequential = eff.stat === 'sequential_damage';
 
     const damageParams: DamageParams = {
       baseATK: caster.atk || 0,
       extraATKPercent: (caster.equipATKPercent ?? 0) + (buffs.atk_pct / 100),
       extraATKFlat: buffs.atk_flat || (caster.buff?.extraATK ?? 0),
-      enemyBaseDEF: ctx.enemy.defense || 0,
+      enemyBaseDEF: isArmorBreak ? 0 : (ctx.enemy.defense || 0),
       enemyDEFPercent: buffs.enemy_def_down_pct ? -(buffs.enemy_def_down_pct / 100) : 0,
       enemyDEFFlat: ctx.enemy.debuff?.defFlat ?? 0,
       atkCoef: (eff.value / 100) * scaleFactor,
@@ -1422,14 +1532,17 @@ export class BuffManager {
       isCrit,
       critBonusBase: (caster.critMult ? (caster.critMult - 1) : 0.5) + (caster.equipCritDmgPercent ?? 0),
       extraCritDmg: buffs.crit_dmg / 100,
-      isCore: false,
-      coreHitBonus: 0,
+      isCore: isCoreDmg,
+      coreHitBonus: isCoreDmg ? ((caster.coreDamage || 200) / 100 - 1) + (buffs.core_dmg_pct / 100) : 0,
       fullBurstBonus: ctx.burstActive ? 0.5 : 0,
       rangeBonus: 0,
       weakPointBase: hasAdvantage ? 1.1 : 1.0,
       weakPointExtra: (buffs.element_bonus_pct / 100) + (hasAdvantage ? (caster.equipWeakPointPercent ?? 0) : 0),
       chargeDmgBonus: 0,
-      atkDmgUp: buffs.atk_dmg_pct / 100,
+      atkDmgUp:
+        (buffs.atk_dmg_pct / 100) +
+        (isSequential ? buffs.sequential_dmg_pct / 100 : 0) +
+        (isArmorBreak ? buffs.armor_break_dmg_pct / 100 : 0),
       dotDmgUp: buffs.dot_dmg_pct / 100,
       pierceDmgUp: (caster.cubePierceDmgUp ?? 0) + (buffs.pierce_dmg_pct / 100),
       partDmgUp: (caster.cubePartDmgUp ?? 0) + (buffs.part_dmg_pct / 100),
@@ -1589,6 +1702,33 @@ export class BuffManager {
             valuePerTick: dot.valuePerTick,
             skillName: dot.effectDef.name,
           });
+        }
+      }
+    }
+
+    // 3. every:Ns 주기 타이머 처리 (effect_interval 가감 지원)
+    for (const timer of this._everyTimers) {
+      const eff = timer.eff;
+      const casterId = eff.casterId || 'unknown';
+      let intervalDelta = 0;
+      if (eff.name) {
+        for (const ab of this._active) {
+          if (
+            ab.stat === 'effect_interval' &&
+            (ab.targetId === casterId || ab.casterId === casterId) &&
+            ab.effectDef?.target_effect === eff.name &&
+            (ab.isPermanent || ab.expiresAt > t)
+          ) {
+            intervalDelta += ab.value || 0;
+          }
+        }
+      }
+      const effectiveInterval = Math.max(0.1, timer.baseInterval + intervalDelta);
+      timer.elapsed += dt;
+      if (timer.elapsed >= effectiveInterval) {
+        timer.elapsed -= effectiveInterval;
+        if (this._conditionOk(eff, t, casterId, ctx)) {
+          this._activate(eff, t, casterId, ctx);
         }
       }
     }

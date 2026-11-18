@@ -6,6 +6,7 @@ export interface ChipProps extends React.ButtonHTMLAttributes<HTMLButtonElement>
     variant?: 'default' | 'limit-break' | 'core' | 'non-selectable';
     size?: 'default' | 'small';
     selectable?: boolean;
+    readOnly?: boolean;
     children?: React.ReactNode;
 }
 
@@ -13,12 +14,14 @@ export const Chip: React.FC<ChipProps> = ({
     variant = 'default',
     size = 'default',
     selectable = true,
+    readOnly = false,
     className = '',
     children,
     type = 'button',
     ...props
 }) => {
     const isNonSelectable = variant === 'non-selectable' || !selectable;
+    const isInteractive = !isNonSelectable && !readOnly;
 
     const variantClass = variant === 'limit-break'
         ? styles['variant-limit-break']
@@ -30,16 +33,18 @@ export const Chip: React.FC<ChipProps> = ({
 
     const sizeClass = size === 'small' ? styles['size-small'] : '';
     const nonSelectableClass = isNonSelectable ? styles['non-selectable'] : '';
+    const readOnlyClass = readOnly ? styles.readonly : '';
 
     return (
         <button
             type={type}
-            tabIndex={isNonSelectable ? -1 : props.tabIndex}
-            className={`${styles['chip-button']} ${variantClass} ${sizeClass} ${nonSelectableClass} ${className}`.trim()}
+            tabIndex={!isInteractive ? -1 : props.tabIndex}
+            aria-readonly={readOnly || undefined}
+            className={`${styles['chip-button']} ${variantClass} ${sizeClass} ${nonSelectableClass} ${readOnlyClass} ${className}`.trim()}
             {...props}
         >
             {children}
-            {!props.disabled && !isNonSelectable && <Ripple />}
+            {!props.disabled && isInteractive && <Ripple />}
         </button>
     );
 };

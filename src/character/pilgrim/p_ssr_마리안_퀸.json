@@ -1,0 +1,379 @@
+{
+  "characterID": "Char_19",
+  "characterName": "마리안 : 퀸",
+  "stats": {
+    "rarity": "SSR",
+    "element": "작열",
+    "weapon": "MG",
+    "class": "화력형",
+    "company": "Pilgrim",
+    "squad": "카운터스",
+    "burstLevel": 3,
+    "atkCoef": 5.57,
+    "maxAmmo": 300,
+    "reloadTime": 2.5,
+    "chargeTime": 0,
+    "fireRate": 60,
+    "fullChargeDamage": 100,
+    "coreDamage": 200,
+    "pelletCount": 1,
+    "start_accuracy_circle_scale": 250,
+    "end_accuracy_circle_scale": 10
+  },
+  "skills": [
+    {
+      "id": "skill_1",
+      "name": "의지를 벼린 창끝",
+      "type": "passive",
+      "description": "■ 전투 시작 시 자신에게\n[임전 : 의지를 벼린 창끝]\n기능 : 무작위 적들에게 다크 매터 창을 발사합니다.\n효과 1 : 무작위 적들에게 [다크 매터 창 : 최종 공격력 {0}% 대미지] [{1}회 순차 공격]\n효과 2 : 다크 매터 창 명중 시 대상에게 [약점 개방 : 받는 대미지 {2}% ▲] [지속] [해제 불가]\n반복 주기 : {3}초\n■ 버스트 스킬 사용 시 적 전체에게\n[약점 개방 : 받는 대미지 {2}% ▲] [지속] [해제 불가]",
+      "description_params": [
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "value": [7, 7, 7, 7, 7, 7, 7, 7, 7, 7]
+        },
+        {
+          "effect": 2,
+          "field": "value"
+        },
+        {
+          "value": [4, 4, 4, 4, 4, 4, 4, 4, 4, 4]
+        }
+      ],
+      "effects": [
+        {
+          "trigger": "battle_start",
+          "target": "self",
+          "name": "임전 : 의지를 벼린 창끝",
+          "effect": "imjeon_state",
+          "value": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          "unit": "percent",
+          "duration": "permanent",
+          "type": "buff"
+        },
+        {
+          "trigger": "every:4s",
+          "target": "enemies_random:1",
+          "name": "다크 매터 창",
+          "effect": "sequential_damage",
+          "hits": 7,
+          "value": [
+            74.16,
+            79.87,
+            85.57,
+            91.28,
+            96.98,
+            102.69,
+            108.39,
+            114.1,
+            119.8,
+            125.51
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "damage"
+        },
+        {
+          "trigger": "weapon_hit:다크 매터 창",
+          "target": "target",
+          "name": "약점 개방",
+          "effect": "received_dmg_pct",
+          "polarity": "harmful_irremovable",
+          "value": [
+            2.98,
+            3.21,
+            3.44,
+            3.67,
+            3.9,
+            4.13,
+            4.36,
+            4.59,
+            4.82,
+            5.05
+          ],
+          "unit": "percent",
+          "duration": "permanent",
+          "type": "buff"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "all_enemies",
+          "name": "약점 개방",
+          "effect": "received_dmg_pct",
+          "polarity": "harmful_irremovable",
+          "value": [
+            2.98,
+            3.21,
+            3.44,
+            3.67,
+            3.9,
+            4.13,
+            4.36,
+            4.59,
+            4.82,
+            5.05
+          ],
+          "unit": "percent",
+          "duration": "permanent",
+          "type": "buff"
+        }
+      ]
+    },
+    {
+      "id": "skill_2",
+      "name": "유사 세계",
+      "type": "passive",
+      "description": "■ 버스트 스킬 사용 시 자신에게\n[임전 : 파고드는 소망]\n기능 : 약점 개방 상태의 모든 적에게 코어 대미지로 공격합니다.\n효과 1 : 일반 공격 {0}회 공격 시 약점 개방 상태 적 전체에게 [최종 공격력 {1}% 코어 명중 대미지]\n효과 2 : 자신에게 [임전 : 의지를 벼린 창끝 반복 주기 {2}초 ▼]\n유지 시간 : {3}초\n■ 풀 버스트 타임 시작 시 자신이 임전 : 파고드는 소망 상태가 아니라면 자신에게\n[순차 공격 대미지 {4}% ▲] [{5}초 유지]\n■ 풀 버스트 타임 시작 시 자신이 임전 : 파고드는 소망 상태라면 자신에게\n[코어 대미지 {6}% ▲] [{7}초 유지]",
+      "description_params": [
+        {
+          "value": [2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "value": [2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 2,
+          "field": "value"
+        },
+        {
+          "effect": 2,
+          "field": "duration"
+        },
+        {
+          "effect": 3,
+          "field": "value"
+        },
+        {
+          "effect": 3,
+          "field": "duration"
+        }
+      ],
+      "effects": [
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "name": "임전 : 파고드는 소망",
+          "effect": "effect_interval",
+          "target_effect": "다크 매터 창",
+          "value": [-2, -2, -2, -2, -2, -2, -2, -2, -2, -2],
+          "unit": "seconds",
+          "duration": 10,
+          "type": "buff"
+        },
+        {
+          "trigger": "hit_count:2",
+          "condition": "self_state:임전 : 파고드는 소망",
+          "target": "enemies_with_buff:약점 개방",
+          "name": "유사 세계",
+          "effect": "core_damage",
+          "value": [
+            8.31,
+            8.95,
+            9.59,
+            10.22,
+            10.86,
+            11.5,
+            12.14,
+            12.78,
+            13.42,
+            14.06
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "damage"
+        },
+        {
+          "trigger": "full_burst_start",
+          "condition": "not_self_state:임전 : 파고드는 소망",
+          "target": "self",
+          "name": "유사 세계 2",
+          "effect": "sequential_dmg_pct",
+          "value": [
+            50.33,
+            54.2,
+            58.07,
+            61.94,
+            65.81,
+            69.68,
+            73.56,
+            77.43,
+            81.3,
+            85.17
+          ],
+          "unit": "percent",
+          "duration": 10,
+          "type": "buff"
+        },
+        {
+          "trigger": "full_burst_start",
+          "condition": "self_state:임전 : 파고드는 소망",
+          "target": "self",
+          "name": "유사 세계 3",
+          "effect": "core_dmg_pct",
+          "value": [
+            14.56,
+            15.68,
+            16.8,
+            17.92,
+            19.04,
+            20.16,
+            21.28,
+            22.4,
+            23.52,
+            24.64
+          ],
+          "unit": "percent",
+          "duration": 10,
+          "type": "buff"
+        }
+      ]
+    },
+    {
+      "id": "burst",
+      "name": "머나먼 신세계",
+      "type": "burst",
+      "cooldown": 40,
+      "description": "■ 자신에게\n[탄환 충전 {0}%]\n[머신건 예열 속도 {1}% ▲] [{2}초 유지]\n[공격력 {3}% ▲] [{4}초 유지]\n[공격 대미지 {5}% ▲] [{6}초 유지]\n■ 적 전체에게\n[최종 공격력 {7}% 버스트 스킬 대미지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "duration"
+        },
+        {
+          "effect": 2,
+          "field": "value"
+        },
+        {
+          "effect": 2,
+          "field": "duration"
+        },
+        {
+          "effect": 3,
+          "field": "value"
+        },
+        {
+          "effect": 3,
+          "field": "duration"
+        },
+        {
+          "effect": 4,
+          "field": "value"
+        }
+      ],
+      "effects": [
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "name": "머나먼 신세계",
+          "effect": "ammo_charge_pct",
+          "value": [
+            59.09,
+            63.64,
+            68.18,
+            72.73,
+            77.27,
+            81.82,
+            86.37,
+            90.91,
+            95.46,
+            100
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "instant"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "name": "머나먼 신세계 2",
+          "effect": "mg_warmup_speed_pct",
+          "value": [100, 100, 100, 100, 100, 100, 100, 100, 100, 100],
+          "unit": "percent",
+          "duration": 10,
+          "type": "buff"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "name": "머나먼 신세계 3",
+          "effect": "atk_pct",
+          "value": [
+            46.33,
+            49.89,
+            53.46,
+            57.02,
+            60.58,
+            64.15,
+            67.71,
+            71.28,
+            74.84,
+            78.4
+          ],
+          "unit": "percent",
+          "duration": 10,
+          "type": "buff"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "name": "머나먼 신세계 4",
+          "effect": "atk_dmg_pct",
+          "value": [
+            46.17,
+            49.72,
+            53.28,
+            56.83,
+            60.38,
+            63.93,
+            67.48,
+            71.04,
+            74.59,
+            78.14
+          ],
+          "unit": "percent",
+          "duration": 10,
+          "type": "buff"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "all_enemies",
+          "name": "머나먼 신세계 5",
+          "effect": "burst_damage",
+          "value": [
+            795.6,
+            856.8,
+            918,
+            979.2,
+            1040.4,
+            1101.6,
+            1162.8,
+            1224,
+            1285.2,
+            1346.4
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "damage"
+        }
+      ]
+    }
+  ]
+}

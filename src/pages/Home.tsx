@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import CharacterSlot from './home/CharacterSlot';
-import SimToolbar from './home/SimToolbar';
+import SimToolbar, { TargetSummaryPanel } from './home/SimToolbar';
 import { CharacterSelectionPanel } from './home/CharacterSelectionPanel';
 import { SquadAvatarList } from './home/SquadAvatarList';
 import ResultSummary from './home/ResultSummary';
@@ -20,32 +20,41 @@ import {
     saveGlobalCubeLevel,
     getGlobalCubeLevel,
     getCharDefaultState,
-    loadTeamLayout,
-    saveTeamLayout,
+    loadTeamLayouts,
+    saveTeamLayouts,
     loadTargetSettings,
     saveTargetSettings
 } from '../utils/storageUtils';
 import { characterOptions } from '../constants/characters';
 import { RangeMode } from '../constants/weaponStats';
-import { SlotState } from '../types/simulator';
+import { SimulationOutput, SlotState } from '../types/simulator';
 import { Card } from '../components/Card/Card';
 import { Button } from '../components/Button/Button';
 import { ButtonToggle } from '../components/Button/ButtonToggle';
 import { SidePanel } from '../components/SidePanel';
 import { Grid } from '../components/Layout/Grid';
-import { Font } from '../components/Font';
 import { Modal } from '../components/Modal';
 import ProfileSyncModal from '../components/ProfileSyncModal/ProfileSyncModal';
 import { checkAndProcessUrlSync } from '../utils/profileSync';
+import styles from './Home.module.scss';
+
+const EMPTY_TEAM: (SlotState | null)[] = [null, null, null, null, null];
+const createInitialFiveTeams = (): (SlotState | null)[][] =>
+    Array.from({ length: 5 }, () => [...EMPTY_TEAM]);
 
 const Home: React.FC = () => {
-    // 5 Character slots: null means empty
-    const [slots, setSlots] = useState<(SlotState | null)[]>([null, null, null, null, null]);
+    // 5 teams by default, each with 5 character slots (null means empty)
+    const [teams, setTeams] = useState<(SlotState | null)[][]>(createInitialFiveTeams);
+    const [activeTeamIdx, setActiveTeamIdx] = useState<number>(0);
 
-    // Active detail editing modal slot index (null = closed)
-    const [activeDetailModalIdx, setActiveDetailModalIdx] = useState<number | null>(null);
-    // Character selection modal slot index (for empty slots)
-    const [charSelectionModalSlotIdx, setCharSelectionModalSlotIdx] = useState<number | null>(null);
+    // Active detail editing modal target ({ teamIdx, slotIdx } | null)
+    const [activeDetailTarget, setActiveDetailTarget] = useState<{ teamIdx: number; slotIdx: number } | null>(null);
+    // Character selection modal target (for empty slots)
+    const [charSelectionTarget, setCharSelectionTarget] = useState<{ teamIdx: number; slotIdx: number } | null>(null);
+    // Target settings modal
+    const [isTargetModalOpen, setIsTargetModalOpen] = useState(false);
+    // Simulation result detail modal (team index, null = closed)
+    const [resultModalTeamIdx, setResultModalTeamIdx] = useState<number | null>(null);
     // Profile sync modal
     const [isProfileSyncOpen, setIsProfileSyncOpen] = useState(false);
 
@@ -64,11 +73,13 @@ const Home: React.FC = () => {
             if (res && res.success) {
                 const freshOutpost = loadOutpostState();
                 setOutpostState(freshOutpost);
-                setSlots(prev => prev.map(s => {
-                    if (!s || !s.char) return s;
-                    const fresh = getCharDefaultState(s.char);
-                    return { ...s, ...fresh, char: s.char };
-                }));
+                setTeams(prev => prev.map(team =>
+                    team.map(s => {
+                        if (!s || !s.char) return s;
+                        const fresh = getCharDefaultState(s.char);
+                        return { ...s, ...fresh, char: s.char };
+                    })
+                ));
                 alert(`🎉 [북마클릿 연동 성공] 총 ${res.syncedCount}명의 니케 육성 데이터가 동기화되었습니다!`);
             }
         });
@@ -86,28 +97,25 @@ const Home: React.FC = () => {
     const [weaknessElement, setWeaknessElement] = useState<string>(savedTarget.weaknessElement);
     const [enemyDef, setEnemyDef] = useState<string>(savedTarget.enemyDef);
 
-    // Simulation Results
-    const [simResult, setSimResult] = useState<any | null>(null);
-    const [chartDatasets, setChartDatasets] = useState<any[]>([]);
-    const [dps1sDatasets, setDps1sDatasets] = useState<any[]>([]);
-    const [skillChartDatasets, setSkillChartDatasets] = useState<any[]>([]);
-    const [burstWindows, setBurstWindows] = useState<any[]>([]);
-    const [skillInfoMap, setSkillInfoMap] = useState<Record<string, { skill1?: string; skill2?: string; burst?: string }>>({});
-    const [charIdToName, setCharIdToName] = useState<Record<string, string>>({});
+    // Per-team simulation results (null for unsimulated or empty teams)
+    const [teamResults, setTeamResults] = useState<(SimulationOutput | null)[]>([null, null, null, null, null]);
     const [chartTab, setChartTab] = useState<'total' | 'dps' | 'skill'>('total');
 
-    // Load saved team layout on mount
+    // Load saved team layouts on mount
     useEffect(() => {
-        const savedTeamIds = loadTeamLayout();
-        const restoredSlots: (SlotState | null)[] = savedTeamIds.map(id => {
-            if (!id) return null;
-            const charOption = characterOptions.find(c => c.data.characterID === id);
-            if (!charOption) return null;
-            return getCharDefaultState(charOption);
+        const savedTeamsIds = loadTeamLayouts();
+        const restoredTeams: (SlotState | null)[][] = savedTeamsIds.map(teamIds => {
+            const restoredSlots: (SlotState | null)[] = teamIds.map(id => {
+                if (!id) return null;
+                const charOption = characterOptions.find(c => c.data.characterID === id);
+                if (!charOption) return null;
+                return getCharDefaultState(charOption);
+            });
+            while (restoredSlots.length < 5) restoredSlots.push(null);
+            return restoredSlots.slice(0, 5);
         });
-        // Ensure exactly 5 slots
-        while (restoredSlots.length < 5) restoredSlots.push(null);
-        setSlots(restoredSlots.slice(0, 5));
+        setTeams(restoredTeams);
+        setTeamResults(restoredTeams.map(() => null));
     }, []);
 
     // Helper: persist current target settings to localStorage
@@ -170,20 +178,25 @@ const Home: React.FC = () => {
         saveOutpostState(next);
     };
 
-    const updateSlot = (idx: number, patch: Partial<SlotState> | null) => {
+    const persistTeams = (nextTeams: (SlotState | null)[][]) => {
+        saveTeamLayouts(nextTeams.map(team => team.map(s => s?.char?.data?.characterID ?? null)));
+    };
+
+    const updateSlot = (teamIdx: number, slotIdx: number, patch: Partial<SlotState> | null) => {
         let globalCubeUpdateName: string | null = null;
         let globalCubeUpdateLevel: string | null = null;
 
+        const targetSlot = teams[teamIdx]?.[slotIdx] ?? null;
         const actualPatch = patch ? { ...patch } : null;
 
-        if (actualPatch && slots[idx] && (!actualPatch.char || slots[idx]?.char?.data?.characterID === actualPatch.char.data.characterID)) {
+        if (actualPatch && targetSlot && (!actualPatch.char || targetSlot?.char?.data?.characterID === actualPatch.char.data.characterID)) {
             // Did the user select a different cube?
-            if (actualPatch.cubeName !== undefined && actualPatch.cubeName !== slots[idx]!.cubeName) {
+            if (actualPatch.cubeName !== undefined && actualPatch.cubeName !== targetSlot.cubeName) {
                 actualPatch.cubeLevel = actualPatch.cubeName === 'None' ? '0' : (getGlobalCubeLevel(actualPatch.cubeName) || '1');
             }
             // Did the user manually change the level of the CURRENT cube?
             else if (actualPatch.cubeLevel !== undefined) {
-                const name = actualPatch.cubeName || slots[idx]!.cubeName;
+                const name = actualPatch.cubeName || targetSlot.cubeName;
                 if (name && name !== 'None') {
                     saveGlobalCubeLevel(name, actualPatch.cubeLevel);
                     globalCubeUpdateName = name;
@@ -192,119 +205,154 @@ const Home: React.FC = () => {
             }
         }
 
-        const nextSlots = slots.map((s, i) => {
-            if (i === idx) {
-                if (actualPatch === null) return null;
+        const nextTeams = teams.map((teamSlots, tIdx) =>
+            teamSlots.map((s, sIdx) => {
+                if (tIdx === teamIdx && sIdx === slotIdx) {
+                    if (actualPatch === null) return null;
 
-                // 새 캐릭터 교체 또는 빈 슬롯 신규 배치 -> 새 캐릭터의 저장된 스펙 로드
-                if (actualPatch.char && (!s || s.char?.data?.characterID !== actualPatch.char.data.characterID)) {
-                    const newSlot = getCharDefaultState(actualPatch.char);
-                    const merged = { ...newSlot, ...actualPatch };
+                    // 새 캐릭터 교체 또는 빈 슬롯 신규 배치 -> 새 캐릭터의 저장된 스펙 로드
+                    if (actualPatch.char && (!s || s.char?.data?.characterID !== actualPatch.char.data.characterID)) {
+                        const newSlot = getCharDefaultState(actualPatch.char);
+                        const merged = { ...newSlot, ...actualPatch };
+                        const { char, ...stateToSave } = merged;
+                        saveCharSettings(char.data.characterID, stateToSave);
+                        return merged;
+                    }
+
+                    if (s === null) return null;
+
+                    // 동일 캐릭터의 단일 속성 패치
+                    const merged = { ...s, ...actualPatch };
                     const { char, ...stateToSave } = merged;
                     saveCharSettings(char.data.characterID, stateToSave);
                     return merged;
                 }
 
-                if (s === null) return null;
+                // Sync other slots if they have the same cube and its level was just updated
+                if (s !== null && globalCubeUpdateName && globalCubeUpdateLevel && s.cubeName === globalCubeUpdateName) {
+                    const merged = { ...s, cubeLevel: globalCubeUpdateLevel };
+                    const { char, ...stateToSave } = merged;
+                    saveCharSettings(char.data.characterID, stateToSave);
+                    return merged;
+                }
 
-                // 동일 캐릭터의 단일 속성 패치
-                const merged = { ...s, ...actualPatch };
-                const { char, ...stateToSave } = merged;
-                saveCharSettings(char.data.characterID, stateToSave);
-                return merged;
-            }
+                return s;
+            })
+        );
 
-            // Sync other slots if they have the same cube and its level was just updated
-            if (s !== null && globalCubeUpdateName && globalCubeUpdateLevel && s.cubeName === globalCubeUpdateName) {
-                const merged = { ...s, cubeLevel: globalCubeUpdateLevel };
-                const { char, ...stateToSave } = merged;
-                saveCharSettings(char.data.characterID, stateToSave);
-                return merged;
-            }
-
-            return s;
-        });
-        setSlots(nextSlots);
-        saveTeamLayout(nextSlots.map(s => s?.char?.data?.characterID ?? null));
+        setTeams(nextTeams);
+        if (!nextTeams[teamIdx]?.some(s => s !== null && s.char !== null)) {
+            setTeamResults(prev => prev.map((res, idx) => (idx === teamIdx ? null : res)));
+        }
+        persistTeams(nextTeams);
     };
 
     const handleGlobalCubeChange = (cubeId: string, level: string) => {
-        setSlots(prev => prev.map(s => {
-            if (s && s.cubeName === cubeId) {
-                const merged = { ...s, cubeLevel: level };
-                if (s.char?.data?.characterID) {
-                    const { char, ...stateToSave } = merged;
-                    saveCharSettings(char.data.characterID, stateToSave);
+        setTeams(prev => prev.map(team =>
+            team.map(s => {
+                if (s && s.cubeName === cubeId) {
+                    const merged = { ...s, cubeLevel: level };
+                    if (s.char?.data?.characterID) {
+                        const { char, ...stateToSave } = merged;
+                        saveCharSettings(char.data.characterID, stateToSave);
+                    }
+                    return merged;
                 }
-                return merged;
-            }
-            return s;
-        }));
+                return s;
+            })
+        ));
     };
 
-    const handleSwapSlots = (fromIdx: number, toIdx: number) => {
-        if (fromIdx === toIdx) return;
-        setSlots(prev => {
-            const next = [...prev];
-            while (next.length < 5) next.push(null);
-            const temp = next[fromIdx];
-            next[fromIdx] = next[toIdx];
-            next[toIdx] = temp;
-            saveTeamLayout(next.map(s => s?.char?.data?.characterID ?? null));
+    const handleSwapSlots = (fromTeamIdx: number, fromSlotIdx: number, toTeamIdx: number, toSlotIdx: number) => {
+        if (fromTeamIdx === toTeamIdx && fromSlotIdx === toSlotIdx) return;
+        setTeams(prev => {
+            const next = prev.map(team => {
+                const copy = [...team];
+                while (copy.length < 5) copy.push(null);
+                return copy;
+            });
+            const temp = next[fromTeamIdx][fromSlotIdx];
+            next[fromTeamIdx][fromSlotIdx] = next[toTeamIdx][toSlotIdx];
+            next[toTeamIdx][toSlotIdx] = temp;
+            persistTeams(next);
             return next;
         });
     };
 
-    // Handler when user clicks an avatar in the right CharacterSelectionPanel
+    const handleClearTeam = (teamIdx: number) => {
+        const nextTeams = teams.map((team, idx) => (idx === teamIdx ? [...EMPTY_TEAM] : team));
+        setTeams(nextTeams);
+        setTeamResults(prev => prev.map((res, idx) => (idx === teamIdx ? null : res)));
+        if (resultModalTeamIdx === teamIdx) {
+            setResultModalTeamIdx(null);
+        }
+        persistTeams(nextTeams);
+    };
+
+    // Handler when user clicks an avatar in the left CharacterSelectionPanel (targets activeTeamIdx)
     const handleSelectCharacterFromPanel = (charOption: typeof characterOptions[0]) => {
+        const targetTeam = teams[activeTeamIdx] ?? [];
         const charID = charOption.data.characterID;
-        // Check if character is already in squad
-        const existingIdx = slots.findIndex(s => s?.char?.data?.characterID === charID);
+        // Check if character is already in active squad
+        const existingIdx = targetTeam.findIndex(s => s?.char?.data?.characterID === charID);
 
         if (existingIdx !== -1) {
-            // If already in squad, toggle off (remove)
-            updateSlot(existingIdx, null);
+            // If already in active squad, toggle off (remove)
+            updateSlot(activeTeamIdx, existingIdx, null);
             return;
         }
 
-        // Find first empty slot
-        const emptyIdx = slots.findIndex(s => s === null);
+        // Find first empty slot in active squad
+        const emptyIdx = targetTeam.findIndex(s => s === null);
         if (emptyIdx !== -1) {
-            updateSlot(emptyIdx, { char: charOption });
+            updateSlot(activeTeamIdx, emptyIdx, { char: charOption });
         } else {
-            // If all 5 slots are full, replace slot 0 (or first slot)
-            updateSlot(0, { char: charOption });
+            // If all 5 slots are full, replace slot 0
+            updateSlot(activeTeamIdx, 0, { char: charOption });
         }
     };
 
-    // Manual Re-calculate Trigger
+    // Manual Re-calculate Trigger across all non-empty squads
     const handleSimulate = () => {
-        const activeChars = slots.filter((s): s is SlotState => s !== null && s.char !== null);
-        if (activeChars.length === 0) return;
+        const hasAnyCharacter = teams.some(teamSlots =>
+            teamSlots.some(s => s !== null && s.char !== null)
+        );
+        if (!hasAnyCharacter) return;
 
-        const output = runSimulation({
-            slots,
-            enemyDef,
-            fullBurstInterval,
-            rangeMode,
-            weaknessElement,
-            outpostState,
-            showCore,
-            coreSize,
+        const nextResults: (SimulationOutput | null)[] = teams.map(teamSlots => {
+            const activeChars = teamSlots.filter((s): s is SlotState => s !== null && s.char !== null);
+            // 해당 스쿼드에 니케가 없다면 시뮬레이션하지 않음
+            if (activeChars.length === 0) return null;
+
+            return runSimulation({
+                slots: teamSlots,
+                enemyDef,
+                fullBurstInterval,
+                rangeMode,
+                weaknessElement,
+                outpostState,
+                showCore,
+                coreSize,
+            });
         });
-        if (!output) return;
 
-        setSimResult(output.summary);
-        setChartDatasets(output.chartDatasets);
-        setDps1sDatasets(output.dps1sDatasets);
-        setSkillChartDatasets(output.skillChartDatasets);
-        setBurstWindows(output.burstWindows);
-        setSkillInfoMap(output.skillInfoMap);
-        setCharIdToName(output.charIdToName);
+        setTeamResults(nextResults);
     };
 
-    // List of character IDs currently in the squad
-    const currentSquadCharIds = slots.map(s => s?.char?.data?.characterID).filter((id): id is string => Boolean(id));
+    // List of character IDs across all 5 squads & overall squad presence check
+    const allSquadCharIds = Array.from(
+        new Set(
+            teams
+                .flatMap(team => team.map(s => s?.char?.data?.characterID))
+                .filter((id): id is string => Boolean(id))
+        )
+    );
+    const hasAnySquadCharacter = allSquadCharIds.length > 0;
+    const activeModalResult = resultModalTeamIdx !== null ? teamResults[resultModalTeamIdx] ?? null : null;
+    const activeModalCharCount =
+        resultModalTeamIdx !== null
+            ? (teams[resultModalTeamIdx]?.filter(s => s !== null && s.char !== null).length ?? 0)
+            : 0;
 
     return (
         <Grid columns={1}>
@@ -318,38 +366,124 @@ const Home: React.FC = () => {
                 />
             </SidePanel>
 
-            {/* 2. 스쿼드 + 캐릭터 선택 패널 (데스크톱: 320px 1fr, 그 외: 1fr) */}
+            {/* 2. 타겟 설정 요약 패널 (캐릭터 선택 / 스쿼드 편성 위쪽) */}
+            <Card>
+                <TargetSummaryPanel
+                    fullBurstInterval={fullBurstInterval}
+                    showCore={showCore}
+                    coreSize={coreSize}
+                    rangeMode={rangeMode}
+                    weaknessElement={weaknessElement}
+                    enemyDef={enemyDef}
+                    onOpenTargetModal={() => setIsTargetModalOpen(true)}
+                />
+            </Card>
+
+            {/* 3. 스쿼드 + 캐릭터 선택 패널 (데스크톱: 320px 1fr, 그 외: 1fr) */}
             <Grid columns={{ xs: '1fr', lg: '320px 1fr' }}>
                 {/* 데스크톱 전용 캐릭터 선택 패널 */}
                 {isDesktop && (
-                    <Card>
+                    <Card className={styles['selection-panel-card']}>
                         <CharacterSelectionPanel
                             onSelectCharacter={handleSelectCharacterFromPanel}
-                            currentSquadCharIds={currentSquadCharIds}
+                            currentSquadCharIds={allSquadCharIds}
+                            fullHeight
                         />
                     </Card>
                 )}
 
-                {/* 스쿼드 아바타 목록 */}
+                {/* 스쿼드 아바타 목록 (기본 5팀) */}
                 <Card>
                     <SquadAvatarList
-                        slots={slots}
+                        teams={teams}
+                        activeTeamIdx={activeTeamIdx}
+                        onSelectTeam={setActiveTeamIdx}
                         onUpdateSlot={updateSlot}
                         onSwapSlots={handleSwapSlots}
-                        onOpenDetailModal={(idx) => {
-                            const isFilled = Boolean(slots[idx]?.char);
+                        onOpenDetailModal={(teamIdx, slotIdx) => {
+                            const isFilled = Boolean(teams[teamIdx]?.[slotIdx]?.char);
                             if (isFilled) {
-                                setActiveDetailModalIdx(idx);
+                                setActiveDetailTarget({ teamIdx, slotIdx });
                             } else {
-                                setCharSelectionModalSlotIdx(idx);
+                                setCharSelectionTarget({ teamIdx, slotIdx });
                             }
                         }}
+                        onClearTeam={handleClearTeam}
+                        teamResults={teamResults}
+                        onOpenResultModal={(teamIdx) => setResultModalTeamIdx(teamIdx)}
                     />
                 </Card>
             </Grid>
 
-            {/* 3. 타겟 설정 (SimToolbar - 전체 넓이) */}
-            <Card>
+            {/* 4. 시뮬레이션 버튼 (기존 차트 위치) */}
+            <Grid columns={1}>
+                <Button
+                    onClick={handleSimulate}
+                    variant="primary"
+                    size="large"
+                    leftIcon="play_arrow"
+                    disabled={!hasAnySquadCharacter}
+                >
+                    시뮬레이션
+                </Button>
+            </Grid>
+
+            {/* 6. 캐릭터 상세 정보 설정 모달 팝업 (비어있지 않은 슬롯) */}
+            <Modal
+                isOpen={activeDetailTarget !== null}
+                onClose={() => setActiveDetailTarget(null)}
+                showCloseButton={false}
+                maxWidth={640}
+                footer={
+                    <Button size="small" onClick={() => setActiveDetailTarget(null)}>
+                        완료
+                    </Button>
+                }
+            >
+                {activeDetailTarget !== null && (
+                    <CharacterSlot
+                        slot={teams[activeDetailTarget.teamIdx]?.[activeDetailTarget.slotIdx] ?? null}
+                        index={activeDetailTarget.slotIdx}
+                        onUpdate={(patch) => updateSlot(activeDetailTarget.teamIdx, activeDetailTarget.slotIdx, patch)}
+                        outpostState={outpostState}
+                    />
+                )}
+            </Modal>
+
+            {/* 7. 캐릭터 선택 모달 팝업 (비어있는 슬롯 선택 시) */}
+            <Modal
+                isOpen={charSelectionTarget !== null}
+                onClose={() => setCharSelectionTarget(null)}
+                title={
+                    charSelectionTarget !== null
+                        ? `스쿼드 ${charSelectionTarget.teamIdx + 1} 슬롯 ${charSelectionTarget.slotIdx + 1} 캐릭터 배치`
+                        : '캐릭터 배치'
+                }
+                maxWidth={480}
+            >
+                {charSelectionTarget !== null && (
+                    <CharacterSelectionPanel
+                        onSelectCharacter={(charOption) => {
+                            updateSlot(charSelectionTarget.teamIdx, charSelectionTarget.slotIdx, { char: charOption });
+                            setCharSelectionTarget(null);
+                        }}
+                        currentSquadCharIds={allSquadCharIds}
+                    />
+                )}
+            </Modal>
+
+            {/* 8. 타겟 설정 모달 */}
+            <Modal
+                isOpen={isTargetModalOpen}
+                onClose={() => setIsTargetModalOpen(false)}
+                title="타겟 설정"
+                maxWidth={560}
+                footer={
+                    <Button size="small" onClick={() => setIsTargetModalOpen(false)}>
+                        완료
+                    </Button>
+                }
+            >
                 <SimToolbar
                     fullBurstInterval={fullBurstInterval}
                     onFullBurstIntervalChange={handleFullBurstIntervalChange}
@@ -363,137 +497,99 @@ const Home: React.FC = () => {
                     onWeaknessChange={handleWeaknessChange}
                     enemyDef={enemyDef}
                     onEnemyDefChange={handleEnemyDefChange}
-                    onSimulate={handleSimulate}
                 />
-            </Card>
+            </Modal>
 
-            {/* 4. 결과 요약 (전체 넓이) */}
-            {simResult && (
-                <Card>
-                    <ResultSummary
-                        summary={simResult}
-                        showTeamTotal={slots.filter(s => s !== null).length > 1}
-                        isCore={showCore}
-                    />
-                </Card>
-            )}
-
-            {/* 5. 하단 1열 전체넓이 통합 차트 */}
-            <Card style={{ minHeight: '300px' }}>
-                <div className="pa-4">
-                    {chartDatasets.length > 0 ? (
-                        <div>
-                            {/* Tab Bar */}
-                            <div className="mb-3" style={{ display: 'flex', gap: '8px' }}>
-                                <ButtonToggle
-                                    selected={chartTab === 'total'}
-                                    onClick={() => setChartTab('total')}
-                                    size="small"
-                                >
-                                    전체 대미지
-                                </ButtonToggle>
-                                <ButtonToggle
-                                    selected={chartTab === 'dps'}
-                                    onClick={() => setChartTab('dps')}
-                                    size="small"
-                                >
-                                    초당 DPS
-                                </ButtonToggle>
-                                <ButtonToggle
-                                    selected={chartTab === 'skill'}
-                                    onClick={() => setChartTab('skill')}
-                                    size="small"
-                                >
-                                    스킬 대미지
-                                </ButtonToggle>
-                            </div>
-                            {chartTab === 'total' ? (
-                                <CanvasChart
-                                    datasets={chartDatasets}
-                                    burstWindows={burstWindows}
-                                    title={showCore ? 'Cumulative Damage (With Core)' : 'Cumulative Damage (No Core)'}
-                                    charIdToName={charIdToName}
-                                />
-                            ) : chartTab === 'dps' ? (
-                                <CanvasDpsChart
-                                    datasets={dps1sDatasets}
-                                    burstWindows={burstWindows}
-                                    title={showCore ? '1s Interval DPS (With Core)' : '1s Interval DPS (No Core)'}
-                                    charIdToName={charIdToName}
-                                />
-                            ) : (
-                                <CanvasScatterChart
-                                    datasets={skillChartDatasets}
-                                    burstWindows={burstWindows}
-                                    title="Skill Damage Instances"
-                                    charIdToName={charIdToName}
-                                />
-                            )}
-                            {simResult && <CanvasTimelineChart summary={simResult} duration={180} />}
-                        </div>
-                    ) : (
-                        <Font as="h2" variant="heading-2" weight="bold" color="default">차트</Font>
-                    )}
-                </div>
-            </Card>
-
-            {/* 6. 캐릭터 상세 정보 설정 모달 팝업 (비어있지 않은 슬롯) */}
+            {/* 9. 시뮬레이션 상세 결과 모달 (요약 & 차트) */}
             <Modal
-                isOpen={activeDetailModalIdx !== null}
-                onClose={() => setActiveDetailModalIdx(null)}
+                isOpen={resultModalTeamIdx !== null && activeModalResult !== null}
+                onClose={() => setResultModalTeamIdx(null)}
                 title={
-                    activeDetailModalIdx !== null && slots[activeDetailModalIdx]?.char
-                        ? slots[activeDetailModalIdx]!.char.label
-                        : `슬롯 ${activeDetailModalIdx !== null ? activeDetailModalIdx + 1 : 1} 설정`
+                    resultModalTeamIdx !== null
+                        ? `스쿼드 ${resultModalTeamIdx + 1} 시뮬레이션 결과`
+                        : '시뮬레이션 결과'
                 }
-                maxWidth={560}
+                maxWidth={1120}
                 footer={
-                    <div style={{ display: 'flex', justifyContent: 'flex-end', width: '100%' }}>
-                        <Button size="small" onClick={() => setActiveDetailModalIdx(null)}>
-                            완료
-                        </Button>
-                    </div>
+                    <Button size="small" onClick={() => setResultModalTeamIdx(null)}>
+                        닫기
+                    </Button>
                 }
             >
-                {activeDetailModalIdx !== null && (
-                    <CharacterSlot
-                        slot={slots[activeDetailModalIdx]}
-                        index={activeDetailModalIdx}
-                        onUpdate={(patch) => updateSlot(activeDetailModalIdx, patch)}
-                        outpostState={outpostState}
-                    />
+                {activeModalResult && (
+                    <Grid columns={1} gap={3}>
+                        <ResultSummary
+                            summary={activeModalResult.summary}
+                            showTeamTotal={activeModalCharCount > 1}
+                            isCore={showCore}
+                        />
+                        {activeModalResult.chartDatasets.length > 0 && (
+                            <Grid columns={1} gap={2}>
+                                <Grid templateColumns="repeat(3, auto)" gap={1} justifyContent="start">
+                                    <ButtonToggle
+                                        selected={chartTab === 'total'}
+                                        onClick={() => setChartTab('total')}
+                                        size="small"
+                                    >
+                                        전체 대미지
+                                    </ButtonToggle>
+                                    <ButtonToggle
+                                        selected={chartTab === 'dps'}
+                                        onClick={() => setChartTab('dps')}
+                                        size="small"
+                                    >
+                                        초당 DPS
+                                    </ButtonToggle>
+                                    <ButtonToggle
+                                        selected={chartTab === 'skill'}
+                                        onClick={() => setChartTab('skill')}
+                                        size="small"
+                                    >
+                                        스킬 대미지
+                                    </ButtonToggle>
+                                </Grid>
+                                {chartTab === 'total' ? (
+                                    <CanvasChart
+                                        datasets={activeModalResult.chartDatasets}
+                                        burstWindows={activeModalResult.burstWindows}
+                                        title={showCore ? 'Cumulative Damage (With Core)' : 'Cumulative Damage (No Core)'}
+                                        charIdToName={activeModalResult.charIdToName}
+                                    />
+                                ) : chartTab === 'dps' ? (
+                                    <CanvasDpsChart
+                                        datasets={activeModalResult.dps1sDatasets}
+                                        burstWindows={activeModalResult.burstWindows}
+                                        title={showCore ? '1s Interval DPS (With Core)' : '1s Interval DPS (No Core)'}
+                                        charIdToName={activeModalResult.charIdToName}
+                                    />
+                                ) : (
+                                    <CanvasScatterChart
+                                        datasets={activeModalResult.skillChartDatasets}
+                                        burstWindows={activeModalResult.burstWindows}
+                                        title="Skill Damage Instances"
+                                        charIdToName={activeModalResult.charIdToName}
+                                    />
+                                )}
+                                <CanvasTimelineChart summary={activeModalResult.summary} duration={180} />
+                            </Grid>
+                        )}
+                    </Grid>
                 )}
             </Modal>
 
-            {/* 7. 캐릭터 선택 모달 팝업 (비어있는 슬롯 선택 시) */}
-            <Modal
-                isOpen={charSelectionModalSlotIdx !== null}
-                onClose={() => setCharSelectionModalSlotIdx(null)}
-                title={`슬롯 ${charSelectionModalSlotIdx !== null ? charSelectionModalSlotIdx + 1 : 1} 캐릭터 배치`}
-                maxWidth={480}
-            >
-                {charSelectionModalSlotIdx !== null && (
-                    <CharacterSelectionPanel
-                        onSelectCharacter={(charOption) => {
-                            updateSlot(charSelectionModalSlotIdx, { char: charOption });
-                            setCharSelectionModalSlotIdx(null);
-                        }}
-                        currentSquadCharIds={currentSquadCharIds}
-                    />
-                )}
-            </Modal>
-
-            {/* 8. blablalink 프로필 동기화 모달 */}
+            {/* 10. blablalink 프로필 동기화 모달 */}
             <ProfileSyncModal
                 isOpen={isProfileSyncOpen}
                 onClose={() => setIsProfileSyncOpen(false)}
                 onSyncComplete={(updatedOutpost) => {
                     setOutpostState(updatedOutpost);
-                    setSlots(prev => prev.map(s => {
-                        if (!s || !s.char) return s;
-                        const fresh = getCharDefaultState(s.char);
-                        return { ...s, ...fresh, char: s.char };
-                    }));
+                    setTeams(prev => prev.map(team =>
+                        team.map(s => {
+                            if (!s || !s.char) return s;
+                            const fresh = getCharDefaultState(s.char);
+                            return { ...s, ...fresh, char: s.char };
+                        })
+                    ));
                 }}
             />
         </Grid>

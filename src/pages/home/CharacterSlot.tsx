@@ -1,13 +1,14 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import Select, { components } from 'react-select';
 import { SlotState } from '../../types/simulator';
-import { characterOptions, avatarMap, fullbodyMap, SLOT_COLORS } from '../../constants/characters';
+import { characterOptions, avatarMap, fullbodyMap } from '../../constants/characters';
 import { ELEMENT_ICONS, BURST_ICONS, CLASS_ICONS, COMPANY_ICONS, WEAPON_ICONS } from '../../constants/icons';
 import { getCharDefaultState, SavedOutpostState } from '../../utils/storageUtils';
 import { Icon } from '../../components/Icon/Icon';
 import { Font } from '../../components/Font';
 import { Avatar } from '../../components/Avatar/Avatar';
 import { TextField } from '../../components/TextField';
+import { Dropdown } from '../../components/Dropdown';
 import { Chip } from '../../components/Chip/Chip';
 import { Grid } from '../../components/Layout/Grid';
 import { calculateBaseStat, getCorpConsoleLevel, getClassConsoleLevel, resolveGrowthStage, growthStageLabel, MAX_STAGE_BY_RARITY } from '../../engine/baseStat';
@@ -34,6 +35,41 @@ const CUBE_OPTIONS = [
     { value: '16-cube-divide', label: '렐릭 디바이드', icon: '/src/assets/cube/16-cube-divide.webp' }
 ];
 
+const EQUIP_TIER_OPTIONS = [
+    { value: 'none', label: '없음' },
+    { value: 'T9', label: '일반 T9' },
+    { value: '기업', label: '기업 전용' },
+    { value: 'Overload', label: '오버로드' },
+];
+
+const EQUIP_PARTS: {
+    label: string;
+    tierKey: keyof SlotState;
+    upgradeKey: keyof SlotState;
+}[] = [
+        { label: '머리', tierKey: 'equipTierHead', upgradeKey: 'equipUpgradeHead' },
+        { label: '몸통', tierKey: 'equipTierTorso', upgradeKey: 'equipUpgradeTorso' },
+        { label: '팔', tierKey: 'equipTierArms', upgradeKey: 'equipUpgradeArms' },
+        { label: '다리', tierKey: 'equipTierLegs', upgradeKey: 'equipUpgradeLegs' },
+    ];
+
+const OVERLOAD_OPTION_FIELDS: { id: keyof SlotState; label: string; max: number }[] = [
+    { id: 'equipWeakPoint', label: '우코', max: 116.64 },
+    { id: 'equipATK', label: '공격력', max: 58.52 },
+    { id: 'equipAmmo', label: '장탄', max: 341.48 },
+    { id: 'equipAccuracy', label: '명중률', max: 58.52 },
+    { id: 'equipChargeDmg', label: '차댐', max: 58.52 },
+    { id: 'equipChargeSpeed', label: '차속', max: 24.36 },
+    { id: 'equipCritRate', label: '크확', max: 28.28 },
+    { id: 'equipCritDmg', label: '크댐', max: 81.44 },
+    { id: 'equipDef', label: '방어력', max: 58.52 },
+];
+
+const SKILL_LEVEL_FIELDS: { key: 'skill1Level' | 'skill2Level' | 'burstLevel'; label: string }[] = [
+    { key: 'skill1Level', label: '스킬1' },
+    { key: 'skill2Level', label: '스킬2' },
+    { key: 'burstLevel', label: '버스트' },
+];
 interface Props {
     slot: SlotState | null;
     index: number;
@@ -85,46 +121,6 @@ const CustomOption = (props: any) => {
                 </div>
             </div>
         </components.Option>
-    );
-};
-
-const CustomCubeOption = (props: any) => {
-    return (
-        <components.Option {...props}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', width: '100%' }}>
-                {props.data.icon ? (
-                    <img src={props.data.icon} alt={props.label} style={{ width: '32px', height: '32px', borderRadius: '4px' }} />
-                ) : (
-                    <div style={{ width: '32px', height: '32px' }} /> // Placeholder for 'None'
-                )}
-                <span>{props.label}</span>
-            </div>
-        </components.Option>
-    );
-};
-
-const CustomCubeSingleValue = (props: any) => {
-    return (
-        <components.SingleValue {...props}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                {props.data.icon ? (
-                    <img src={props.data.icon} alt={props.data.label} style={{ width: '32px', height: '32px', borderRadius: '4px' }} />
-                ) : (
-                    <div style={{ width: '32px', height: '32px' }} />
-                )}
-                <span style={{ color: '#eee', fontSize: '13px', whiteSpace: 'nowrap' }}>
-                    {props.data.label}
-                </span>
-            </div>
-        </components.SingleValue>
-    );
-};
-
-const CubeDropdownIndicator = (props: any) => {
-    return (
-        <components.DropdownIndicator {...props}>
-            <Icon name="keyboard_arrow_down" size={20} />
-        </components.DropdownIndicator>
     );
 };
 
@@ -203,10 +199,15 @@ const EmptySlot: React.FC<EmptySlotProps> = ({ onUpdate }) => {
     );
 };
 
-const CharacterSlot: React.FC<Props> = ({ slot, index, onUpdate, outpostState }) => {
+const CUBE_DROPDOWN_OPTIONS = CUBE_OPTIONS.map(c => ({
+    value: c.value,
+    label: c.label,
+    icon: c.icon ? <img src={c.icon} alt="" className={styles['cube-icon']} /> : undefined,
+}));
+
+const CharacterSlot: React.FC<Props> = ({ slot, onUpdate, outpostState }) => {
     if (!slot) return <EmptySlot onUpdate={onUpdate} />;
 
-    const avatar = avatarMap[slot.char.data.characterID];
     const data = slot.char.data;
     const stats = data.stats;
     const fullbody = fullbodyMap[data.characterID];
@@ -216,22 +217,6 @@ const CharacterSlot: React.FC<Props> = ({ slot, index, onUpdate, outpostState })
     const weaponIcon = WEAPON_ICONS[stats.weapon];
     const burstIcon = BURST_ICONS[stats.burstLevel];
     const elementIcon = ELEMENT_ICONS[stats.element];
-
-    const DropdownIndicator = (props: any) => {
-        return (
-            <components.DropdownIndicator {...props}>
-                <Icon name="arrow_drop_down" size={20} />
-            </components.DropdownIndicator>
-        );
-    };
-
-    const ClearIndicator = (props: any) => {
-        return (
-            <components.ClearIndicator {...props}>
-                <Icon name="close" size={20} />
-            </components.ClearIndicator>
-        );
-    };
 
     const skillsRef = useRef<HTMLDivElement>(null);
     const [skillDescOpen, setSkillDescOpen] = useState<Record<string, boolean>>({});
@@ -312,27 +297,12 @@ const CharacterSlot: React.FC<Props> = ({ slot, index, onUpdate, outpostState })
         };
     }, []);
 
-    const selectedCube = CUBE_OPTIONS.find(c => c.value === (slot.cubeName || 'None'));
-
-    // ── 장비 티어 옵션 ─────────────────────────────────────────────────
-    const EQUIP_TIER_OPTIONS = [
-        { value: 'none', label: '없음' },
-        { value: 'T9', label: '일반 T9' },
-        { value: '기업', label: '기업 전용' },
-        { value: 'Overload', label: '오버로드' },
-    ];
-
     // ── 성장 단계 (돌파/코강) ──────────────────────────────────────────
     const charRarity = data.stats.rarity || 'SSR';
     const charCompany = data.stats.company || '';
     const charName = data.characterName || '';
     const maxStage = MAX_STAGE_BY_RARITY[charRarity] ?? 10;
     const currentGrowthStage = Math.min(parseInt(slot.growthStage) || 0, maxStage);
-
-    const growthOptions = Array.from({ length: maxStage + 1 }, (_, i) => ({
-        value: i,
-        label: growthStageLabel(i)
-    }));
 
     const { maxAffinity } = resolveGrowthStage(charRarity, charCompany, charName, currentGrowthStage);
 
@@ -369,7 +339,6 @@ const CharacterSlot: React.FC<Props> = ({ slot, index, onUpdate, outpostState })
         slot.affinityLevel,
         slot.growthStage,
         slot.cubeLevel,
-        slot.cubeLevel,
         slot.equipTierHead, slot.equipUpgradeHead,
         slot.equipTierTorso, slot.equipUpgradeTorso,
         slot.equipTierArms, slot.equipUpgradeArms,
@@ -403,63 +372,140 @@ const CharacterSlot: React.FC<Props> = ({ slot, index, onUpdate, outpostState })
     };
 
     return (
-        <div className={styles['slot-container']} style={{ '--fullbody-bg': fullbody ? `url(${fullbody})` : 'none' } as React.CSSProperties}>
-            {/* Header Identity (Avatar + Name) */}
-            <div className={styles['slot-header-identity']} style={{ position: 'relative', zIndex: 1, display: 'flex', alignItems: 'center', justifyContent: 'flex-start', gap: '12px', padding: '4px 0 8px 0' }}>
-                <Avatar charId={data.characterID} alt={slot.char.label} size={80} ratio="1:1" />
-                <div className={styles['slot-identity']}>
-                    <Font as="h3" variant="subtitle" weight="bold">
-                        {slot.char.label || data.characterName}
-                    </Font>
+        <div className={styles['slot-container']}>
+            {/* Header Identity + Base Stats */}
+            <div
+                className={styles['slot-header']}
+                style={{ '--fullbody-bg': fullbody ? `url(${fullbody})` : 'none' } as React.CSSProperties}
+            >
+                <div className={styles['slot-header-identity']}>
+                    <Avatar charId={data.characterID} alt={slot.char.label} size={60} ratio="1:1" />
+                    <div className={styles['slot-identity']}>
+                        <Font as="h3" variant="subtitle" weight="bold">
+                            {slot.char.label || data.characterName}
+                        </Font>
+                    </div>
+                    <div className={styles['slot-icons']}>
+                        {classIcon && <img src={classIcon} alt={stats.class} className={styles['slot-icon-sm']} />}
+                        {companyIcon && <img src={companyIcon} alt={stats.company} className={styles['slot-icon-sm']} />}
+                        {weaponIcon && <img src={weaponIcon} alt={stats.weapon} className={styles['slot-icon-sm']} />}
+                        {burstIcon && <img src={burstIcon} alt={`Burst ${stats.burstLevel}`} className={styles['slot-icon-sm']} />}
+                        {elementIcon && <img src={elementIcon} alt={stats.element} className={styles['slot-icon-sm']} />}
+                    </div>
+                </div>
+
+                <div className={styles['slot-stats-bar']}>
+                    <div className={styles['slot-stat-item']}>
+                        <Font as="span" variant="caption-2" color="muted">체력</Font>
+                        <Font as="span" variant="caption-1" weight="semibold" className={styles['stat-value']}>
+                            {calculatedStats ? calculatedStats.hp.toLocaleString() : formatNumber(slot.customHP)}
+                        </Font>
+                    </div>
+                    <div className={styles['slot-stat-item']}>
+                        <Font as="span" variant="caption-2" color="muted">공격력</Font>
+                        <Font as="span" variant="caption-1" weight="semibold" className={styles['stat-value']}>
+                            {calculatedStats ? calculatedStats.atk.toLocaleString() : formatNumber(slot.customATK)}
+                        </Font>
+                    </div>
+                    <div className={styles['slot-stat-item']}>
+                        <Font as="span" variant="caption-2" color="muted">방어력</Font>
+                        <Font as="span" variant="caption-1" weight="semibold" className={styles['stat-value']}>
+                            {calculatedStats ? calculatedStats.def.toLocaleString() : formatNumber(slot.customDEF)}
+                        </Font>
+                    </div>
                 </div>
             </div>
 
-            <div className={styles['slot-icons']}>
-                {classIcon && <img src={classIcon} alt={stats.class} className={styles['slot-icon-sm']} />}
-                {companyIcon && <img src={companyIcon} alt={stats.company} className={styles['slot-icon-sm']} />}
-                {weaponIcon && <img src={weaponIcon} alt={stats.weapon} className={styles['slot-icon-sm']} />}
-                {burstIcon && <img src={burstIcon} alt={`Burst ${stats.burstLevel}`} className={styles['slot-icon-sm']} />}
-                {elementIcon && <img src={elementIcon} alt={stats.element} className={styles['slot-icon-sm']} />}
-            </div>
+            {/* 돌파/호감도 & 소장품/레벨 (2열 컴팩트 배치) */}
+            <Grid columns={{ xs: 1, sm: 2 }} gap={1}>
+                <div className={styles['chip-control-card']}>
+                    <div className={styles['chip-row']}>
+                        <Font as="span" variant="caption-1" color="muted">돌파</Font>
+                        <Chip
+                            variant={currentGrowthStage === 0 ? 'default' : currentGrowthStage <= 3 ? 'limit-break' : 'core'}
+                            onClick={(e) => {
+                                e.preventDefault();
+                                const nextStage = currentGrowthStage >= maxStage ? 0 : currentGrowthStage + 1;
+                                const newMaxAffinity = resolveGrowthStage(charRarity, charCompany, charName, nextStage).maxAffinity;
+                                const currentAffinity = parseInt(slot.affinityLevel) || 1;
+                                onUpdate({
+                                    growthStage: String(nextStage),
+                                    affinityLevel: String(Math.min(currentAffinity, newMaxAffinity))
+                                });
+                            }}
+                            onContextMenu={(e) => {
+                                e.preventDefault();
+                                const prevStage = currentGrowthStage <= 0 ? maxStage : currentGrowthStage - 1;
+                                const newMaxAffinity = resolveGrowthStage(charRarity, charCompany, charName, prevStage).maxAffinity;
+                                const currentAffinity = parseInt(slot.affinityLevel) || 1;
+                                onUpdate({
+                                    growthStage: String(prevStage),
+                                    affinityLevel: String(Math.min(currentAffinity, newMaxAffinity))
+                                });
+                            }}
+                            title="좌클릭: 단계 증가 / 우클릭: 단계 감소"
+                        >
+                            {growthStageLabel(currentGrowthStage)}
+                        </Chip>
+                    </div>
+                    <TextField
+                        size="small"
+                        type="number"
+                        min={1}
+                        max={maxAffinity}
+                        label={<Font variant="caption-2" color="muted">호감도</Font>}
+                        value={slot.affinityLevel || '1'}
+                        onChange={e => {
+                            const v = Math.max(1, Math.min(maxAffinity, parseInt(e.target.value) || 1));
+                            onUpdate({ affinityLevel: String(v) });
+                        }}
+                        suffix={`/ ${maxAffinity}`}
+                    />
+                </div>
 
-            {/* Equipment (Collection / Cube) */}
-            <div className={styles['slot-section']} style={{ alignItems: 'center' }}>
-                <span className={styles['color-777']}>소장품</span>
-                <Chip
-                    variant={slot.collectionGrade === 'SSR' ? 'core' : (slot.collectionGrade === 'SR' || slot.collectionGrade === 'R') ? 'limit-break' : 'default'}
-                    onClick={() => {
-                        const hasTreasure = !!(slot.char.data.stats?.treasure || slot.char.data.favoriteItem);
-                        const current = slot.collectionGrade || 'None';
-                        let next: 'None' | 'R' | 'SR' | 'SSR' = 'None';
+                <div className={styles['chip-control-card']}>
+                    <div className={styles['chip-row']}>
+                        <Font as="span" variant="caption-1" color="muted">소장품</Font>
+                        <Chip
+                            variant={slot.collectionGrade === 'SSR' ? 'core' : (slot.collectionGrade === 'SR' || slot.collectionGrade === 'R') ? 'limit-break' : 'default'}
+                            onClick={() => {
+                                const hasTreasure = !!(slot.char.data.stats?.treasure || slot.char.data.favoriteItem);
+                                const current = slot.collectionGrade || 'None';
+                                let next: 'None' | 'R' | 'SR' | 'SSR' = 'None';
 
-                        if (current === 'None') next = 'R';
-                        else if (current === 'R') next = 'SR';
-                        else if (current === 'SR') next = hasTreasure ? 'SSR' : 'None';
-                        else if (current === 'SSR') next = 'None';
+                                if (current === 'None') next = 'R';
+                                else if (current === 'R') next = 'SR';
+                                else if (current === 'SR') next = hasTreasure ? 'SSR' : 'None';
+                                else if (current === 'SSR') next = 'None';
 
-                        let level = slot.collectionLevel || '0';
-                        if (next === 'SSR') {
-                            const parsed = parseInt(level, 10);
-                            level = (!parsed || parsed < 1 || parsed > 3) ? '3' : String(parsed);
-                        } else if (next === 'SR' && (level === '1' || level === '2' || level === '3') && current === 'SSR') {
-                            level = '15';
-                        }
-                        onUpdate({ collectionGrade: next, collectionLevel: level });
-                    }}
-                >
-                    {slot.collectionGrade === 'SSR' ? '애장품' : slot.collectionGrade === 'SR' ? 'SR' : slot.collectionGrade === 'R' ? 'R' : '없음'}
-                </Chip>
-
-                <span className={styles['color-777']}>
-                    {slot.collectionGrade === 'SSR' ? '애장품 단계' : '소장품 레벨'}
-                </span>
-                <div style={{ display: 'flex', justifyContent: 'flex-end', width: '80px' }}>
+                                let level = slot.collectionLevel || '0';
+                                if (next === 'SSR') {
+                                    const parsed = parseInt(level, 10);
+                                    level = (!parsed || parsed < 1 || parsed > 3) ? '3' : String(parsed);
+                                } else if (next === 'SR' && (level === '1' || level === '2' || level === '3') && current === 'SSR') {
+                                    level = '15';
+                                }
+                                onUpdate({ collectionGrade: next, collectionLevel: level });
+                            }}
+                        >
+                            {slot.collectionGrade === 'SSR' ? '애장품' : slot.collectionGrade === 'SR' ? 'SR' : slot.collectionGrade === 'R' ? 'R' : '없음'}
+                        </Chip>
+                    </div>
                     <TextField
                         size="small"
                         type="number"
                         min={slot.collectionGrade === 'SSR' ? 1 : 0}
                         max={slot.collectionGrade === 'SSR' ? 3 : 15}
-                        value={slot.collectionGrade === 'SSR' ? String(Math.max(1, Math.min(3, parseInt(slot.collectionLevel || '3', 10) || 3))) : (slot.collectionLevel || '0')}
+                        label={
+                            <Font variant="caption-2" color="muted">
+                                {slot.collectionGrade === 'SSR' ? '애장품 단계' : '소장품 레벨'}
+                            </Font>
+                        }
+                        value={
+                            slot.collectionGrade === 'SSR'
+                                ? String(Math.max(1, Math.min(3, parseInt(slot.collectionLevel || '3', 10) || 3)))
+                                : (slot.collectionLevel || '0')
+                        }
                         onChange={e => {
                             let val = e.target.value;
                             if (slot.collectionGrade === 'SSR') {
@@ -478,293 +524,112 @@ const CharacterSlot: React.FC<Props> = ({ slot, index, onUpdate, outpostState })
                         disabled={slot.collectionGrade === 'None' || !slot.collectionGrade}
                     />
                 </div>
-            </div>
-            <div className={styles['slot-section-fr']}>
-                <span className={styles['color-777']}>큐브</span>
-                <Select
-                    className={styles['slot-select-sm']}
-                    value={CUBE_OPTIONS.find(opt => opt.value === (slot.cubeName || 'None'))}
-                    options={CUBE_OPTIONS}
-                    onChange={(sel: any) => {
-                        if (sel) {
-                            onUpdate({ cubeName: sel.value, cubeLevel: sel.value === 'None' ? '0' : (slot.cubeLevel || '1') });
-                        }
-                    }}
-                    components={{ DropdownIndicator: CubeDropdownIndicator, IndicatorSeparator: () => null, Option: CustomCubeOption, SingleValue: CustomCubeSingleValue }}
-                    menuPortalTarget={document.body}
-                    styles={{
-                        control: (b) => ({ ...b, background: 'transparent', border: 'none', boxShadow: 'none', minHeight: 'unset', cursor: 'pointer', padding: 0 }),
-                        valueContainer: (b) => ({ ...b, padding: 0, overflow: 'visible' }),
-                        singleValue: (b) => ({ ...b, color: 'var(--Font-Default)', fontSize: '13px', margin: 0, position: 'static', overflow: 'visible', transform: 'none' }),
-                        indicatorsContainer: (b) => ({ ...b }),
-                        menu: (b) => ({ ...b, background: 'var(--Background-Overlay)', zIndex: 10 }),
-                        menuPortal: (b) => ({ ...b, zIndex: 9999 }),
-                        option: (b, s) => ({ ...b, background: s.isFocused ? 'var(--Interact-Hover)' : 'transparent', color: 'var(--Font-Default)', fontSize: '13px' }),
-                    }}
-                    isSearchable={false}
-                />
-            </div>
-            <div className={styles['slot-section']} style={{ alignItems: 'center' }}>
-                <span className={styles['color-777']}>큐브 레벨</span>
-                <div style={{ display: 'flex', justifyContent: 'flex-end', width: '80px' }}>
-                    <TextField
-                        size="small"
-                        type="number"
-                        min={1}
-                        max={15}
-                        value={slot.cubeLevel || '0'}
-                        onChange={e => {
-                            const val = Math.max(1, Math.min(15, parseInt(e.target.value) || 1));
-                            onUpdate({ cubeLevel: val.toString() });
-                        }}
-                        disabled={!slot.cubeName || slot.cubeName === 'None'}
-                    />
-                </div>
-            </div>
-
-
-            {/* Stats */}
-            <div className={styles['slot-subtitle']}>스탯 (자동계산)</div>
-            <div className={styles['slot-section']}>
-                <span className={styles['color-777']}>체력</span>
-                <span style={{ textAlign: 'right', fontSize: '13px', color: 'var(--Font-Default)' }}>
-                    {calculatedStats ? calculatedStats.hp.toLocaleString() : formatNumber(slot.customHP)}
-                </span>
-
-                <span className={styles['color-777']}>공격력</span>
-                <span style={{ textAlign: 'right', fontSize: '13px', color: 'var(--Font-Default)' }}>
-                    {calculatedStats ? calculatedStats.atk.toLocaleString() : formatNumber(slot.customATK)}
-                </span>
-
-                <span className={styles['color-777']}>방어력</span>
-                <span style={{ textAlign: 'right', fontSize: '13px', color: 'var(--Font-Default)' }}>
-                    {calculatedStats ? calculatedStats.def.toLocaleString() : formatNumber(slot.customDEF)}
-                </span>
-            </div>
-
-            {/* 돌파 및 호감도 */}
-            <div className={styles['slot-section']} style={{ alignItems: 'center' }}>
-                <span className={styles['color-777']}>돌파</span>
-                <Chip
-                    variant={currentGrowthStage === 0 ? 'default' : currentGrowthStage <= 3 ? 'limit-break' : 'core'}
-                    onClick={(e) => {
-                        e.preventDefault();
-                        const maxStage = MAX_STAGE_BY_RARITY[charRarity] ?? 10;
-                        const nextStage = currentGrowthStage >= maxStage ? 0 : currentGrowthStage + 1;
-                        const newMaxAffinity = resolveGrowthStage(charRarity, charCompany, charName, nextStage).maxAffinity;
-                        const currentAffinity = parseInt(slot.affinityLevel) || 1;
-                        onUpdate({
-                            growthStage: String(nextStage),
-                            affinityLevel: String(Math.min(currentAffinity, newMaxAffinity))
-                        });
-                    }}
-                    onContextMenu={(e) => {
-                        e.preventDefault();
-                        const maxStage = MAX_STAGE_BY_RARITY[charRarity] ?? 10;
-                        const prevStage = currentGrowthStage <= 0 ? maxStage : currentGrowthStage - 1;
-                        const newMaxAffinity = resolveGrowthStage(charRarity, charCompany, charName, prevStage).maxAffinity;
-                        const currentAffinity = parseInt(slot.affinityLevel) || 1;
-                        onUpdate({
-                            growthStage: String(prevStage),
-                            affinityLevel: String(Math.min(currentAffinity, newMaxAffinity))
-                        });
-                    }}
-                    title="좌클릭: 단계 증가 / 우클릭: 단계 감소"
-                >
-                    {growthStageLabel(currentGrowthStage)}
-                </Chip>
-
-                <span className={styles['color-777']}>호감도</span>
-                <div style={{ display: 'flex', justifyContent: 'flex-end', width: '100px' }}>
-                    <TextField
-                        size="small"
-                        type="number"
-                        min={1}
-                        max={maxAffinity}
-                        value={slot.affinityLevel || '1'}
-                        onChange={e => {
-                            const v = Math.max(1, Math.min(maxAffinity, parseInt(e.target.value) || 1));
-                            onUpdate({ affinityLevel: String(v) });
-                        }}
-                        suffix={`/ ${maxAffinity}`}
-                    />
-                </div>
-            </div>
-
-            {/* Equip Lines */}
-            <div className={styles['slot-subtitle']}>장비</div>
-
-            <div className={styles['slot-section']} style={{ alignItems: 'center' }}>
-                <span className={styles['color-777']}>머리</span>
-                <select
-                    className={styles['slot-input']}
-                    value={slot.equipTierHead || 'none'}
-                    onChange={e => onUpdate({ equipTierHead: e.target.value })}
-                    style={{ background: 'transparent', cursor: 'pointer', color: 'var(--Font-Default)' }}
-                >
-                    {EQUIP_TIER_OPTIONS.map(opt => <option key={opt.value} value={opt.value} style={{ background: 'var(--Secondary-100)' }}>{opt.label}</option>)}
-                </select>
-                {(slot.equipTierHead === 'Overload' || slot.equipTierHead === '기업') && (
-                    <div style={{ width: '80px' }}>
-                        <TextField
-                            size="small"
-                            type="number"
-                            min={0}
-                            max={5}
-                            label={<Font variant="caption-2" color="muted">강화</Font>}
-                            value={slot.equipUpgradeHead || '0'}
-                            onChange={e => onUpdate({ equipUpgradeHead: String(Math.max(0, Math.min(5, parseInt(e.target.value) || 0))) })}
-                        />
-                    </div>
-                )}
-            </div>
-
-            <div className={styles['slot-section']} style={{ alignItems: 'center' }}>
-                <span className={styles['color-777']}>몸통</span>
-                <select
-                    className={styles['slot-input']}
-                    value={slot.equipTierTorso || 'none'}
-                    onChange={e => onUpdate({ equipTierTorso: e.target.value })}
-                    style={{ background: 'transparent', cursor: 'pointer', color: 'var(--Font-Default)' }}
-                >
-                    {EQUIP_TIER_OPTIONS.map(opt => <option key={opt.value} value={opt.value} style={{ background: 'var(--Secondary-100)' }}>{opt.label}</option>)}
-                </select>
-                {(slot.equipTierTorso === 'Overload' || slot.equipTierTorso === '기업') && (
-                    <div style={{ width: '80px' }}>
-                        <TextField
-                            size="small"
-                            type="number"
-                            min={0}
-                            max={5}
-                            label={<Font variant="caption-2" color="muted">강화</Font>}
-                            value={slot.equipUpgradeTorso || '0'}
-                            onChange={e => onUpdate({ equipUpgradeTorso: String(Math.max(0, Math.min(5, parseInt(e.target.value) || 0))) })}
-                        />
-                    </div>
-                )}
-            </div>
-
-            <div className={styles['slot-section']} style={{ alignItems: 'center' }}>
-                <span className={styles['color-777']}>팔</span>
-                <select
-                    className={styles['slot-input']}
-                    value={slot.equipTierArms || 'none'}
-                    onChange={e => onUpdate({ equipTierArms: e.target.value })}
-                    style={{ background: 'transparent', cursor: 'pointer', color: 'var(--Font-Default)' }}
-                >
-                    {EQUIP_TIER_OPTIONS.map(opt => <option key={opt.value} value={opt.value} style={{ background: 'var(--Secondary-100)' }}>{opt.label}</option>)}
-                </select>
-                {(slot.equipTierArms === 'Overload' || slot.equipTierArms === '기업') && (
-                    <div style={{ width: '80px' }}>
-                        <TextField
-                            size="small"
-                            type="number"
-                            min={0}
-                            max={5}
-                            label={<Font variant="caption-2" color="muted">강화</Font>}
-                            value={slot.equipUpgradeArms || '0'}
-                            onChange={e => onUpdate({ equipUpgradeArms: String(Math.max(0, Math.min(5, parseInt(e.target.value) || 0))) })}
-                        />
-                    </div>
-                )}
-            </div>
-
-            <div className={styles['slot-section']} style={{ alignItems: 'center' }}>
-                <span className={styles['color-777']}>다리</span>
-                <select
-                    className={styles['slot-input']}
-                    value={slot.equipTierLegs || 'none'}
-                    onChange={e => onUpdate({ equipTierLegs: e.target.value })}
-                    style={{ background: 'transparent', cursor: 'pointer', color: 'var(--Font-Default)' }}
-                >
-                    {EQUIP_TIER_OPTIONS.map(opt => <option key={opt.value} value={opt.value} style={{ background: 'var(--Secondary-100)' }}>{opt.label}</option>)}
-                </select>
-                {(slot.equipTierLegs === 'Overload' || slot.equipTierLegs === '기업') && (
-                    <div style={{ width: '80px' }}>
-                        <TextField
-                            size="small"
-                            type="number"
-                            min={0}
-                            max={5}
-                            label={<Font variant="caption-2" color="muted">강화</Font>}
-                            value={slot.equipUpgradeLegs || '0'}
-                            onChange={e => onUpdate({ equipUpgradeLegs: String(Math.max(0, Math.min(5, parseInt(e.target.value) || 0))) })}
-                        />
-                    </div>
-                )}
-            </div>
-
-            {/* Overload Options */}
-            <div className={styles['slot-subtitle']}>오버로드 옵션</div>
-            <Grid columns={3} gap={1} className="mb-3">
-                {[
-                    { id: 'equipWeakPoint', label: '우코', max: 116.64 },
-                    { id: 'equipATK', label: '공격력', max: 58.52 },
-                    { id: 'equipAmmo', label: '장탄', max: 341.48 },
-                    { id: 'equipAccuracy', label: '명중률', max: 58.52 },
-                    { id: 'equipChargeDmg', label: '차댐', max: 58.52 },
-                    { id: 'equipChargeSpeed', label: '차속', max: 24.36 },
-                    { id: 'equipCritRate', label: '크확', max: 28.28 },
-                    { id: 'equipCritDmg', label: '크댐', max: 81.44 },
-                    { id: 'equipDef', label: '방어력', max: 58.52 },
-                ].map(opt => (
-                    <TextField
-                        key={opt.id}
-                        size="small"
-                        label={<Font variant="caption-2" color="muted">{opt.label}</Font>}
-                        value={slot[opt.id as keyof SlotState] || '0'}
-                        onChange={e => handleEquipChange(opt.id as keyof SlotState, opt.max, e.target.value)}
-                        suffix="%"
-                    />
-                ))}
             </Grid>
 
-            {/* Skills */}
-            <div className={styles['slot-subtitle']}>스킬 레벨</div>
-            <Grid columns={3} gap={1} ref={skillsRef}>
-                <TextField
+            {/* 큐브 & 레벨 */}
+            <Grid templateColumns="1fr 120px" gap={1} alignItems="center">
+                <Dropdown
                     size="small"
-                    type="number"
-                    min={1}
-                    max={10}
-                    label={<Font variant="caption-2" color="muted">스킬1</Font>}
-                    value={slot.skill1Level || 10}
-                    onChange={e => onUpdate({ skill1Level: Math.max(1, Math.min(10, parseInt(e.target.value) || 1)) })}
-                    onWheel={e => {
-                        const current = slot.skill1Level || 10;
-                        const delta = e.deltaY < 0 ? 1 : -1;
-                        onUpdate({ skill1Level: Math.max(1, Math.min(10, current + delta)) });
+                    label={<Font variant="caption-2" color="muted">큐브</Font>}
+                    options={CUBE_DROPDOWN_OPTIONS}
+                    value={slot.cubeName || 'None'}
+                    onChange={(val) => {
+                        const cubeVal = String(val);
+                        onUpdate({ cubeName: cubeVal, cubeLevel: cubeVal === 'None' ? '0' : (slot.cubeLevel || '1') });
                     }}
                 />
                 <TextField
                     size="small"
                     type="number"
                     min={1}
-                    max={10}
-                    label={<Font variant="caption-2" color="muted">스킬2</Font>}
-                    value={slot.skill2Level || 10}
-                    onChange={e => onUpdate({ skill2Level: Math.max(1, Math.min(10, parseInt(e.target.value) || 1)) })}
-                    onWheel={e => {
-                        const current = slot.skill2Level || 10;
-                        const delta = e.deltaY < 0 ? 1 : -1;
-                        onUpdate({ skill2Level: Math.max(1, Math.min(10, current + delta)) });
+                    max={15}
+                    label={<Font variant="caption-2" color="muted">레벨</Font>}
+                    value={slot.cubeLevel || '0'}
+                    onChange={e => {
+                        const val = Math.max(1, Math.min(15, parseInt(e.target.value) || 1));
+                        onUpdate({ cubeLevel: val.toString() });
                     }}
-                />
-                <TextField
-                    size="small"
-                    type="number"
-                    min={1}
-                    max={10}
-                    label={<Font variant="caption-2" color="muted">버스트</Font>}
-                    value={slot.burstLevel || 10}
-                    onChange={e => onUpdate({ burstLevel: Math.max(1, Math.min(10, parseInt(e.target.value) || 1)) })}
-                    onWheel={e => {
-                        const current = slot.burstLevel || 10;
-                        const delta = e.deltaY < 0 ? 1 : -1;
-                        onUpdate({ burstLevel: Math.max(1, Math.min(10, current + delta)) });
-                    }}
+                    disabled={!slot.cubeName || slot.cubeName === 'None'}
                 />
             </Grid>
+
+            {/* 장비 4부위 가로 레이아웃 */}
+            <div className={styles['section-block']}>
+                <Font as="span" variant="caption-1" weight="semibold" color="muted">장비</Font>
+                <Grid columns={{ xs: 2, sm: 4 }} gap={1}>
+                    {EQUIP_PARTS.map(part => {
+                        const tier = String(slot[part.tierKey] || 'none');
+                        const showUpgrade = tier === 'Overload' || tier === '기업';
+                        return (
+                            <div key={String(part.tierKey)} className={styles['equip-item']}>
+                                <Font as="span" variant="caption-2" color="muted">{part.label}</Font>
+                                <Dropdown
+                                    size="small"
+                                    options={EQUIP_TIER_OPTIONS}
+                                    value={tier}
+                                    onChange={val => onUpdate({ [part.tierKey]: String(val) })}
+                                />
+                                {showUpgrade && (
+                                    <TextField
+                                        size="small"
+                                        type="number"
+                                        min={0}
+                                        max={5}
+                                        label={<Font variant="caption-2" color="muted">강화</Font>}
+                                        value={String(slot[part.upgradeKey] || '0')}
+                                        onChange={e =>
+                                            onUpdate({
+                                                [part.upgradeKey]: String(Math.max(0, Math.min(5, parseInt(e.target.value) || 0))),
+                                            })
+                                        }
+                                    />
+                                )}
+                            </div>
+                        );
+                    })}
+                </Grid>
+            </div>
+
+            {/* 오버로드 옵션 */}
+            <div className={styles['section-block']}>
+                <Font as="span" variant="caption-1" weight="semibold" color="muted">오버로드 옵션</Font>
+                <Grid columns={3} gap={1}>
+                    {OVERLOAD_OPTION_FIELDS.map(opt => (
+                        <TextField
+                            key={String(opt.id)}
+                            size="small"
+                            label={<Font variant="caption-2" color="muted">{opt.label}</Font>}
+                            value={String(slot[opt.id] || '0')}
+                            onChange={e => handleEquipChange(opt.id, opt.max, e.target.value)}
+                            suffix="%"
+                        />
+                    ))}
+                </Grid>
+            </div>
+
+            {/* 스킬 레벨 */}
+            <div className={styles['section-block']}>
+                <Font as="span" variant="caption-1" weight="semibold" color="muted">스킬 레벨</Font>
+                <Grid columns={3} gap={1} ref={skillsRef}>
+                    {SKILL_LEVEL_FIELDS.map(({ key, label }) => (
+                        <TextField
+                            key={key}
+                            size="small"
+                            type="number"
+                            min={1}
+                            max={10}
+                            label={<Font variant="caption-2" color="muted">{label}</Font>}
+                            value={slot[key] || 10}
+                            onChange={e => onUpdate({ [key]: Math.max(1, Math.min(10, parseInt(e.target.value) || 1)) })}
+                            onWheel={e => {
+                                const current = slot[key] || 10;
+                                const delta = e.deltaY < 0 ? 1 : -1;
+                                onUpdate({ [key]: Math.max(1, Math.min(10, current + delta)) });
+                            }}
+                        />
+                    ))}
+                </Grid>
+            </div>
 
             {/* Skill Description Accordion */}
             {(() => {

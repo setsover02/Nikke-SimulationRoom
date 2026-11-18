@@ -35,6 +35,7 @@ const ELEMENT_ICON_MAP: Record<string, { iconName: string; element: 'electric' |
 interface CharacterSelectionPanelProps {
     onSelectCharacter: (charOption: typeof characterOptions[0]) => void;
     currentSquadCharIds?: string[];
+    fullHeight?: boolean;
 }
 
 function getCharRarity(char: typeof characterOptions[0]): 'SSR' | 'SR' | 'R' {
@@ -55,7 +56,8 @@ function getCharRarity(char: typeof characterOptions[0]): 'SSR' | 'SR' | 'R' {
 
 export const CharacterSelectionPanel: React.FC<CharacterSelectionPanelProps> = ({
     onSelectCharacter,
-    currentSquadCharIds = []
+    currentSquadCharIds = [],
+    fullHeight = false,
 }) => {
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedBursts, setSelectedBursts] = useState<number[]>([]);
@@ -137,7 +139,7 @@ export const CharacterSelectionPanel: React.FC<CharacterSelectionPanelProps> = (
     }, [filteredCharacters]);
 
     return (
-        <Grid columns={1} gap={0}>
+        <div className={`${styles['panel-root']} ${fullHeight ? styles['full-height'] : ''}`.trim()}>
             {/* 1. Search Bar */}
             <Grid columns={1} className="px-2 pt-2 pb-1" >
                 <TextField
@@ -257,7 +259,7 @@ export const CharacterSelectionPanel: React.FC<CharacterSelectionPanelProps> = (
                     검색 조건에 일치하는 캐릭터가 없습니다.
                 </Font>
             )}
-        </Grid>
+        </div>
     );
 };
 

@@ -1,5 +1,20 @@
 @use '../../assets/style/layout/layout' as layout;
 
+.panel-root {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  &.full-height {
+    position: absolute;
+    inset: 0;
+  }
+
+  > :not(.avatar-grid-wrapper) {
+    flex-shrink: 0;
+  }
+}
+
 .filter-divider {
   width: 1px;
   height: 24px;
@@ -10,12 +25,15 @@
 }
 
 .avatar-grid-wrapper {
-  height: 100%;
+  flex: 1;
   min-height: 0;
-  max-height: 420px;
   overflow-y: auto;
   padding: layout.$base-spacing * 2;
   box-sizing: border-box;
+
+  .panel-root:not(.full-height) & {
+    max-height: 420px;
+  }
 
   /* Custom scrollbar */
   &::-webkit-scrollbar {
@@ -63,11 +81,11 @@
   }
 
   &.in-squad {
-    opacity: 0.55;
-    filter: grayscale(0.2);
+    opacity: 0.3;
+    filter: grayscale(0.45);
 
     &:hover {
-      opacity: 0.9;
+      opacity: 0.85;
       filter: grayscale(0);
     }
   }

@@ -398,6 +398,9 @@ template에 timing 키워드 없으면:
 | `자신을 제외한 아군 전체에게` | `"all_allies_excl_self"` |
 | `아군 N기에게` | `"allies:N"` |
 | `자신과 양 옆에 있는 아군 N기에게` | `"allies_adjacent:N"` |
+| `자신의 우측 자리 아군 N기에게` | `"ally_right:N"` |
+| `자신과 임전 상태인 아군 전체에게` | `"self_and_allies_imjeon"` |
+| `전투 불능 상태 아군 전체에게` | `"allies_down_all"` |
 | `최종 공격력이 가장 높은 아군 N기에게` | `"allies_top_atk:N"` |
 | `자신을 제외한 최종 공격력이 가장 높은 아군 N기에게` | `"allies_top_atk_excl:N"` |
 | `자신을 제외한 전투불능 상태 최종 공격력이 가장 높은 아군 N기에게` | `"allies_down_top_atk_excl:N"` — 전투불능 필터가 붙은 형태. 보스 sim에서는 영구 무발동 |

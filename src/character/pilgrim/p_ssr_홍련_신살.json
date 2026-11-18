@@ -1,0 +1,338 @@
+{
+  "characterID": "Char_472",
+  "characterName": "홍련 : 신살",
+  "stats": {
+    "rarity": "SSR",
+    "element": "작열",
+    "weapon": "AR",
+    "class": "화력형",
+    "company": "Pilgrim",
+    "squad": "갓데스",
+    "burstLevel": 3,
+    "atkCoef": 107.57,
+    "maxAmmo": 9,
+    "reloadTime": 1.17,
+    "chargeTime": 0,
+    "fireRate": 1.5,
+    "fullChargeDamage": 100,
+    "coreDamage": 200,
+    "pelletCount": 1,
+    "start_accuracy_circle_scale": 10,
+    "end_accuracy_circle_scale": 10
+  },
+  "skills": [
+    {
+      "id": "skill_1",
+      "name": "화무십일일홍 · 개화",
+      "type": "passive",
+      "description": "■ 전투 시작 시 자신에게\n[임전 : 명경지수]\n기능 : 일반 공격이 넓은 폭의 관통 공격으로 발사되고 적에게 추가 대미지를 가합니다.\n효과 1 : 자신에게 [관통 특화] [지속] [해제 불가]\n효과 2 : 자신에게 [일반 공격 크리티컬 확률 {0}% ▲] [지속] [해제 불가]\n효과 3 : 일반 공격 시 조준선에 가장 가까운 적 1기에게 [거합 : 최종 공격력 {1}% 추가 대미지]\n■ 풀 버스트 타임 시작 시 자신에게\n[크리티컬 대미지 {2}% ▲] [{3}초 유지]",
+      "description_params": [
+        {
+          "effect": 2,
+          "field": "value"
+        },
+        {
+          "effect": 3,
+          "field": "value"
+        },
+        {
+          "effect": 4,
+          "field": "value"
+        },
+        {
+          "effect": 4,
+          "field": "duration"
+        }
+      ],
+      "effects": [
+        {
+          "trigger": "battle_start",
+          "target": "self",
+          "name": "임전 : 명경지수",
+          "effect": "imjeon_state",
+          "value": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          "unit": "percent",
+          "duration": "permanent",
+          "type": "buff"
+        },
+        {
+          "trigger": "battle_start",
+          "target": "self",
+          "name": "임전 : 명경지수 관통특화",
+          "effect": "pierce_enabled",
+          "value": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          "unit": "percent",
+          "duration": "permanent",
+          "type": "buff"
+        },
+        {
+          "trigger": "battle_start",
+          "target": "self",
+          "name": "임전 : 명경지수 2",
+          "effect": "normal_atk_crit_rate",
+          "value": [
+            20.68,
+            22.27,
+            23.86,
+            25.45,
+            27.04,
+            28.63,
+            30.22,
+            31.81,
+            33.4,
+            35
+          ],
+          "unit": "percent",
+          "duration": "permanent",
+          "type": "buff"
+        },
+        {
+          "trigger": "hit_count:1",
+          "target": "enemies_nearest:1",
+          "name": "거합",
+          "effect": "bonus_damage",
+          "value": [
+            54.5,
+            60.56,
+            66.62,
+            72.68,
+            78.74,
+            84.8,
+            90.86,
+            96.92,
+            102.98,
+            109
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "damage"
+        },
+        {
+          "trigger": "full_burst_start",
+          "target": "self",
+          "name": "화무십일일홍 · 개화",
+          "effect": "crit_dmg",
+          "value": [33, 36, 39, 42, 45, 48, 51, 54, 57, 60],
+          "unit": "percent",
+          "duration": 10,
+          "type": "buff"
+        }
+      ]
+    },
+    {
+      "id": "skill_2",
+      "name": "화무십일일홍 · 난무",
+      "type": "passive",
+      "description": "■ 일반 공격 크리티컬 {0}회 명중 시 자신이 화무십일일홍 · 만개 상태가 아니라면 자신에게\n[탄환 충전 {1}발]\n■ 버스트 스킬 사용 시 자신에게\n[임전 : 신검합일]\n기능 : 일반 공격의 공격 능력과 거합 효과가 강화됩니다.\n효과 1 : [일반 공격 크리티컬 확률 {2}% ▲] [{3}초 유지] [해제 불가]\n효과 2 : [공격 대미지 {4}% ▲] [{5}초 유지] [해제 불가]\n효과 3 : [거합 추가 대미지 배율이 100% 증가 상태로 변경] [{6}초 유지] [해제 불가]",
+      "description_params": [
+        {
+          "value": [2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
+        },
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "duration"
+        },
+        {
+          "effect": 2,
+          "field": "value"
+        },
+        {
+          "effect": 2,
+          "field": "duration"
+        },
+        {
+          "effect": 3,
+          "field": "duration"
+        }
+      ],
+      "effects": [
+        {
+          "trigger": "crit_hit_count:2",
+          "condition": "not_self_state:화무십일일홍 · 만개",
+          "target": "self",
+          "name": "화무십일일홍 · 난무",
+          "effect": "ammo_charge_flat",
+          "value": [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+          "unit": "count",
+          "duration": null,
+          "type": "instant"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "name": "임전 : 신검합일",
+          "effect": "normal_atk_crit_rate",
+          "value": [
+            29.54,
+            31.81,
+            34.08,
+            36.35,
+            38.62,
+            40.89,
+            43.16,
+            45.43,
+            47.7,
+            50
+          ],
+          "unit": "percent",
+          "duration": 10,
+          "type": "buff"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "name": "임전 : 신검합일 2",
+          "effect": "atk_dmg_pct",
+          "value": [
+            58,
+            64.44,
+            70.88,
+            77.32,
+            83.76,
+            90.2,
+            96.64,
+            103.08,
+            109.52,
+            116
+          ],
+          "unit": "percent",
+          "duration": 10,
+          "type": "buff"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "name": "임전 : 신검합일 3",
+          "effect": "dmg_scale_mag_pct",
+          "target_effect": "거합",
+          "value": [100, 100, 100, 100, 100, 100, 100, 100, 100, 100],
+          "unit": "percent",
+          "duration": 10,
+          "type": "buff"
+        }
+      ]
+    },
+    {
+      "id": "burst",
+      "name": "화무십일일홍 · 신살",
+      "type": "burst",
+      "cooldown": 40,
+      "description": "■ 자신에게\n[화무십일일홍 · 만개 : 사용 무기 변경]\n기능 : 자신을 강화하고 일반 공격을 더 넓은 폭으로 공격합니다.\n대미지 : 최종 공격력 {0}% 대미지\n유지 시간 : {1}초\n추가 효과\n효과 1 : [일반 공격 폭 100% ▲] [{2}초 유지] [해제 불가]\n효과 2 : [공격력 {3}% ▲] [{4}초 유지] [해제 불가]\n■ 조준선에 가장 가까운 적 {5}기에게\n[최종 공격력 {6}% 추가 대미지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 0,
+          "field": "duration"
+        },
+        {
+          "effect": 1,
+          "field": "duration"
+        },
+        {
+          "effect": 2,
+          "field": "value"
+        },
+        {
+          "effect": 2,
+          "field": "duration"
+        },
+        {
+          "value": [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+        },
+        {
+          "effect": 3,
+          "field": "value"
+        }
+      ],
+      "effects": [
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "name": "화무십일일홍 · 만개",
+          "effect": "atk_pct",
+          "value": [
+            107.57,
+            108.4,
+            109.22,
+            110.05,
+            110.87,
+            111.7,
+            112.52,
+            113.35,
+            114.17,
+            115
+          ],
+          "unit": "percent",
+          "duration": 10,
+          "type": "weapon_change",
+          "weapon_override": {
+            "atkCoef": [
+              107.57,
+              108.4,
+              109.22,
+              110.05,
+              110.87,
+              111.7,
+              112.52,
+              113.35,
+              114.17,
+              115
+            ]
+          }
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "name": "화무십일일홍 · 만개 일반공격폭",
+          "effect": "normal_atk_width_pct",
+          "value": [100, 100, 100, 100, 100, 100, 100, 100, 100, 100],
+          "unit": "percent",
+          "duration": 10,
+          "type": "buff"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "name": "화무십일일홍 · 만개 2",
+          "effect": "atk_pct",
+          "value": [66, 72, 78, 84, 90, 96, 102, 108, 114, 120],
+          "unit": "percent",
+          "duration": 10,
+          "type": "buff"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "enemies_nearest:1",
+          "name": "화무십일일홍 · 신살",
+          "effect": "bonus_damage",
+          "value": [
+            1649.98,
+            1799.98,
+            1949.98,
+            2099.98,
+            2249.98,
+            2399.98,
+            2549.98,
+            2699.98,
+            2849.98,
+            3000
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "damage"
+        }
+      ]
+    }
+  ]
+}

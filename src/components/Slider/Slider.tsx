@@ -159,21 +159,26 @@ export const Slider: React.FC<SliderProps> = ({
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
         if (disabled) return;
-        let delta = 0;
-        const stepSize = step || (max - min) / 100 || 1;
+        let dir = 0;
 
         if (e.key === 'ArrowRight' || e.key === 'ArrowUp') {
-            delta = stepSize;
+            dir = 1;
         } else if (e.key === 'ArrowLeft' || e.key === 'ArrowDown') {
-            delta = -stepSize;
+            dir = -1;
         } else if (e.key === 'Home') {
-            const newVal = min;
+            e.preventDefault();
+            const newVal = type === 'discrete' && markList.length > 0
+                ? Math.min(...markList.map(m => m.value))
+                : min;
             if (!isControlled) setInternalValue(newVal);
             onChange?.(newVal);
             onChangeCommitted?.(newVal);
             return;
         } else if (e.key === 'End') {
-            const newVal = max;
+            e.preventDefault();
+            const newVal = type === 'discrete' && markList.length > 0
+                ? Math.max(...markList.map(m => m.value))
+                : max;
             if (!isControlled) setInternalValue(newVal);
             onChange?.(newVal);
             onChangeCommitted?.(newVal);
@@ -183,7 +188,25 @@ export const Slider: React.FC<SliderProps> = ({
         }
 
         e.preventDefault();
-        const nextVal = snapValue(currentValue + delta);
+        let nextVal: number;
+        if (type === 'discrete' && markList.length > 0) {
+            const sortedMarks = [...markList].sort((a, b) => a.value - b.value);
+            const currentIdx = sortedMarks.findIndex(m => m.value === currentValue);
+            if (currentIdx !== -1) {
+                nextVal = sortedMarks[clamp(currentIdx + dir, 0, sortedMarks.length - 1)].value;
+            } else {
+                const candidate = dir > 0
+                    ? sortedMarks.find(m => m.value > currentValue)
+                    : [...sortedMarks].reverse().find(m => m.value < currentValue);
+                nextVal = candidate
+                    ? candidate.value
+                    : sortedMarks[dir > 0 ? sortedMarks.length - 1 : 0].value;
+            }
+        } else {
+            const stepSize = step || (max - min) / 100 || 1;
+            nextVal = snapValue(currentValue + dir * stepSize);
+        }
+
         if (!isControlled) setInternalValue(nextVal);
         onChange?.(nextVal);
         onChangeCommitted?.(nextVal);

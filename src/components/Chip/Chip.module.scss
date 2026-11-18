@@ -87,3 +87,17 @@
         transform: none;
     }
 }
+
+/* 읽기 전용 칩: 디자인(border/배경)은 유지하고 클릭·호버 상호작용만 제거 */
+.chip-button.readonly {
+    cursor: default;
+    pointer-events: none;
+
+    &:hover {
+        filter: none;
+    }
+
+    &:active {
+        transform: none;
+    }
+}

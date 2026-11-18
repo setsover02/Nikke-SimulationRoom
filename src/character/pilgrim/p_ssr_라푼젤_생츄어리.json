@@ -1,0 +1,426 @@
+{
+  "characterID": "Char_473",
+  "characterName": "라푼젤 : 생츄어리",
+  "stats": {
+    "rarity": "SSR",
+    "element": "작열",
+    "weapon": "RL",
+    "class": "지원형",
+    "company": "Pilgrim",
+    "squad": "갓데스",
+    "burstLevel": 2,
+    "atkCoef": 61.3,
+    "maxAmmo": 6,
+    "reloadTime": 2,
+    "chargeTime": 1,
+    "fireRate": 0,
+    "fullChargeDamage": 250,
+    "coreDamage": 200,
+    "pelletCount": 1,
+    "start_accuracy_circle_scale": 10,
+    "end_accuracy_circle_scale": 10
+  },
+  "skills": [
+    {
+      "id": "skill_1",
+      "name": "디바인 라이트",
+      "type": "passive",
+      "description": "■ 풀 차지 공격 시 아군 전체에게\n[시전자의 최종 최대 체력 비례 {0}% 회복]\n■ 풀 버스트 타임 시작 시 자신과 임전 상태인 아군 전체에게\n[공격 대미지 {1}% ▲] [{2}초 유지]\n■ 나노 입자 투여 사용 시 자신에게\n[버스트 스킬 재사용 시간 {3}초 ▲] [해제 불가]\n[나노 입자 소모 : 방어력 {4}% ▲] [지속] [해제 불가] [부활 시 유지]\n■ 풀 차지 시 자신이 풀 차지 상태일 때 한하여 자신에게\n[차지 속도 증가 효과 면역] [지속]\n[차지 속도 감소 효과 면역] [지속]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "duration"
+        },
+        {
+          "value": [40, 40, 40, 40, 40, 40, 40, 40, 40, 40]
+        },
+        {
+          "effect": 3,
+          "field": "value"
+        }
+      ],
+      "effects": [
+        {
+          "trigger": "full_charge_hit",
+          "target": "all_allies",
+          "name": "디바인 라이트",
+          "effect": "heal_hp_pct",
+          "scaling": "max_hp",
+          "value": [
+            2.3,
+            2.48,
+            2.66,
+            2.83,
+            3.01,
+            3.19,
+            3.37,
+            3.54,
+            3.72,
+            3.9
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "instant"
+        },
+        {
+          "trigger": "full_burst_start",
+          "target": "self_and_allies_imjeon",
+          "name": "디바인 라이트 2",
+          "effect": "atk_dmg_pct",
+          "value": [
+            16.22,
+            17.47,
+            18.72,
+            19.96,
+            21.21,
+            22.46,
+            23.71,
+            24.96,
+            26.2,
+            27.45
+          ],
+          "unit": "percent",
+          "duration": 10,
+          "type": "buff"
+        },
+        {
+          "trigger": "event:나노 입자 투여",
+          "target": "self",
+          "name": "디바인 라이트 3",
+          "effect": "burst_cooldown_reduce",
+          "value": [-40, -40, -40, -40, -40, -40, -40, -40, -40, -40],
+          "unit": "seconds",
+          "duration": null,
+          "type": "instant"
+        },
+        {
+          "trigger": "event:나노 입자 투여",
+          "target": "self",
+          "name": "나노 입자 소모",
+          "effect": "def_pct",
+          "value": [
+            5.91,
+            6.36,
+            6.82,
+            7.27,
+            7.73,
+            8.18,
+            8.64,
+            9.09,
+            9.55,
+            10
+          ],
+          "unit": "percent",
+          "duration": "permanent",
+          "type": "buff"
+        },
+        {
+          "trigger": "full_charge",
+          "target": "self",
+          "name": "디바인 라이트 4",
+          "effect": "charge_speed_buff_immune",
+          "value": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          "unit": "percent",
+          "duration": "permanent",
+          "type": "buff"
+        },
+        {
+          "trigger": "full_charge",
+          "target": "self",
+          "name": "디바인 라이트 5",
+          "effect": "charge_speed_debuff_immune",
+          "value": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          "unit": "percent",
+          "duration": "permanent",
+          "type": "buff"
+        }
+      ]
+    },
+    {
+      "id": "skill_2",
+      "name": "셀레스티얼 헤이븐",
+      "type": "passive",
+      "description": "■ 풀 차지 상태를 {0}초 이상 유지 시 자신이 갓데스 블레싱 상태가 아니라면 자신에게\n[시전자의 최종 최대 체력 비례 {1}% 공용 보호막] [차지 종료 시 제거]\n■ 풀 차지 상태를 {0}초 이상 유지 시 자신이 갓데스 블레싱 상태가 아니라면 아군 전체에게\n[갓데스 블레싱 : 시전자 기준 방어력 {2}% ▲] [{3}초 유지]\n■ 풀 버스트 타임 시작 시 자신과 임전 상태인 아군 전체에게\n[시전자 기준 공격력 {4}% ▲] [{5}초 유지]\n■ 풀 차지 공격 시 조준선에 가장 가까운 적 1기에게\n[최종 공격력 {6}% 추가 대미지]",
+      "description_params": [
+        {
+          "value": [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+        },
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "duration"
+        },
+        {
+          "effect": 2,
+          "field": "value"
+        },
+        {
+          "effect": 2,
+          "field": "duration"
+        },
+        {
+          "effect": 3,
+          "field": "value"
+        }
+      ],
+      "effects": [
+        {
+          "trigger": "charge_hold:1",
+          "condition": "not_self_state:갓데스 블레싱",
+          "target": "self",
+          "name": "셀레스티얼 헤이븐",
+          "effect": "shared_shield_from_max_hp_pct",
+          "value": [
+            4.36,
+            4.7,
+            5.04,
+            5.37,
+            5.71,
+            6.04,
+            6.38,
+            6.72,
+            7.05,
+            7.39
+          ],
+          "unit": "percent",
+          "duration": 10,
+          "type": "buff"
+        },
+        {
+          "trigger": "charge_hold:1",
+          "condition": "not_self_state:갓데스 블레싱",
+          "target": "all_allies",
+          "name": "갓데스 블레싱",
+          "effect": "def_caster_based_pct",
+          "value": [
+            24.96,
+            26.88,
+            28.8,
+            30.72,
+            32.64,
+            34.56,
+            36.48,
+            38.4,
+            40.32,
+            42.24
+          ],
+          "unit": "percent",
+          "duration": 10,
+          "type": "buff"
+        },
+        {
+          "trigger": "full_burst_start",
+          "target": "self_and_allies_imjeon",
+          "name": "셀레스티얼 헤이븐 2",
+          "effect": "atk_caster_based_pct",
+          "value": [
+            17.23,
+            18.56,
+            19.89,
+            21.21,
+            22.54,
+            23.86,
+            25.19,
+            26.52,
+            27.84,
+            29.17
+          ],
+          "unit": "percent",
+          "duration": 10,
+          "type": "buff"
+        },
+        {
+          "trigger": "full_charge_hit",
+          "target": "enemies_nearest:1",
+          "name": "셀레스티얼 헤이븐 3",
+          "effect": "bonus_damage",
+          "value": [
+            130.41,
+            140.44,
+            150.48,
+            160.51,
+            170.54,
+            180.57,
+            190.6,
+            200.64,
+            210.67,
+            220.7
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "damage"
+        }
+      ]
+    },
+    {
+      "id": "burst",
+      "name": "가든 오브 아르카디아",
+      "type": "burst",
+      "cooldown": 20,
+      "description": "■ 자신이 나노 입자 소모 상태가 아니라면\n[전투 불능 아군 수량 별 효과] [해당되는 효과만 적용]\n전투 불능 상태인 아군이 {7}기 이상이라면 전투 불능 상태 아군 전체에게\n[나노 입자 투여 : 체력 {0}%로 부활] [전투 중 1회 발동]\n[시전자 기준 공격력 {1}% ▲] [{2}초 유지] [전투 중 1회 발동]\n[시전자 기준 방어력 {3}% ▲] [{4}초 유지] [전투 중 1회 발동]\n\n전투 불능 아군이 {8}기 이하라면 아군 전체에게\n[시전자 기준 공격력 {5}% ▲] [{6}초 유지]\n\n■ 자신이 나노 입자 소모 상태라면 아군 전체에게\n[시전자 기준 공격력 {5}% ▲] [{6}초 유지]",
+      "description_params": [
+        {
+          "effect": 0,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "value"
+        },
+        {
+          "effect": 1,
+          "field": "duration"
+        },
+        {
+          "effect": 2,
+          "field": "value"
+        },
+        {
+          "effect": 2,
+          "field": "duration"
+        },
+        {
+          "effect": 3,
+          "field": "value"
+        },
+        {
+          "effect": 3,
+          "field": "duration"
+        },
+        {
+          "value": [3, 3, 3, 3, 3, 3, 3, 3, 3, 3]
+        },
+        {
+          "value": [2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
+        }
+      ],
+      "effects": [
+        {
+          "trigger": "burst_cast",
+          "condition": ["not_self_state:나노 입자 소모", "downed_allies_above:3"],
+          "target": "allies_down_all",
+          "name": "나노 입자 투여",
+          "effect": "revive",
+          "value": [
+            56.72,
+            61.09,
+            65.45,
+            69.82,
+            74.18,
+            78.54,
+            82.91,
+            87.27,
+            91.63,
+            96
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "instant"
+        },
+        {
+          "trigger": "burst_cast",
+          "condition": ["not_self_state:나노 입자 소모", "downed_allies_above:3"],
+          "target": "allies_down_all",
+          "name": "가든 오브 아르카디아 부활공증",
+          "effect": "atk_caster_based_pct",
+          "value": [
+            59.9,
+            64.51,
+            69.12,
+            73.72,
+            78.33,
+            82.94,
+            87.55,
+            92.16,
+            96.76,
+            101.37
+          ],
+          "unit": "percent",
+          "duration": 10,
+          "type": "buff"
+        },
+        {
+          "trigger": "burst_cast",
+          "condition": ["not_self_state:나노 입자 소모", "downed_allies_above:3"],
+          "target": "allies_down_all",
+          "name": "가든 오브 아르카디아 부활방증",
+          "effect": "def_caster_based_pct",
+          "value": [
+            131.04,
+            141.12,
+            151.2,
+            161.28,
+            171.36,
+            181.44,
+            191.52,
+            201.6,
+            211.68,
+            221.76
+          ],
+          "unit": "percent",
+          "duration": 10,
+          "type": "buff"
+        },
+        {
+          "trigger": "burst_cast",
+          "condition": "not_self_state:나노 입자 소모",
+          "target": "all_allies",
+          "name": "가든 오브 아르카디아",
+          "effect": "atk_caster_based_pct",
+          "value": [
+            20.59,
+            22.17,
+            23.76,
+            25.34,
+            26.92,
+            28.51,
+            30.09,
+            31.68,
+            33.26,
+            34.84
+          ],
+          "unit": "percent",
+          "duration": 10,
+          "type": "buff"
+        },
+        {
+          "trigger": "burst_cast",
+          "condition": "self_state:나노 입자 소모",
+          "target": "all_allies",
+          "name": "가든 오브 아르카디아 2",
+          "effect": "atk_caster_based_pct",
+          "value": [
+            20.59,
+            22.17,
+            23.76,
+            25.34,
+            26.92,
+            28.51,
+            30.09,
+            31.68,
+            33.26,
+            34.84
+          ],
+          "unit": "percent",
+          "duration": 10,
+          "type": "buff"
+        }
+      ]
+    }
+  ]
+}
