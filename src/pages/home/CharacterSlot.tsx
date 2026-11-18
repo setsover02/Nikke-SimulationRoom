@@ -467,7 +467,15 @@ const CharacterSlot: React.FC<Props> = ({ slot, onUpdate, outpostState }) => {
                     <div className={styles['chip-row']}>
                         <Font as="span" variant="caption-1" color="muted">소장품</Font>
                         <Chip
-                            variant={slot.collectionGrade === 'SSR' ? 'core' : (slot.collectionGrade === 'SR' || slot.collectionGrade === 'R') ? 'limit-break' : 'default'}
+                            variant={
+                                slot.collectionGrade === 'SSR'
+                                    ? 'core'
+                                    : slot.collectionGrade === 'SR'
+                                        ? 'limit-break'
+                                        : slot.collectionGrade === 'R'
+                                            ? 'info'
+                                            : 'default'
+                            }
                             onClick={() => {
                                 const hasTreasure = !!(slot.char.data.stats?.treasure || slot.char.data.favoriteItem);
                                 const current = slot.collectionGrade || 'None';
@@ -675,9 +683,25 @@ const CharacterSlot: React.FC<Props> = ({ slot, onUpdate, outpostState }) => {
                                     {isOpen && (
                                         <div className={styles['skill-accordion-body']}>
                                             {hasDesc ? (
-                                                <Font as="p" variant="caption-1" color="muted" className={styles['skill-desc-text']}>
-                                                    {descText}
-                                                </Font>
+                                                <div className={styles['skill-desc-list']}>
+                                                    {descText.split('\n').map((line, lineIdx) => {
+                                                        const isConditionHeader = line.includes('■');
+                                                        return (
+                                                            <Font
+                                                                key={lineIdx}
+                                                                as="p"
+                                                                variant="caption-1"
+                                                                color="muted"
+                                                                className={[
+                                                                    styles['skill-desc-text'],
+                                                                    !isConditionHeader ? styles['skill-desc-info'] : '',
+                                                                ].filter(Boolean).join(' ')}
+                                                            >
+                                                                {line || '\u00A0'}
+                                                            </Font>
+                                                        );
+                                                    })}
+                                                </div>
                                             ) : (
                                                 <Font as="p" variant="caption-2" color="inactive" className={styles['skill-desc-text']}>
                                                     스킬 설명 없음

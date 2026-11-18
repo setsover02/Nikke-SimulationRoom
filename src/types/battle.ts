@@ -161,6 +161,9 @@ export interface LogEntry {
     value?: number;
     source?: string;
     description?: string;
+    isCrit?: boolean;
+    critHits?: number;
+    totalHits?: number;
 }
 
 export interface BattleContext {

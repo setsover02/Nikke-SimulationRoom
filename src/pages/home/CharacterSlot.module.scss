@@ -243,7 +243,7 @@
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    padding: 8px 16px;
+    padding: 8px 0;
     background: transparent;
     border: none;
     cursor: pointer;
@@ -281,8 +281,13 @@
 }
 
 .skill-accordion-body {
-    padding: 0 16px 12px;
+    padding-bottom: 16px;
     animation: skill-desc-open 0.18s cubic-bezier(0.2, 0.2, 0.38, 0.9);
+}
+
+.skill-desc-list {
+    display: flex;
+    flex-direction: column;
 }
 
 .skill-desc-text {
@@ -290,6 +295,10 @@
     white-space: pre-wrap;
     word-break: break-word;
     line-height: 1.6;
+}
+
+.skill-desc-list .skill-desc-info {
+    color: var(--Status-Info-F100);
 }
 
 @keyframes skill-desc-open {

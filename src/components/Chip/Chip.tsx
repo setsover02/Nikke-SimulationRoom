@@ -3,7 +3,7 @@ import { Ripple } from '../Ripple/Ripple';
 import styles from './Chip.module.scss';
 
 export interface ChipProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-    variant?: 'default' | 'limit-break' | 'core' | 'non-selectable';
+    variant?: 'default' | 'limit-break' | 'core' | 'info' | 'non-selectable';
     size?: 'default' | 'small';
     selectable?: boolean;
     readOnly?: boolean;
@@ -27,9 +27,11 @@ export const Chip: React.FC<ChipProps> = ({
         ? styles['variant-limit-break']
         : variant === 'core'
             ? styles['variant-core']
-            : variant === 'non-selectable'
-                ? styles['variant-non-selectable']
-                : styles['variant-default'];
+            : variant === 'info'
+                ? styles['variant-info']
+                : variant === 'non-selectable'
+                    ? styles['variant-non-selectable']
+                    : styles['variant-default'];
 
     const sizeClass = size === 'small' ? styles['size-small'] : '';
     const nonSelectableClass = isNonSelectable ? styles['non-selectable'] : '';

@@ -202,9 +202,40 @@ function extractChars(
     return activeSlots.map(({ slot, originalIndex }) => {
         const charId = `${slot.char.data.characterID}_${originalIndex}`;
         const DAMAGE_TYPES = new Set(['attack', 'skill_damage', 'dot_damage']);
-        const totalDmg = resultData.log
-            .filter((l: any) => DAMAGE_TYPES.has(l.type) && l.source === charId)
-            .reduce((s: number, l: any) => s + (l.value || 0), 0);
+        let totalDmg = 0;
+        let normalAtkDmg = 0;
+        let skillDmg = 0;
+        let normalAtkCount = 0;
+        let skillCount = 0;
+        let critHitTotal = 0;
+        let critTrialTotal = 0;
+
+        for (const l of resultData.log as any[]) {
+            if (!DAMAGE_TYPES.has(l.type) || l.source !== charId) continue;
+            const val = typeof l.value === 'number' && !isNaN(l.value) ? l.value : 0;
+            totalDmg += val;
+
+            const isWeaponChange =
+                l.description === 'weapon_change' ||
+                (typeof l.description === 'string' && l.description.startsWith('weapon_change'));
+
+            if (l.type === 'attack' && !isWeaponChange) {
+                normalAtkDmg += val;
+                normalAtkCount += 1;
+            } else {
+                // skill_damage, dot_damage 및 weapon_change 공격은 스킬 대미지로 집계
+                skillDmg += val;
+                skillCount += 1;
+            }
+
+            // 평타·스킬 통합 크리티컬 발생률 집계
+            const hits = typeof l.totalHits === 'number' ? l.totalHits : 1;
+            const crits = typeof l.critHits === 'number' ? l.critHits : (l.isCrit ? 1 : 0);
+            critTrialTotal += hits;
+            critHitTotal += crits;
+        }
+
+        const critRatePct = critTrialTotal > 0 ? (critHitTotal / critTrialTotal) * 100 : 0;
 
         const charData = slot.char.data;
         const charStats = charData.stats || {};
@@ -292,6 +323,11 @@ function extractChars(
             characterID: slot.char.data.characterID,
             charName: slot.char.data.characterName,
             totalDmg,
+            normalAtkDmg,
+            skillDmg,
+            normalAtkCount,
+            skillCount,
+            critRatePct,
             hitDamages,
             buffTimeline: resultData.team.members.find((member: any) => member.id === charId)?.buffTimeline || [],
         };

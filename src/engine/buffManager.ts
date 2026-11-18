@@ -1568,6 +1568,7 @@ export class BuffManager {
       value: totalDmg,
       description: eff.stat,
       skillName: eff.name,
+      isCrit,
     });
 
     if (eff.name && !eff.trigger.timing.some((tm) => tm.startsWith('weapon_hit:'))) {
@@ -1638,6 +1639,7 @@ export class BuffManager {
       value: totalDmg,
       description: eff.stat,
       skillName: eff.name || '슈팅 스타',
+      isCrit,
     });
   }
 

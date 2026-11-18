@@ -60,6 +60,11 @@ export interface ScenarioResult {
     characterID?: string;
     charName: string;
     totalDmg: number;
+    normalAtkDmg: number;
+    skillDmg: number;
+    normalAtkCount: number;
+    skillCount: number;
+    critRatePct: number;
     hitDamages: HitDamages;
     buffTimeline: any[];
 }

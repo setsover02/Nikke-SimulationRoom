@@ -33,6 +33,7 @@ import { Button } from '../components/Button/Button';
 import { ButtonToggle } from '../components/Button/ButtonToggle';
 import { SidePanel } from '../components/SidePanel';
 import { Grid } from '../components/Layout/Grid';
+import { Font } from '../components/Font';
 import { Modal } from '../components/Modal';
 import ProfileSyncModal from '../components/ProfileSyncModal/ProfileSyncModal';
 import { checkAndProcessUrlSync } from '../utils/profileSync';
@@ -80,6 +81,8 @@ const Home: React.FC = () => {
                         return { ...s, ...fresh, char: s.char };
                     })
                 ));
+                setTeamResults([null, null, null, null, null]);
+                setResultModalTeamIdx(null);
                 alert(`🎉 [북마클릿 연동 성공] 총 ${res.syncedCount}명의 니케 육성 데이터가 동기화되었습니다!`);
             }
         });
@@ -99,7 +102,7 @@ const Home: React.FC = () => {
 
     // Per-team simulation results (null for unsimulated or empty teams)
     const [teamResults, setTeamResults] = useState<(SimulationOutput | null)[]>([null, null, null, null, null]);
-    const [chartTab, setChartTab] = useState<'total' | 'dps' | 'skill'>('total');
+    const [chartTab, setChartTab] = useState<'skill' | 'dps' | 'total'>('skill');
 
     // Load saved team layouts on mount
     useEffect(() => {
@@ -138,9 +141,22 @@ const Home: React.FC = () => {
         });
     };
 
+    const resetAllResults = () => {
+        setTeamResults([null, null, null, null, null]);
+        setResultModalTeamIdx(null);
+    };
+
+    const invalidateTeams = (teamIndices: number[]) => {
+        if (teamIndices.length === 0) return;
+        const targetSet = new Set(teamIndices);
+        setTeamResults(prev => prev.map((res, idx) => (targetSet.has(idx) ? null : res)));
+        setResultModalTeamIdx(prev => (prev !== null && targetSet.has(prev) ? null : prev));
+    };
+
     const handleFullBurstIntervalChange = (val: string) => {
         setFullBurstInterval(val);
         persistTargetSettings({ fullBurstInterval: val });
+        resetAllResults();
     };
 
     const handleToggleCore = () => {
@@ -149,26 +165,31 @@ const Home: React.FC = () => {
             persistTargetSettings({ showCore: next });
             return next;
         });
+        resetAllResults();
     };
 
     const handleCoreSizeChange = (val: number) => {
         setCoreSize(val);
         persistTargetSettings({ coreSize: val });
+        resetAllResults();
     };
 
     const handleRangeModeChange = (val: RangeMode) => {
         setRangeMode(val);
         persistTargetSettings({ rangeMode: val });
+        resetAllResults();
     };
 
     const handleWeaknessChange = (val: string) => {
         setWeaknessElement(val);
         persistTargetSettings({ weaknessElement: val });
+        resetAllResults();
     };
 
     const handleEnemyDefChange = (val: string) => {
         setEnemyDef(val);
         persistTargetSettings({ enemyDef: val });
+        resetAllResults();
     };
 
     // Save outpost changes
@@ -176,6 +197,7 @@ const Home: React.FC = () => {
         const next = { ...outpostState, ...patch };
         setOutpostState(next);
         saveOutpostState(next);
+        resetAllResults();
     };
 
     const persistTeams = (nextTeams: (SlotState | null)[][]) => {
@@ -205,6 +227,7 @@ const Home: React.FC = () => {
             }
         }
 
+        const invalidatedIndices = new Set<number>([teamIdx]);
         const nextTeams = teams.map((teamSlots, tIdx) =>
             teamSlots.map((s, sIdx) => {
                 if (tIdx === teamIdx && sIdx === slotIdx) {
@@ -230,6 +253,7 @@ const Home: React.FC = () => {
 
                 // Sync other slots if they have the same cube and its level was just updated
                 if (s !== null && globalCubeUpdateName && globalCubeUpdateLevel && s.cubeName === globalCubeUpdateName) {
+                    invalidatedIndices.add(tIdx);
                     const merged = { ...s, cubeLevel: globalCubeUpdateLevel };
                     const { char, ...stateToSave } = merged;
                     saveCharSettings(char.data.characterID, stateToSave);
@@ -241,16 +265,16 @@ const Home: React.FC = () => {
         );
 
         setTeams(nextTeams);
-        if (!nextTeams[teamIdx]?.some(s => s !== null && s.char !== null)) {
-            setTeamResults(prev => prev.map((res, idx) => (idx === teamIdx ? null : res)));
-        }
+        invalidateTeams(Array.from(invalidatedIndices));
         persistTeams(nextTeams);
     };
 
     const handleGlobalCubeChange = (cubeId: string, level: string) => {
-        setTeams(prev => prev.map(team =>
+        const affectedIndices: number[] = [];
+        setTeams(prev => prev.map((team, tIdx) =>
             team.map(s => {
                 if (s && s.cubeName === cubeId) {
+                    affectedIndices.push(tIdx);
                     const merged = { ...s, cubeLevel: level };
                     if (s.char?.data?.characterID) {
                         const { char, ...stateToSave } = merged;
@@ -261,6 +285,7 @@ const Home: React.FC = () => {
                 return s;
             })
         ));
+        invalidateTeams(affectedIndices);
     };
 
     const handleSwapSlots = (fromTeamIdx: number, fromSlotIdx: number, toTeamIdx: number, toSlotIdx: number) => {
@@ -277,6 +302,7 @@ const Home: React.FC = () => {
             persistTeams(next);
             return next;
         });
+        invalidateTeams([fromTeamIdx, toTeamIdx]);
     };
 
     const handleClearTeam = (teamIdx: number) => {
@@ -310,6 +336,27 @@ const Home: React.FC = () => {
             // If all 5 slots are full, replace slot 0
             updateSlot(activeTeamIdx, 0, { char: charOption });
         }
+    };
+
+    // 단일 스쿼드 시뮬레이션 실행 (해당 스쿼드만 계산)
+    const handleSimulateTeam = (teamIdx: number) => {
+        const teamSlots = teams[teamIdx];
+        if (!teamSlots) return;
+        const activeChars = teamSlots.filter((s): s is SlotState => s !== null && s.char !== null);
+        if (activeChars.length === 0) return;
+
+        const output = runSimulation({
+            slots: teamSlots,
+            enemyDef,
+            fullBurstInterval,
+            rangeMode,
+            weaknessElement,
+            outpostState,
+            showCore,
+            coreSize,
+        });
+
+        setTeamResults(prev => prev.map((res, idx) => (idx === teamIdx ? output : res)));
     };
 
     // Manual Re-calculate Trigger across all non-empty squads
@@ -369,12 +416,11 @@ const Home: React.FC = () => {
             {/* 2. 타겟 설정 요약 패널 (캐릭터 선택 / 스쿼드 편성 위쪽) */}
             <Card>
                 <TargetSummaryPanel
-                    fullBurstInterval={fullBurstInterval}
                     showCore={showCore}
+                    onToggleCore={handleToggleCore}
                     coreSize={coreSize}
-                    rangeMode={rangeMode}
                     weaknessElement={weaknessElement}
-                    enemyDef={enemyDef}
+                    onWeaknessChange={handleWeaknessChange}
                     onOpenTargetModal={() => setIsTargetModalOpen(true)}
                 />
             </Card>
@@ -410,6 +456,7 @@ const Home: React.FC = () => {
                         }}
                         onClearTeam={handleClearTeam}
                         teamResults={teamResults}
+                        onSimulateTeam={handleSimulateTeam}
                         onOpenResultModal={(teamIdx) => setResultModalTeamIdx(teamIdx)}
                     />
                 </Card>
@@ -524,14 +571,17 @@ const Home: React.FC = () => {
                             isCore={showCore}
                         />
                         {activeModalResult.chartDatasets.length > 0 && (
-                            <Grid columns={1} gap={2}>
+                            <div className={`px-2 ${styles['result-chart-section']}`}>
+                                <Font as="h4" variant="subtitle" weight="bold">
+                                    전투 대미지 상세 차트
+                                </Font>
                                 <Grid templateColumns="repeat(3, auto)" gap={1} justifyContent="start">
                                     <ButtonToggle
-                                        selected={chartTab === 'total'}
-                                        onClick={() => setChartTab('total')}
+                                        selected={chartTab === 'skill'}
+                                        onClick={() => setChartTab('skill')}
                                         size="small"
                                     >
-                                        전체 대미지
+                                        스킬 대미지
                                     </ButtonToggle>
                                     <ButtonToggle
                                         selected={chartTab === 'dps'}
@@ -541,18 +591,18 @@ const Home: React.FC = () => {
                                         초당 DPS
                                     </ButtonToggle>
                                     <ButtonToggle
-                                        selected={chartTab === 'skill'}
-                                        onClick={() => setChartTab('skill')}
+                                        selected={chartTab === 'total'}
+                                        onClick={() => setChartTab('total')}
                                         size="small"
                                     >
-                                        스킬 대미지
+                                        전체 대미지
                                     </ButtonToggle>
                                 </Grid>
-                                {chartTab === 'total' ? (
-                                    <CanvasChart
-                                        datasets={activeModalResult.chartDatasets}
+                                {chartTab === 'skill' ? (
+                                    <CanvasScatterChart
+                                        datasets={activeModalResult.skillChartDatasets}
                                         burstWindows={activeModalResult.burstWindows}
-                                        title={showCore ? 'Cumulative Damage (With Core)' : 'Cumulative Damage (No Core)'}
+                                        title="Skill Damage Instances"
                                         charIdToName={activeModalResult.charIdToName}
                                     />
                                 ) : chartTab === 'dps' ? (
@@ -563,15 +613,15 @@ const Home: React.FC = () => {
                                         charIdToName={activeModalResult.charIdToName}
                                     />
                                 ) : (
-                                    <CanvasScatterChart
-                                        datasets={activeModalResult.skillChartDatasets}
+                                    <CanvasChart
+                                        datasets={activeModalResult.chartDatasets}
                                         burstWindows={activeModalResult.burstWindows}
-                                        title="Skill Damage Instances"
+                                        title={showCore ? 'Cumulative Damage (With Core)' : 'Cumulative Damage (No Core)'}
                                         charIdToName={activeModalResult.charIdToName}
                                     />
                                 )}
                                 <CanvasTimelineChart summary={activeModalResult.summary} duration={180} />
-                            </Grid>
+                            </div>
                         )}
                     </Grid>
                 )}
@@ -590,6 +640,7 @@ const Home: React.FC = () => {
                             return { ...s, ...fresh, char: s.char };
                         })
                     ));
+                    resetAllResults();
                 }}
             />
         </Grid>

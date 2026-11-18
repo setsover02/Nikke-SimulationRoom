@@ -1272,6 +1272,7 @@ function applySpecificEffectToTarget(
           value: totalDmg,
           description: effectDef.effect,
           skillName,
+          isCrit,
         });
         break;
       }
@@ -1285,8 +1286,10 @@ function applySpecificEffectToTarget(
             : 1)
           const critChance = ((sourceChar.crit ?? 15) + (sourceChar.buff?.critRate || 0)) / 100
           let totalSeqDmg = 0
+          let seqCritHits = 0
           for (let h = 0; h < seqHits; h++) {
             const isCrit = ctx.rng.next() < critChance
+            if (isCrit) seqCritHits += 1
             totalSeqDmg += calcNikkeDamage(
               buildSkillDamageParams(ctx, sourceChar, actualTarget, value / 100, isCrit)
             )
@@ -1300,6 +1303,9 @@ function applySpecificEffectToTarget(
             value: totalSeqDmg,
             description: `sequential_damage×${seqHits}`,
             skillName,
+            isCrit: seqCritHits > 0,
+            critHits: seqCritHits,
+            totalHits: seqHits,
           })
         }
         break
@@ -1911,6 +1917,7 @@ function processEnemyDots(ctx: BattleContext) {
           value: totalDmg,
           description: `${dot.status}_dot (${dot.stacks} stacks)`,
           skillName: dot.skillName || '',
+          isCrit,
         })
       }
     }

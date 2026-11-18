@@ -87,20 +87,22 @@ export function processAttack(ctx: BattleContext) {
 
             if (isSG) {
                 // SG: 펠릿 시스템 — 탄 1발 = 펠릿 N개, 각각 독립 명중 판정
-                const pelletDmg = calcShotgunDamage(char, ctx, rangeMode);
+                const sgResult = calcShotgunDamage(char, ctx, rangeMode);
+                const critMeta = { isCrit: sgResult.critCount > 0, critHits: sgResult.critCount, totalHits: sgResult.hitCount };
                 if (weaponChangeSkill) {
-                    applyDamage(ctx, pelletDmg, char.id, 'attack', weaponChangeSkill, 'weapon_change');
+                    applyDamage(ctx, sgResult.damage, char.id, 'attack', weaponChangeSkill, 'weapon_change', critMeta);
                 } else {
-                    applyDamage(ctx, pelletDmg, char.id);
+                    applyDamage(ctx, sgResult.damage, char.id, 'attack', undefined, undefined, critMeta);
                 }
             } else {
                 // 일반 단발 처리 (RL는 추후 폭발 반경 데미지를 추가 구현 예정이므로 임시로 1타격으로 고정)
                 const result = calcCharacterDamage(char, ctx, isChargeAttack, rangeMode);
                 const simulatedHits = 1;
+                const critMeta = { isCrit: result.isCrit, critHits: result.isCrit ? 1 : 0, totalHits: 1 };
                 if (weaponChangeSkill) {
-                    applyDamage(ctx, result.damage * simulatedHits, char.id, 'attack', weaponChangeSkill, 'weapon_change');
+                    applyDamage(ctx, result.damage * simulatedHits, char.id, 'attack', weaponChangeSkill, 'weapon_change', critMeta);
                 } else {
-                    applyDamage(ctx, result.damage * simulatedHits, char.id);
+                    applyDamage(ctx, result.damage * simulatedHits, char.id, 'attack', undefined, undefined, critMeta);
                 }
 
                 // 코어 히트 통지 (AR/SMG/MG/SR/RL)
@@ -173,8 +175,10 @@ function calcShotgunDamage(
     ctx: BattleContext,
     rangeMode: RangeMode,
     isChargeAttack: boolean = false
-): number {
+): { damage: number; hitCount: number; critCount: number } {
     let totalDmg = 0;
+    let hitCount = 0;
+    let critCount = 0;
     const buffs = ctx.buffManager ? ctx.buffManager.getBuffs(char.id, char.id, ctx, ctx.time) : null;
     let pelletCount: number;
     if (typeof buffs?.pellet_count_fixed === 'number' && buffs.pellet_count_fixed > 0) {
@@ -204,9 +208,12 @@ function calcShotgunDamage(
         const hitResult = resolveHit(hitParams);
         if (!hitResult.hit) continue; // 빗나감
 
+        hitCount += 1;
+
         // 크리티컬 판정 (각 펠릿 독립)
         const critChance = (buffs ? buffs.crit_rate : (char.crit + (char.buff?.critRate || 0))) / 100;
         const isCrit = ctx.rng.next() < critChance;
+        if (isCrit) critCount += 1;
 
         const params = buildDamageParams(char, ctx, isCrit, hitResult.isCore, isChargeAttack, pelletAtkCoefScale, rangeMode);
         totalDmg += calcNikkeDamage(params);
@@ -219,7 +226,7 @@ function calcShotgunDamage(
         }
     }
 
-    return totalDmg;
+    return { damage: totalDmg, hitCount, critCount };
 }
 
 /* =========================
@@ -231,7 +238,7 @@ function calcCharacterDamage(
     ctx: BattleContext,
     isChargeAttack: boolean,
     rangeMode: RangeMode
-): { damage: number; isCore: boolean } {
+): { damage: number; isCore: boolean; isCrit: boolean } {
     const weapon = (char.weapon as WeaponType) ?? WeaponType.AR;
     const buffs = ctx.buffManager ? ctx.buffManager.getBuffs(char.id, char.id, ctx, ctx.time) : null;
     const hasCore = ctx.enemy.corePx !== undefined ? ctx.enemy.corePx > 0 : !!(char.coreDamage);
@@ -255,7 +262,7 @@ function calcCharacterDamage(
     const isCrit = ctx.rng.next() < critChance;
 
     const params = buildDamageParams(char, ctx, isCrit, hitResult.isCore, isChargeAttack, 1.0, rangeMode);
-    return { damage: calcNikkeDamage(params), isCore: hitResult.isCore };
+    return { damage: calcNikkeDamage(params), isCore: hitResult.isCore, isCrit };
 }
 
 /* =========================
@@ -337,7 +344,8 @@ function applyDamage(
     source: string,
     type: string = 'attack',
     skillName?: string,
-    description?: string
+    description?: string,
+    critMeta?: { isCrit?: boolean; critHits?: number; totalHits?: number }
 ) {
     ctx.enemy.hp -= dmg;
     ctx.totalDamage += dmg;
@@ -350,6 +358,11 @@ function applyDamage(
     };
     if (skillName) logEntry.skillName = skillName;
     if (description) logEntry.description = description;
+    if (critMeta) {
+        if (critMeta.isCrit !== undefined) logEntry.isCrit = critMeta.isCrit;
+        if (critMeta.critHits !== undefined) logEntry.critHits = critMeta.critHits;
+        if (critMeta.totalHits !== undefined) logEntry.totalHits = critMeta.totalHits;
+    }
     ctx.log.push(logEntry);
 }
 
@@ -385,11 +398,15 @@ function processWeaponOverrideAttack(
         // 대미지 계산: SG 무기(펠릿)인 경우 calcShotgunDamage, 그 외 단발 calcCharacterDamage
         const isSG = (char.weapon as WeaponType) === WeaponType.SG;
         let totalDmg = 0;
+        let critMeta: { isCrit: boolean; critHits: number; totalHits: number };
         if (isSG) {
-            totalDmg = calcShotgunDamage(char, ctx, rangeMode, true);
+            const sgResult = calcShotgunDamage(char, ctx, rangeMode, true);
+            totalDmg = sgResult.damage;
+            critMeta = { isCrit: sgResult.critCount > 0, critHits: sgResult.critCount, totalHits: sgResult.hitCount };
         } else {
             const result = calcCharacterDamage(char, ctx, true, rangeMode);
             totalDmg = result.damage;
+            critMeta = { isCrit: result.isCrit, critHits: result.isCrit ? 1 : 0, totalHits: 1 };
             if (ctx.buffManager && result.isCore) {
                 ctx.buffManager.notify('core_hit', ctx.time, char.id, ctx);
             }
@@ -397,7 +414,7 @@ function processWeaponOverrideAttack(
 
         // weaponOverride 중 변경된 스킬 이름 추적 및 weapon_change 태그 부여
         const overrideSkillName = (char as any).weaponOverrideSkillName || '';
-        applyDamage(ctx, totalDmg, char.id, 'attack', overrideSkillName, 'weapon_change');
+        applyDamage(ctx, totalDmg, char.id, 'attack', overrideSkillName, 'weapon_change', critMeta);
 
         // 탄약 소모 및 버프 소모
         char.ammo -= 1;

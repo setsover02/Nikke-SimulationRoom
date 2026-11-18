@@ -2,3 +2,12 @@
   position: relative;
   min-height: 420px;
 }
+
+.result-chart-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--Divider-Normal);
+}
+

@@ -64,6 +64,17 @@
     }
 }
 
+.variant-info {
+    background: var(--Status-Info-24);
+    border-color: var(--Status-Info-100);
+    color: var(--Status-Info-F100);
+
+    &:hover {
+        background: var(--Status-Info-24);
+        filter: brightness(1.15);
+    }
+}
+
 .size-small {
     height: 22px;
     padding: 0 6px;

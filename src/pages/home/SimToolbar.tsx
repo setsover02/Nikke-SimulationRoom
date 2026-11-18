@@ -1,14 +1,15 @@
 import React from 'react';
-import { Button } from '../../components/Button/Button';
 import { Switch } from '../../components/Switch/Switch';
 import { Slider } from '../../components/Slider/Slider';
 import { Chip } from '../../components/Chip/Chip';
+import { ButtonIcon } from '../../components/Button/ButtonIcon';
 import { ButtonIconToggle } from '../../components/Button/ButtonIconToggle';
 import { Font } from '../../components/Font';
 import { Grid } from '../../components/Layout/Grid';
 import { TextField } from '../../components/TextField';
 import { RangeMode } from '../../constants/weaponStats';
 import { CoreVisualizer } from './CoreVisualizer';
+import styles from './SimToolbar.module.scss';
 
 const ELEMENT_OPTIONS = [
     { value: '풍압', label: '풍압', iconName: 'code-anmi', element: 'wind' as const },
@@ -44,100 +45,66 @@ interface SimToolbarProps {
 }
 
 interface TargetSummaryPanelProps {
-    fullBurstInterval: string;
     showCore: boolean;
+    onToggleCore: () => void;
     coreSize: number;
-    rangeMode: RangeMode;
     weaknessElement: string;
-    enemyDef: string;
+    onWeaknessChange: (v: string) => void;
     onOpenTargetModal: () => void;
 }
 
 export const TargetSummaryPanel: React.FC<TargetSummaryPanelProps> = ({
-    fullBurstInterval,
     showCore,
+    onToggleCore,
     coreSize,
-    rangeMode,
     weaknessElement,
-    enemyDef,
+    onWeaknessChange,
     onOpenTargetModal,
 }) => {
-    const activeElementOption = ELEMENT_OPTIONS.find(opt => opt.value === weaknessElement) || ELEMENT_OPTIONS[0];
-    const activeRangeOption = RANGE_OPTIONS.find(opt => opt.value === rangeMode);
-    const activeWeapons = activeRangeOption ? activeRangeOption.weapons.split(' · ') : [];
-
     return (
-        <Grid columns={1} gap={2} className="pa-2">
-            {/* 상단 헤더: 타이틀 & 타겟 설정 모달 열기 버튼 */}
-            <Grid templateColumns="1fr auto" alignItems="center" className="pb-2 divider-bottom">
+        <div className={`pa-2 px-3 ${styles['target-summary-row']}`}>
+            <div className={styles['target-summary-main']}>
                 <Font as="h3" variant="subtitle" weight="bold">
                     타겟 설정
                 </Font>
-                <Button
-                    variant="assistive"
-                    size="small"
-                    leftIcon="settings"
-                    onClick={onOpenTargetModal}
-                >
-                    타겟 설정
-                </Button>
-            </Grid>
 
-            {/* 타겟 설정 간략 요약 */}
-            <Grid columns={{ xs: 2, sm: 3, lg: 5 }} gap={2} alignItems="center">
-                <Grid columns={1} gap={1}>
-                    <Font as="span" variant="caption-2" color="muted">약점 속성</Font>
-                    <Grid templateColumns="auto auto" gap={1} alignItems="center" justifyContent="start">
-                        <ButtonIconToggle
-                            size="small"
-                            svgIcon={activeElementOption.iconName}
-                            element={activeElementOption.element}
-                            selected
-                            aria-label={activeElementOption.label}
-                        />
-                        <Font as="span" variant="body" weight="semibold">
-                            {activeElementOption.label}
-                        </Font>
-                    </Grid>
-                </Grid>
+                <div className={styles['target-summary-item']}>
+                    <Font as="span" variant="caption-1" color="muted">약점 속성</Font>
+                    <div className={styles['target-element-group']}>
+                        {ELEMENT_OPTIONS.map(opt => (
+                            <ButtonIconToggle
+                                key={opt.value}
+                                size="small"
+                                svgIcon={opt.iconName}
+                                element={opt.element}
+                                selected={weaknessElement === opt.value}
+                                onClick={() => onWeaknessChange(opt.value)}
+                                title={opt.label}
+                                aria-label={opt.label}
+                            />
+                        ))}
+                    </div>
+                </div>
 
-                <Grid columns={1} gap={1}>
-                    <Font as="span" variant="caption-2" color="muted">적 방어력</Font>
-                    <Grid templateColumns="auto" justifyContent="start">
-                        <Chip variant="non-selectable">{enemyDef || '100'}</Chip>
-                    </Grid>
-                </Grid>
-
-                <Grid columns={1} gap={1}>
-                    <Font as="span" variant="caption-2" color="muted">버스트 충전</Font>
-                    <Grid templateColumns="auto" justifyContent="start">
-                        <Chip variant="non-selectable">{fullBurstInterval || '3.5'}초</Chip>
-                    </Grid>
-                </Grid>
-
-                <Grid columns={1} gap={1}>
-                    <Font as="span" variant="caption-2" color="muted">교전 거리</Font>
-                    <Grid templateColumns="auto auto" gap={1} alignItems="center" justifyContent="start">
-                        <Chip variant="non-selectable">{rangeMode}</Chip>
-                        <Font as="span" variant="caption-1" color="muted">
-                            {activeWeapons.join(' · ')}
-                        </Font>
-                    </Grid>
-                </Grid>
-
-                <Grid columns={1} gap={1}>
-                    <Font as="span" variant="caption-2" color="muted">코어</Font>
-                    <Grid templateColumns="auto" justifyContent="start">
-                        <Chip
-                            variant={showCore ? 'core' : 'non-selectable'}
-                            selectable={false}
-                        >
-                            {showCore ? `코어 ${coreSize}px` : '미적용'}
+                <div className={styles['target-summary-item']}>
+                    <Font as="span" variant="caption-1" color="muted">코어</Font>
+                    <Switch checked={showCore} onChange={onToggleCore} />
+                    {showCore && (
+                        <Chip readOnly>
+                            {coreSize}px
                         </Chip>
-                    </Grid>
-                </Grid>
-            </Grid>
-        </Grid>
+                    )}
+                </div>
+            </div>
+            <ButtonIcon
+                icon="settings"
+                variant="assistive"
+                size="small"
+                onClick={onOpenTargetModal}
+                title="타겟 설정"
+                aria-label="타겟 설정"
+            />
+        </div>
     );
 };
 

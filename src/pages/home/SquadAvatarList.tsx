@@ -41,6 +41,7 @@ interface SquadAvatarListProps {
     onOpenDetailModal: (teamIdx: number, slotIdx: number) => void;
     onClearTeam: (teamIdx: number) => void;
     teamResults: (SimulationOutput | null)[];
+    onSimulateTeam: (teamIdx: number) => void;
     onOpenResultModal: (teamIdx: number) => void;
 }
 
@@ -53,6 +54,7 @@ export const SquadAvatarList: React.FC<SquadAvatarListProps> = ({
     onOpenDetailModal,
     onClearTeam,
     teamResults,
+    onSimulateTeam,
     onOpenResultModal,
 }) => {
     const [dragOverTarget, setDragOverTarget] = useState<SlotTarget | null>(null);
@@ -312,7 +314,7 @@ export const SquadAvatarList: React.FC<SquadAvatarListProps> = ({
                                     {teamTotalDmg !== null ? (
                                         <Font
                                             as="span"
-                                            variant="subtitle"
+                                            variant="headline"
                                             weight="bold"
                                             className={styles['squad-total-value']}
                                         >
@@ -323,18 +325,34 @@ export const SquadAvatarList: React.FC<SquadAvatarListProps> = ({
                                             -
                                         </Font>
                                     )}
-                                    <Button
-                                        variant="assistive"
-                                        size="small"
-                                        leftIcon="bar_chart"
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            onOpenResultModal(teamIdx);
-                                        }}
-                                        disabled={!teamResult}
-                                    >
-                                        상세보기
-                                    </Button>
+                                    {teamResult ? (
+                                        <Button
+                                            variant="assistive"
+                                            size="small"
+                                            leftIcon="bar_chart"
+                                            className={styles['squad-action-button']}
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                onOpenResultModal(teamIdx);
+                                            }}
+                                        >
+                                            상세보기
+                                        </Button>
+                                    ) : (
+                                        <Button
+                                            variant="primary"
+                                            size="small"
+                                            leftIcon="play_arrow"
+                                            className={styles['squad-action-button']}
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                onSimulateTeam(teamIdx);
+                                            }}
+                                            disabled={!hasTeamChars}
+                                        >
+                                            시뮬레이션
+                                        </Button>
+                                    )}
                                 </div>
                             </div>
                         </div>
